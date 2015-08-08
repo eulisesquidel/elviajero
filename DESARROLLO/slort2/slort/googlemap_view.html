@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+ 
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"/>
+    <title>Google Maps JavaScript API Example: 	Reverse Geocoder</title>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAAbuXxLBFMgYlDNbrbDJvWzRSy2ooY7TB3FPLn4gqqVYh8dN86zxTPFEykr52-hr-X4o60TKPs3CaToQ" 
+
+
+
+            type="text/javascript"></script>
+    <script language="Javascript"  src="jscript/ajax.js"></script>
+	<script src="jscript/googlemaps.js"></script>
+    <script type="text/javascript">
+
+
+    var map;
+
+    function initialize() {
+     setInterval("reloj()",1000);
+      map = new GMap2(document.getElementById("map_canvas"));
+      point = new GLatLng(-34.65580390505896, -58.58802795410156);
+      map.setCenter(point, 12);
+      map.addControl(new GLargeMapControl);
+      //map.addOverlay(new GMarker(point)); 
+      ajax_showGoogleMaps (this,"getUbicacionrealGoogleMapsView");
+      map.closeInfoWindow();
+ 
+      Maximize();
+      self.focus();
+    }
+    
+    function Maximize()
+	{
+	window.innerWidth = screen.width;
+	window.innerHeight = screen.height;
+	window.screenX = 0;
+	window.screenY = 0;
+	alwaysLowered = false;
+	}
+    
+    
+    function marcarUnidad(lat, long, info){
+        point2 = new GLatLng(lat,long);
+        point3 = new GLatLng(lat,long);        
+        var marker = new GMarker(point2)
+        GEvent.addListener(marker, "click", function() { 
+		    var myHtml = "<b>#" + info + "</b>"; 
+		    map.openInfoWindowHtml(new GLatLng(lat,long), myHtml); 
+		    }); 
+        map.addOverlay(marker);
+
+    }
+    
+
+	function reloj() {
+		map.clearOverlays();
+	    ajax_showGoogleMaps (this,"getUbicacionrealGoogleMapsView");
+      	map.closeInfoWindow();
+	}
+
+
+    </script>
+    
+    <script language="JavaScript">
+		//blur();
+	</script>
+        			
+  </head>
+
+  <body onload="initialize();" >
+
+    <div id="map_canvas" style="width: 1200px; height: 550px"></div>
+    <span id="span_result"></span>
+  </body>
+</html>
+

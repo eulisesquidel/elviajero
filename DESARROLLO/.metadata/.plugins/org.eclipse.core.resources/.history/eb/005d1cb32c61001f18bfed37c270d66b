@@ -1,0 +1,57 @@
+<%@ page language="java" %>
+<%@ page import="java.util.Vector"%>
+<%@ page import="com.bdb.util.HttpUtils"%>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-layout.tld" prefix="layout" %>
+<%@ taglib uri='/WEB-INF/struts-template.tld' prefix='template' %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
+<%@ taglib uri='/WEB-INF/struts-bean.tld' prefix='bean' %>
+
+<head>
+<html:javascript formName="TrazabilidadForm"  />
+</head>
+
+<app:CheckSimpleLogon />
+
+<template:insert template='templates/default.jsp'>
+
+  <%-- Valor del title del IE se concatena al texto 'Fonseca'. Valor no requerido --%>
+  <template:put name='titlePage' content=' ' direct='true' />
+  
+  <%-- Titulo del la pantalla actual. Valor no requerido --%>
+  <template:put name='title' direct="true">
+  	<bean:message key="TrazabilidadForm.window.titulo" /> 
+  </template:put>
+  
+  <%-- Contenido a incluir en la pantalla --%>
+  <template:put name='content'>
+
+	<%-- CONTENT.INICIO ----------------------------------------------------------------------------- --%>
+	<layout:form action="/trazabilidad.do" styleClass="Body" reqCode="" onsubmit="return validateTrazabilidadForm(this);">
+	
+			<layout:text key="TrazabilidadForm.lote" 
+									 property="lote" 
+									 styleClass="LABEL"
+									 mode="E,E,E"
+									 size="17"
+									 maxlength="17"/>
+									 
+			<layout:text key="TrazabilidadForm.niveldecorte" 
+									 property="niveldecorte" 
+									 styleClass="LABEL"
+									 mode="E,E,E"
+									 size="2"
+									 maxlength="2"/>						 
+			
+ 
+		<layout:space/>
+	  
+		  <layout:formActions>
+				<layout:submit mode="N,D,N" reqCode="obtenerTrazabilidad" styleClass="button">
+					<bean:message key="button.procesar"/></layout:submit>
+		  </layout:formActions>
+	</layout:form>
+	
+	<%-- CONTENT.FIN ----------------------------------------------------------------------------- --%>
+	</template:put>
+</template:insert>

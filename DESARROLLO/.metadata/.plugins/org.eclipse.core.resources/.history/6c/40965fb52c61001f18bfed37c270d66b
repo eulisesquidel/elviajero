@@ -1,0 +1,551 @@
+package com.fonseca.model.reparaciones;
+
+
+import java.sql.CallableStatement;
+import java.util.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+
+import org.apache.log4j.Logger;
+import com.bdb.conexion.Conexion;
+import com.bdb.conexion.ConnectMPX;
+import com.bdb.conexion.ConnectOYG;
+import com.fonseca.model.Empleado;
+import com.fonseca.model.Producto;
+
+public class AdmReparaciones {
+	
+	private static final Logger log;
+
+	static  {
+		log = Logger.getLogger(com.fonseca.model.reparaciones.AdmReparaciones.class);
+	}
+
+	  private Conexion conexionMPX;
+	  private Conexion conexionOYG;
+	  private ConnectMPX conMPX=null;
+	  private ConnectOYG conOYG=null;
+	  private Session  hibSession;  
+	  private String error=null;
+	  private ArrayList<Proveedor> listaProveedores;
+	  private ArrayList<Empleado>  listaEmpleados;
+	  private ArrayList<Producto>  listaProductos; 
+	  private ArrayList<Producto>  listaProductosdeTodoslosMaestros;
+	  
+	  
+	   public boolean executeProveedores(String criterio){
+		   
+		   try {
+			    ConnectOYG conOYG=new ConnectOYG(conexionOYG);
+			    String strSQL = "select  nro_leg, rtrim(apellido)+ ' '+ rtrim(nombre) as nombre from basi_personal where nro_leg =?";
+
+			    
+			    CallableStatement call= conOYG.getConnection().prepareCall("{call sp_r_ayu_prov_v1_1(?)}");
+			    call.setString(1, criterio);
+			    //call.execute(); 
+			    ResultSet rs = call.executeQuery();
+			    // si no obtenemos registros es que no se econtraron diferencias
+			    if (rs==null) {
+			    	conOYG.getConnection().close();
+			    	return true; 
+			    }
+			    toArrayProveedores(rs);
+			    conOYG.getConnection().close();
+			    return true; 
+		   } catch (SQLException e) { 
+			   
+			   log.error("Metodo: executeProveedores ", e); error=e.getMessage() ; return false; }
+	   }
+	   
+	   
+	   public boolean obtenerEmpleados(String criterio){
+		    
+		   try {
+			    conMPX=new ConnectMPX(conexionMPX); 
+			    CallableStatement call= conMPX.getConnection().prepareCall("{call sp_r_ayu_leg_v1_1(?)}");
+			    call.setString(1, criterio);
+			    //call.execute(); 
+			    ResultSet rs = call.executeQuery();
+			    // si no obtenemos registros es que no se econtraron diferencias
+			    if (rs==null) {
+			    	
+			    	return true; 
+			    }
+			    toArrayEmpleados(rs);
+			    return true; 
+		   } catch (SQLException e) {
+			   log.error("Metodo: executeProveedores ", e); error=e.getMessage() ; return false; }
+	   }
+	   
+	   
+	   public boolean obtenerEmpleadosAutorizadores(String criterio){
+		    
+		   try {
+			    conMPX=new ConnectMPX(conexionMPX); 
+			    CallableStatement call= conMPX.getConnection().prepareCall("{call sp_r_ayu_legA_v1_1(?)}");
+			    call.setString(1, criterio);
+			    //call.execute(); 
+			    ResultSet rs = call.executeQuery();
+			    // si no obtenemos registros es que no se econtraron diferencias
+			    if (rs==null) {
+			    	return true; 
+			    }
+			    toArrayEmpleados(rs);
+			    return true; 
+		   } catch (SQLException e) { log.error("Metodo: executeProveedores ", e); error=e.getMessage() ; return false; }
+	   }
+	   
+	   
+	   
+	   
+	public String getError() {
+		return error;
+	}
+
+	private void toArrayProveedores(ResultSet prs) throws SQLException{
+		listaProveedores=new ArrayList<Proveedor>();
+		error="AdmReparaciones.Resultado.NohayCoincidencias";
+		while (prs.next()){
+				error="AdmJubilaciones.Resultado.ExistenCoincidencias";
+				Proveedor unProveedor = new Proveedor();
+				unProveedor.setCodigo(prs.getString(1).toString());
+				unProveedor.setNombre(prs.getString(2).toString());
+				unProveedor.setDireccion(prs.getString(3).toString());
+				listaProveedores.add(unProveedor);
+		}
+		return;
+	}
+
+	
+	private void toArrayEmpleados(ResultSet prs) throws SQLException{
+		listaEmpleados=new ArrayList<Empleado>();
+		error="AdmReparaciones.Resultado.NohayCoincidencias";
+		while (prs.next()){
+				error="AdmJubilaciones.Resultado.ExistenCoincidencias";
+				Empleado unEmpleado = new Empleado(prs.getString(1).toString().trim(), prs.getString(2).toString().trim());
+				listaEmpleados.add(unEmpleado);
+		}
+		return;
+	}
+	
+	public ArrayList<Proveedor> getListaProveedores() {
+		return listaProveedores;
+	}
+
+	public ArrayList<Empleado> getListaEmpleados() {
+		return listaEmpleados;
+	}	
+	
+	
+	public Empleado obtenerEmpleado(String legajo){
+		   try {
+			   ConnectMPX conMPX=new ConnectMPX(conexionMPX); 
+			    CallableStatement call= conMPX.getConnection().prepareCall("{call sp_r_getLeg_v1_1(?)}");
+			    call.setInt(1 ,new Integer(legajo).intValue());
+			    //call.execute(); 
+			    ResultSet rs = call.executeQuery();
+			    // si no obtenemos registros es que no se econtraron diferencias
+			    if (rs==null) {
+			    	
+			    	return null; 
+			    }
+			    toArrayEmpleados(rs);
+			    
+			    return (Empleado) listaEmpleados.get(0);
+		   } catch (SQLException e) { log.error("Metodo: obtenerEmpleadobyID ", e); error=e.getMessage() ; return null; }
+	 }
+	
+	   public Proveedor obtenerProveedor(String codproveedor){
+		   
+		   try {
+			    conOYG=new ConnectOYG(conexionOYG);     
+			    CallableStatement call= conOYG.getConnection().prepareCall("{call sp_r_getProv_v1_1(?)}");
+			    call.setInt(1 ,new Integer(codproveedor).intValue());
+			    //call.execute(); 
+			    ResultSet rs = call.executeQuery();
+			    // si no obtenemos registros es que no se econtraron diferencias
+			    if (rs==null) {
+			    	
+			    	return null; 
+			    }
+			    toArrayProveedores(rs);
+			    return listaProveedores.get(0); 
+		   } catch (SQLException e) {
+			   log.error("Metodo: executeProveedores ", e); error=e.getMessage() ; return null; }
+	   }
+	
+	   
+	   public boolean executeProductosMPX(String criterio){
+		    
+		   try {
+			    conMPX=new ConnectMPX(conexionMPX);
+			    CallableStatement call= conMPX.getConnection().prepareCall("{call sp_r_ayu_prod_v1_1(?)}");
+			    call.setString(1, criterio);
+			    log.info("Metodo executeProductosMPX antes del call.execute()");
+			    call.execute();
+			    log.info("Metodo executeProductosMPX antes del despues del call.execute()");
+			    ResultSet rs = call.executeQuery();
+			    log.info ("Metodo executeProductosMPX antes del despues del call.executeQuery();");
+			    // si no obtenemos registros es que no se econtraron diferencias
+			    if (rs==null) {
+			    	 
+			    	return true; 
+			    }
+			    toArrayProductos(rs,"MPX.ARTICULOS");
+				 
+			    return true; 
+		   } catch (SQLException e) { 
+			   log.error("Metodo: executeProductosMPX ", e); error=e.getMessage() ; return false; 
+			   }
+	   }
+	
+	   
+	   /* Buscamos en todos los Maestros disponibles */ 
+	   public boolean buscarArticulosenTodoslosMaestros(String criterio){
+		    executeProductosMPX(criterio);
+			listaProductosdeTodoslosMaestros=getListaProductos();
+			obtenerEquiposMPX(criterio);
+			listaProductosdeTodoslosMaestros.addAll(getListaProductos());
+			obtenerProductosdeFonsecaGestion(criterio);
+			listaProductosdeTodoslosMaestros.addAll(getListaProductos());
+			listaProductos = listaProductosdeTodoslosMaestros;
+			return true; 
+	   }
+	
+	   
+	   /* Buscamos en todos los Maestros disponibles */ 
+	   public boolean buscarTodosLosArtilosPorFamiliaCodigo(String criterio){
+		   executeFamiliasProductosMPX(criterio);
+			listaProductosdeTodoslosMaestros=getListaProductos();
+			obtenerEquiposMPXporCodigo(criterio);
+			listaProductosdeTodoslosMaestros.addAll(getListaProductos());
+			obtenerProductosdeFonsecaGestionporCodigo(criterio);
+			listaProductosdeTodoslosMaestros.addAll(getListaProductos());
+			listaProductos = listaProductosdeTodoslosMaestros;
+			return true; 
+	   }
+	   
+	   
+	   public Producto buscarArticuloporCodigoenTodosLosMaestros(String criterio){
+		    executeFamiliasProductosMPX(criterio);
+			listaProductosdeTodoslosMaestros=getListaProductos();
+			obtenerEquiposMPXporCodigo(criterio);
+			listaProductosdeTodoslosMaestros.addAll(getListaProductos());
+			obtenerProductosdeFonsecaGestionporCodigo(criterio);
+			listaProductosdeTodoslosMaestros.addAll(getListaProductos());
+			listaProductos = listaProductosdeTodoslosMaestros;
+			if (listaProductos.size()==0){
+				error = "AdmReparaciones.Resultado.ProductoNoValido";
+				return null;
+			}
+				
+			return listaProductos.get(0); 
+	   }
+	   
+	   
+	   
+	   public boolean esFamiliadeProductoValida(String codigofamilia){
+
+			buscarTodosLosArtilosPorFamiliaCodigo(codigofamilia);
+			for (Producto unproducto : listaProductos) {
+				  if  (obtenerCodigoFamiliadeProductos(unproducto.getCodigo()).trim().compareTo(codigofamilia.trim())==0){
+					  error = "";
+					  return true;
+				  }
+			}
+			error = "AdmReparaciones.Resultado.familiaproductonovalido";
+		   return false; 
+	   }
+	   
+	   
+	   // obtiene los equipos del sistema MPX
+	   public boolean obtenerEquiposMPX(String criterio){
+		    
+		   try {
+			    conMPX=new ConnectMPX(conexionMPX); 
+			    CallableStatement call= conMPX.getConnection().prepareCall("{call sp_r_ayu_equ_v1_1(?)}");
+			    call.setString(1, criterio);
+			    call.execute(); 
+			    ResultSet rs = call.executeQuery();
+			    // si no obtenemos registros es que no se econtraron diferencias
+			    if (rs==null) {
+			    	 
+			    	return true; 
+			    }
+			    toArrayProductos(rs,"MPX.EQUIPOS");
+				 
+			    return true; 
+		   } catch (SQLException e) {
+			   log.error("Metodo: sp_r_ayu_equ_v1_1 ", e); error=e.getMessage() ; return false; }
+	   }
+	   
+
+	   // obtiene los equipos del sistema MPX
+	   public boolean obtenerEquiposMPXporCodigo(String criterio){
+		    
+		   try {
+			    conMPX=new ConnectMPX(conexionMPX); 
+			    CallableStatement call= conMPX.getConnection().prepareCall("{call sp_r_ayu_cequ_v1_1(?)}");
+			    call.setString(1, criterio);
+			    //call.execute(); 
+			    ResultSet rs = call.executeQuery();
+			    // si no obtenemos registros es que no se econtraron diferencias
+			    if (rs==null) {
+			    	 	
+			    	return true; 
+			    }
+			    toArrayProductos(rs,"MPX.EQUIPOS");
+			     
+			    return true; 
+		   } catch (SQLException e) {
+			   log.error("Metodo: sp_r_ayu_equ_v1_1 ", e); error=e.getMessage() ; return false; }
+	   }
+	   
+	   // Los productos del sistema Fonseca Gestión
+	   public boolean obtenerProductosdeFonsecaGestion(String criterio){
+		   try {
+		   try {
+			    CallableStatement call= hibSession.connection().prepareCall("{call spu_repar_obtiene_productos_v1_1(?)}");
+			    call.setString(1, criterio);
+			    //call.execute(); 
+			    ResultSet rs = call.executeQuery();
+			    // si no obtenemos registros es que no se econtraron diferencias
+			    if (rs==null) return true; 
+			    toArrayProductos(rs,"FG.ARTICULOS");
+			    return true; 
+		   } catch (SQLException e) { log.error("Metodo: obtenerProductosdeFonsecaGestion ", e); error=e.getMessage() ; return false;} 
+		   }catch (HibernateException e) { log.error("Metodo: obtenerProductosdeFonsecaGestion ", e); error=e.getMessage() ; return false;}
+	   }
+
+	   // Los productos del sistema Fonseca Gestión
+	   public boolean obtenerProductosdeFonsecaGestionporCodigo(String criterio){
+		   try {
+		   try {
+			    CallableStatement call= hibSession.connection().prepareCall("{call spu_repar_obtiene_productos_porCodigo_v1_1(?)}");
+			    call.setString(1, criterio);
+			    //call.execute(); 
+			    ResultSet rs = call.executeQuery();
+			    // si no obtenemos registros es que no se econtraron diferencias
+			    if (rs==null) return true; 
+			    toArrayProductos(rs,"FG.ARTICULOS");
+			    return true; 
+		   } catch (SQLException e) { log.error("Metodo: spu_repar_obtiene_productos_porCodigo_v1_1 ", e); error=e.getMessage() ; return false;} 
+		   }catch (HibernateException e) { log.error("Metodo: spu_repar_obtiene_productos_porCodigo_v1_1 ", e); error=e.getMessage() ; return false;}
+	   }
+	   
+	   
+	   public boolean executeFamiliasProductosMPX(String criterio){
+		    
+		   try {
+			    conMPX=new ConnectMPX(conexionMPX); 
+			    CallableStatement call= conMPX.getConnection().prepareCall("{call sp_r_ayu_codp_v1_1(?)}");
+			    call.setString(1, criterio);
+			    //call.execute(); 
+			    ResultSet rs = call.executeQuery();
+			    // si no obtenemos registros es que no se econtraron diferencias
+			    if (rs==null) {
+			    	 
+			    	return true; 
+			    }
+			    toArrayProductos(rs,"MPX.ARTICULOS");
+				 
+			    return true; 
+		   } catch (SQLException e) {
+			   log.error("Metodo: executeProductosMPX ", e); error=e.getMessage() ; return false; }
+	   }
+	   
+	   
+	   
+	   private void toArrayProductos(ResultSet prs, String sistemaOrigen ) throws SQLException{
+		   listaProductos=new ArrayList<Producto>();
+			error="AdmReparaciones.Resultado.NohayCoincidencias";
+			while (prs.next()){
+					error="AdmReparaciones.Resultado.ExistenCoincidencias";
+					Producto unProducto = new Producto();
+					unProducto.setCodigo(prs.getString(1).toString());
+					unProducto.setDescripcion(prs.getString(2).toString());
+					unProducto.setSistemaOrigen(sistemaOrigen);
+					listaProductos.add(unProducto);
+			}
+			return;
+		}  
+	
+	   public Producto obtenerProductoMPX(String criterio){
+		   
+		   try {
+			    conMPX=new ConnectMPX(conexionMPX); 
+			    CallableStatement call= conMPX.getConnection().prepareCall("{call sp_r_getProd_v1_1(?)}");
+			    call.setString(1, criterio);
+			    //call.execute(); 
+			    ResultSet rs = call.executeQuery();
+			    // si no obtenemos registros es que no se econtraron diferencias
+			    if (rs==null) {
+			    	 
+			    	error = "AdmReparaciones.Resultado.ProductoNoValido";
+			    	return null;
+			    }
+			    toArrayProductos(rs,"MPX.ARTICULOS");
+			    if (listaProductos.size()==0) {
+			    	 
+			    	error = "AdmReparaciones.Resultado.ProductoNoValido";
+			    	return null;
+			    } 
+			     
+			    return listaProductos.get(0) ; 
+		   } catch (SQLException e) {
+			   log.error("Metodo: obtenerProductoMPX ", e); error=e.getMessage() ; return null; }}
+
+	  
+	public Conexion getConexionMPX() {
+		return conexionMPX;
+	}
+	
+
+	public void setConexionMPX(Conexion conexionMPX) {
+		this.conexionMPX = conexionMPX;
+	}
+
+
+	public Conexion getConexionOYG() {
+		return conexionOYG;
+	}
+
+
+	public void setConexionOYG(Conexion conexionOYG) {
+		this.conexionOYG = conexionOYG;
+	}
+
+
+	public ArrayList<Producto> getListaProductos() {
+		return listaProductos;
+	}
+	
+	
+public boolean esCantidadRecibidaNoValida(Integer cantidadaRecibir ){
+		
+		if (cantidadaRecibir<=0){
+			error = "ReparacionesForm.recepcion.mensajes.error.cantidadrecibida.novalida";
+			return true;
+		}
+		return false;
+		
+	}
+
+	
+	public boolean esCantidadRecibidaMayoraCantidadEnviada(ReparDetEnvio itemenviado, Integer cantidadaRecibir ){
+		
+		Integer cantidad_recibidas=0;
+		
+		for (Iterator<ReparDetRececepciones> iterator = itemenviado.getReparDetRececepciones().iterator(); iterator.hasNext();) {
+			ReparDetRececepciones unarecepcion = (ReparDetRececepciones) iterator.next();
+			cantidad_recibidas= cantidad_recibidas +  unarecepcion.getCantidad(); 
+		}
+		
+		if (cantidad_recibidas +cantidadaRecibir > itemenviado.getCantidad()){
+			error = "ReparacionesForm.recepcion.mensajes.error.cantidadrecibida";
+			return true;
+		}
+		else
+			return false; 
+	}
+	
+	
+	public boolean esCantidadRecibidaIgualaCantidadEnviada(ReparDetEnvio itemenviado, Integer cantidadaRecibir ){
+		
+		Integer cantidad_recibidas=0;
+		for (Iterator<ReparDetRececepciones> iterator = itemenviado.getReparDetRececepciones().iterator(); iterator.hasNext();) {
+			ReparDetRececepciones unarecepcion = (ReparDetRececepciones) iterator.next();
+			cantidad_recibidas= cantidad_recibidas +  unarecepcion.getCantidad(); 
+		}
+		
+		if (cantidad_recibidas +cantidadaRecibir == itemenviado.getCantidad()){
+			error = "ReparacionesForm.recepcion.mensajes.ok.cantidadigualrecibida.estado.item.recibido";
+			return true;
+		}
+		else
+			return false; 
+	}
+	
+	//Validar la fecha de recepción sea mayor a la fecha de envío
+	public boolean esFechaRecibidaMenorFechaEnvio(ReparDetEnvio itemenviado,Date fecharecibido ){
+		
+		if (fecharecibido.compareTo( itemenviado.getReparCabEnvio().getFecha())<0) 
+		{
+			error = "ReparacionesForm.recepcion.mensajes.error.fecharecibidamenorfechaEnviado";
+			return true;
+		}
+		else
+			return false; 
+		 
+	}
+	
+
+	public boolean esEnviofinalizado(ReparCabEnvio unEnvio){
+		
+		for (Iterator<ReparDetEnvio> iterator = unEnvio.getReparDetEnvios().iterator(); iterator.hasNext();) {
+			ReparDetEnvio unitemenviado = (ReparDetEnvio) iterator.next();
+			if (unitemenviado.getEstado().compareTo(ReparDetEnvio.ESTADO_RECIBIDO)!=0){
+				return false; 
+			}
+		}
+		return true;
+	}
+	
+	
+	public static String obtenerCodigoFamiliadeProductos(String pCodigoArticulo){
+		if (!pCodigoArticulo.contains("-")) return pCodigoArticulo;   
+		String pCodigoFamilia= pCodigoArticulo.substring(0, pCodigoArticulo.indexOf("-", 4)); 		
+		return pCodigoFamilia;
+	}
+	
+
+
+	public Session getHibSession() {
+		return hibSession;
+	}
+
+
+	public void setHibSession(Session hibSession) {
+		this.hibSession = hibSession;
+	}
+
+
+	public boolean esEliminacionValida(String idproducto) {
+		// TODO Auto-generated method stub
+		try {
+			   try {
+				    String sql = "Select count(*) cantidad from repar_det_envio where idproducto=?";
+				    PreparedStatement pstmt= hibSession.connection().prepareStatement(sql);
+				    pstmt.setString(1, idproducto);
+				    ResultSet rs = pstmt.executeQuery(); 
+				    // si no obtenemos registros es que no se econtraron diferencias
+				    if (rs==null) return true; 
+				    if (rs.next()){
+				    	if (rs.getInt(1)==0)
+				    		return true;
+				    	else {
+				    			error ="AdmReparaciones.eseliminacionvalida.resultado.noesvalida.existenproductos";
+				    			return false;
+				    	}
+				    }else{
+				    	error ="";
+				    	return true;
+				    }
+			   } catch (SQLException e) { log.error("Metodo: esEliminacionValida ", e); error=e.getMessage() ; return false;} 
+			   }catch (HibernateException e) { log.error("Metodo: esEliminacionValida ", e); error=e.getMessage() ; return false;}
+	}
+	
+	
+	
+	public void cerrarConexiones(){
+		if (conMPX!=null)  conMPX.closeConnection();
+	    if (conOYG!=null) conOYG.closeConnection();
+	}
+}

@@ -1,0 +1,465 @@
+# Resources for parameter 'com.fonseca.struts.ApplicationResources'
+# Project Fonseca
+
+# Struts Validator Error Messages
+errors.required={0} es requerido.
+errors.minlength={0} can not be less than {1} characters.
+errors.maxlength={0} can not be greater than {1} characters.
+errors.invalid={0} no es valido.
+errors.byte={0} must be a byte.
+errors.short={0} must be a short.
+errors.integer={0} debe ser un valor numérico.
+errors.long={0} debe ser un valor numérico.
+errors.float={0} debe ser un valor decimal.
+errors.double={0} debe ser un valor decimal.
+errors.date={0} no es el formato de fecha esperado.
+errors.range={0} no se encuentra en el rango {1} a {2}.
+errors.creditcard={0} is an invalid credit card number.
+errors.email={0} is an invalid e-mail address.
+
+
+UsuarioForm.window.titulo=Adm. de Usuarios
+UsuarioForm.iduser=Código
+UsuarioForm.usuario=Usuario
+UsuarioForm.pwd=Clave
+UsuarioForm.pwdNueva=Nueva Clave
+UsuarioForm.pwdConfirmacion=Confirmaci\u00F3n
+UsuarioForm.nombre=Nombre
+UsuarioForm.apellido=Apellido
+UsuarioForm.email=e-mail
+UsuarioForm.telefono=Teléfono
+UsuarioForm.grupo=Grupo
+	 
+UsuarioForm.msg.Cambiopassword.ok=Su clave ha sido actualizada con éxito.
+UsuarioForm.msg.Cambiopassword.difiere=La clave y su confirmaci\u00F3n son distintas.
+UsuarioForm.msg.Cambiopassword.nook=Se produjo un error, no se pudo efectuar el cambio. 
+UsuarioForm.msg.Cambiopassword.is_pwd_default=La clave ingresado no es válida, modifíquela.
+
+menu.grupo=Grupo
+
+DotacionForm.window.titulo=Generar la Dotación
+DotacionForm.mes=Mes
+DotacionForm.anio=Año
+DotacionForm.msg.proceso.ok=La dotación ha sido generada con éxito.
+
+LiquidaConceptoForm.window.titulo=Liquidaciones - Generación
+LiquidaConceptoForm.idLiquidaConcepto=Nro.
+LiquidaConceptoForm.tipoLiquid=Tipo 
+LiquidaConceptoForm.estado=Estado
+LiquidaConceptoForm.fecha=Fecha
+LiquidaConceptoForm.monto=Monto del sistema de premios $
+LiquidaConceptoForm.montosinduplicados=Monto (pueden ingresar a Nexus) $
+LiquidaConceptoForm.montosennexus=Monto liquidado en Nexus $
+LiquidaConceptoForm.mes=Mes
+LiquidaConceptoForm.anio=Año
+LiquidaConceptoForm.empresa=Empresa
+LiquidaConceptoForm.concepto=Concepto
+LiquidaConceptoForm.usuario=Usuario
+LiquidaConceptoForm.legajo=Legajo
+LiquidaConceptoForm.premio=Premio
+LiquidaConceptoForm.premio.validacion.error=El valor ingresado no es válido.
+LiquidaConceptoForm.modificado=Modificado
+LiquidaConceptoForm.duplicado=<p>Existe en Nexus <BR>(Eliminar)</p>
+LiquidaConceptoForm.eliminarlegajo=<p>Eliminar<BR> premio/legajo</p>
+LiquidaConceptoForm.button.traerinfotaw=Traer info. de Taw
+LiquidaConceptoForm.button.agregaranexus=Agregar a Nexus
+LiquidaConceptoForm.mensaje.agregaraNexus.ok=La liquidación de premios ha sido agregado con éxito. 
+LiquidaConceptoForm.mensaje.delete.ok=La liquidación ha sido eliminada con éxito.  
+LiquidaConceptoForm.button.eliminarTodoslosLegajosDuplicados=Eliminar Duplicados
+LiquidaConceptoForm.button.eliminarTodoslosLegajosDuplicados.ok=Los duplicados han sido eliminados con éxito.
+
+##################################################################
+##################################################################
+####  LIQUIDACIONES PARTICULARES
+
+LiquidaConceptoParticularesForm.window.titulo=Conceptos Particulares - Generación
+LiquidaConceptoParticularesForm.idLiquidaConcepto=Nro.
+LiquidaConceptoParticularesForm.tipoLiquid=Tipo 
+LiquidaConceptoParticularesForm.estado=Estado
+LiquidaConceptoParticularesForm.fecha=Fecha
+LiquidaConceptoParticularesForm.monto=Monto del sistema fonseca gestión $
+LiquidaConceptoParticularesForm.montosinduplicados=Monto (pueden ingresar a Nexus) $
+LiquidaConceptoParticularesForm.montosennexus=Monto liquidado en Nexus $
+LiquidaConceptoParticularesForm.mes=Mes
+LiquidaConceptoParticularesForm.anio=Año
+LiquidaConceptoParticularesForm.empresa=Empresa
+LiquidaConceptoParticularesForm.concepto=Concepto
+LiquidaConceptoParticularesForm.usuario=Usuario
+LiquidaConceptoParticularesForm.legajo=Legajo
+LiquidaConceptoParticularesForm.premio=Monto
+LiquidaConceptoParticularesForm.modificado=Modificado
+LiquidaConceptoParticularesForm.duplicado=<p>Existe en Nexus <BR>(Eliminar)</p>
+LiquidaConceptoParticularesForm.eliminado=Eliminado
+LiquidaConceptoParticularesForm.eliminarlegajo=<p>Eliminar<BR> premio/legajo</p>
+LiquidaConceptoParticularesForm.button.traerinfotaw=Traer info. de Taw
+LiquidaConceptoParticularesForm.button.agregaranexus=Agregar a Nexus
+LiquidaConceptoParticularesForm.mensaje.agregaraNexus.ok=Los conceptos particulares ha sido agregados con éxito. 
+LiquidaConceptoParticularesForm.mensaje.delete.ok=La liquidación ha sido eliminada con éxito.  
+LiquidaConceptoParticularesForm.button.eliminarTodoslosLegajosDuplicados=Eliminar Duplicados
+LiquidaConceptoParticularesForm.button.eliminarTodoslosLegajosDuplicados.ok=Los duplicados han sido eliminados con éxito.
+LiquidaConceptoParticularesForm.archivo=Archivo
+LiquidaConceptoParticularesForm.button.CargarArchivo=Cargar Archivo
+LiquidaConceptoParticularesForm.observacion=Observación
+LiquidaConceptoParticularesForm.montosconceptos.validacion.error=El valor ingresado no es válido.
+
+##################################################################
+##################################################################
+##################################################################
+
+
+
+AdmPremios.error.liquidacionconduplicados=La liquidación posee duplicados, debe eliminarlos antes de agregar la información al sistema Nexus.
+AdmPremios.error.liquidacionnosepudoagregaranexus=La liquidación de premios no se pudo ingresar a Nexus.
+AdmPremios.eliminarLegagosConcepto.error=no se pudo eliminar el detalle de la liquidación. 
+AdmPremios.eliminarTodoslosLegajosDuplicados.ERROR=Error al intentar eliminar lo duplicados
+
+
+
+
+AdmConceptos.errores.grabarLegajoImporte.legajoNoValido=El legajo no es valido 
+AdmConceptos.error.liquidacionconduplicados=La liquidación posee duplicados, debe eliminarlos antes de agregar la información al sistema Nexus.
+AdmConceptos.error.liquidacionnosepudoagregaranexus=La liquidación de premios no se pudo ingresar a Nexus.
+AdmConceptos.error.nohayconceptoslegajos=No existen legajos valores
+AdmConceptos.eliminarLegagosConcepto.error=no se pudo eliminar el detalle de la liquidación.
+
+
+JubilacionForm.window.titulo=Controlar Jubilaciones
+JubilacionForm.mes=Mes
+JubilacionForm.anio=Año
+JubilacionForm.Diferencia.legajo=Legajo
+JubilacionForm.Diferencia.tipo=Tipo
+JubilacionForm.Diferencia.dif_480=DIF. 480
+JubilacionForm.Diferencia.dif_404=DIF. 404
+JubilacionForm.Diferencia.dif_481=DIF. 481
+JubilacionForm.Diferencia.dif_A17=DIF. A17
+JubilacionForm.Diferencia.dif_A18=DIF. A18
+								
+								
+AdmJubilaciones.Resultado.NoExistenDiferencias=No existen diferencias para el periodo espeficado.
+AdmJubilaciones.Resultado.ExistenDiferencias=Existen diferencias, verifique la siguiente lista.
+
+##################################################################
+
+
+##################################################################
+##########     PROYECTO DE GESTION DE REPARACIONES    ############
+
+ReparacionesForm.window.titulo=Gestión de Reparaciones
+ReparacionesForm.idenvio=Nro. Envío 
+ReparacionesForm.idenvio.grilla=Nro.<br>Envío
+ReparacionesForm.proveedor=Proveedor 
+ReparacionesForm.remitoSalida=Remito de Salida
+ReparacionesForm.remitoSalida.grilla=Rto.<br>de Salida 
+ReparacionesForm.autorizador=Autorizador
+ReparacionesForm.remitente=Solicitante
+
+ReparacionesForm.item=Nro. de Item 
+ReparacionesForm.idproducto=Cod. Producto
+ReparacionesForm.producto=Producto
+ReparacionesForm.cantidad=Cantidad
+ReparacionesForm.cantidadRecibida=Cantidad
+ReparacionesForm.fechaEstimadaEntrega=Fecha Estimada Entrega
+ReparacionesForm.fecha=Fecha
+ReparacionesForm.fechaEntrega=Fecha Entrega
+ReparacionesForm.presNumero=Nro. de Presupuesto
+ReparacionesForm.presMoneda=Moneda
+ReparacionesForm.presImporte=Importe
+ReparacionesForm.presAprobado=Presup aprobado
+ReparacionesForm.estado=Estado
+ReparacionesForm.fechadesde=Fecha Envío Desde
+ReparacionesForm.fechahasta=Fecha Envío Hasta
+ReparacionesForm.fecha.reclamo.estimada=Fecha de Próximo Reclamo >= 
+ReparacionesForm.fecha.recepcion.estimada=Fecha Estimada de Recepción >= 
+ReparacionesBusquedaForm.grilla.editar.ver=Editar<br>Ver
+
+ReparacionesForm.item_estado=Estado de la Reparación
+ReparacionesForm.item_estado.grilla=Estado de<br> la Reparación	
+ReparacionesForm.item_producto=Máquina/Producto
+ReparacionesForm.item_fechaEstimadaEntrega=Fecha Estimada de Entrega
+ReparacionesForm.item_fechaEstimadaEntrega.grilla=Fecha Estimada<br> de Entrega
+ReparacionesForm.item_fechaEntrega=Fecha Recepción
+ReparacionesForm.item_fechaEntrega.grilla=Fecha<br> Recepción
+ReparacionesForm.item_cantidad=Cantidad
+ReparacionesForm.item_cantidadRecibida=Cantidad Recibida
+ReparacionesForm.item_cantidadRecibida.grilla=Cantidad<br> Recibida 
+ReparacionesForm.item_presNumero=Presupuesto
+ReparacionesForm.item_presImporte=Importe
+ReparacionesForm.item_presMoneda=Moneda
+ReparacionesForm.item_observaciones=Observaciones
+ 
+ 
+ReparacionesForm.button.agregarItemProducto=Agregar Item/Producto
+ReparacionesForm.mensaje.delete.ok=El envío de raparación ha sido eliminado con éxito
+
+
+
+ReparacionesEnviosItems.titulo=Items Enviados
+ReparacionesEnviosItem.titulo=Item/Producto
+ReparacionesEnviosItems.recepciones=Recepciones
+ReparacionesEnviosItems.recepciones.agregar.grilla=Agregar<br>Recepción
+ReparacionesEnviosItems.recepciones.agregar.grilla.null= 
+ReparacionesEnviosReclamos.titulo=Reclamos Realizados
+
+ReparacionesForm.button.agregarReclamo=Agregar Reclamo
+
+# reclamos
+ReparacionesForm.reclamo.alta.titulo=Alta de Reclamo
+ReparacionesForm.reclamo_realizadoPor=Realizado Por
+ReparacionesForm.reclamo_texto=Descripcion
+ReparacionesForm.reclamo_personaContactada=Persona Contactada
+ReparacionesForm.reclamo_cargo=Cargo
+ReparacionesForm.reclamo_fechaProximoReclamo=Fecha Próximo Reclamo
+ReparacionesForm.reclamo_fecha=Fecha
+ReparacionesForm.reclamo_fechaProximoReclamo.grilla=Fecha<br> Próximo Reclamo
+ReparacionesForm.reclamo_nro.grilla=Nº
+ReparacionesForm.reclamo_descripcion=Descripción
+
+
+# atributos de la recepcion
+ReparacionesForm.recepcion.alta.titulo=Alta de Recepción
+ReparacionesForm.recepcion.consulta.titulo=Detalle de la Recepción
+ReparacionesForm.recepcion_nroRecepcion=Nro. Recepción
+ReparacionesForm.recepcion_remitoProveedor=Remito del Proveedor
+ReparacionesForm.recepcion_fecha=Fecha Recepción
+ReparacionesForm.recepcion_idenvioItem=ID recepción
+ReparacionesForm.recepcion_numeroIre=IRE
+ReparacionesForm.recepcion_cantidad=Cantidad
+ReparacionesForm.recepcion_estado=Estado
+
+ReparacionesForm.recepcion.mensajes.error.cantidadrecibida=La cantidad recibida no puede superar a la cantidad enviada
+ReparacionesForm.recepcion.mensajes.error.cantidadrecibida.novalida=La cantidad recibida no es válida
+ReparacionesForm.recepcion.mensajes.error.fecharecibidamenorfechaEnviado=La fecha de recepción no puede ser menor a la fecha de envío
+
+
+ReparacionesProductosForm.idproducto=Código
+ReparacionesProductosForm.descripcion=Descripción
+ReparacionesProductosForm.titulo=Productos - Reparaciones
+ReparacionesProductosForm.usuario=Creado por
+ReparacionesProductosForm.estado=Estado
+ReparacionesProductosForm.fecha_actualiz=Fecha de Creación
+ReparacionesProductosForm.window.titulo=Productos - Gestión de Reparaciones 
+ReparacionesProductosForm.titulo.editar=Editar
+ReparacionesProductosForm.mensaje.delete.ok=El artículo ha sido eliminado con éxito.
+ReparacionesProductosForm.familia=Familia
+ReparacionesProductosForm.sufijo=Sufijo Asignado
+
+ReparacionesProductosForm.mensajes.error.codigoexistente=El código ingresado ya existe
+ReparacionesProductosForm.mensajes.error.codigoexistente.famila.sufijo=El código ingresado ya existe, verifique la combinación familia-sufijo ingresada.
+AdmReparaciones.Resultado.familiaproductonovalido=La familia de producto no es válida.<br> Atención: este sistema distingue las mayúsculas y minúsculas.
+AdmReparaciones.Resultado.ProductoNoValido=El producto no es válido
+AdmReparaciones.Resultado.NohayCoincidencias=No existen coincidencias
+AdmReparaciones.eseliminacionvalida.resultado.noesvalida.existenproductos=El producto no puede ser eliminado ya posee movimientos de reparaciones. 
+
+AdmJubilaciones.Resultado.ExistenCoincidencias=Existen coincidencias
+
+##################################################################
+
+TrazabilidadForm.lote=Lote
+TrazabilidadForm.niveldecorte=Nivel de corte
+TrazabilidadForm.window.titulo=Trazabilidad de Lotes
+TrazabilidadForm.TrazabilidadNivelesExplotados.idtabla=ID
+TrazabilidadForm.TrazabilidadNivelesExplotados.linea=Resultado
+TrazabilidadForm.TrazabilidadProveedores.id=ID
+TrazabilidadForm.TrazabilidadProveedores.nivel=Nivel
+TrazabilidadForm.TrazabilidadProveedores.lote=Lote
+TrazabilidadForm.TrazabilidadProveedores.proveedor=Proveedor
+TrazabilidadForm.TrazabilidadProveedores.producto=Producto
+TrazabilidadForm.TrazabilidadProveedores.cantidad_cueros=Cantidad Cueros
+TrazabilidadForm.TrazabilidadProveedores.porcentaje=Porcentaje
+TrazabilidadForm.TrazabilidadProveedores.tipo_producto=Tipo
+TrazabilidadForm.TrazabilidadProveedores.kilogramos=Kgr
+TrazabilidadForm.TrazabilidadProveedores.pies=pies
+TrazabilidadForm.TrazabilidadProveedores.recepcion=Recepción
+TrazabilidadForm.TrazabilidadProveedores.ultimaHoja=Ultimo Nivel
+
+AdmTrazabilidad.obtenerTrazabilidad.loteInexistente=Lote Inexistente
+AdmTrazabilidad.Resultado.NohayDatos=No hay datos disponibles
+
+## Seguimientos de Jucios
+
+JuiciosForm.idjuiciolegajo=ID
+JuiciosForm.legajo=Legajo
+JuiciosForm.nombre=Nombre
+JuiciosForm.nroJuicio=Juicio
+JuiciosForm.juzgado=Juzgado
+JuiciosForm.expediente=Expediente
+JuiciosForm.fecha=Fecha
+JuiciosForm.estado=Estado
+JuiciosForm.window.titulo=Seguimiento de Jucios
+JuiciosForm.mensaje.delete.ok=El registro ha sido borrado con éxito
+
+
+JuiciosForm.observacion_id=Id Onservación
+JuiciosForm.observacion_idjuiciolegajo=ID juicio
+JuiciosForm.observacion_item=Nº
+JuiciosForm.observacion_fecha=Fecha
+JuiciosForm.observacion_observ=Reseña
+	
+JuiciosForm.reclamo_id=Id Reclamo
+JuiciosForm.reclamo_idjuiciolegajo=Id juicio
+JuiciosForm.reclamo_item=Nº
+JuiciosForm.reclamo_codigo_reclamo=Código Reclamo
+JuiciosForm.reclamo_codigo_reclamo.grilla=Código <br> Reclamo
+JuiciosForm.reclamo_descrip_reclamo=Descripción 
+JuiciosForm.reclamo_monto_reclamado=Monto Reclamado
+JuiciosForm.reclamo_monto_pagado=Monto Pagado
+JuiciosForm.reclamo_monto_aceptado=Monto Aceptado
+JuiciosForm.reclamo_observaciones=Observación Reclamo
+
+JuiciosForm.reclamo_monto_reclamado.grilla=Monto<Br>Reclamado
+JuiciosForm.reclamo_monto_pagado.grilla=Monto<Br>Pagado
+JuiciosForm.reclamo_monto_aceptado.grilla=Monto<Br>Aceptado
+JuiciosForm.reclamo_observaciones.grilla=Observación<Br>Reclamo
+
+
+JuiciosForm.observacion.titulo=Reseñas
+JuiciosForm.reclamo.titulo=Reclamos
+
+JuiciosForm.observaciones.titulo=Reseñas
+JuiciosForm.reclamos.titulo=Reclamos
+
+JuiciosForm.button.agregarReclamo=Agregar Reclamo
+JuiciosForm.button.agregarObservacion=Agregar Reseña
+JuiciosForm.button.cerrarjucio=Cerrar Jucio
+JuiciosForm.mensaje.cerrarjucio.ok=El cierre se ha realizxado con éxito
+
+JuiciosForm.reclamo_fecha=Fecha
+
+# Gestión de costos
+AdmCostos.Resultado.NoExistenDatos=No existen datos
+AdmCostos.Resultado.ExistenDatos=Se han encontrado resultados 
+CostosForm.mes=Mes
+CostosForm.anio=Año
+CostosForm.window.titulo=Gestión de Costos
+
+CostosForm.cod_cpto=Concepto
+CostosForm.nombre=Nombre
+CostosForm.debe=Debe
+CostosForm.haber=Haber
+CostosForm.agrupacion_1=Agrup. 1
+CostosForm.agrupacion_2=Agrup. 2
+CostosForm.empresa=Empresa
+CostosForm.centro_costo=Centro de Costo
+CostosForm.periodicidad_liq=Periodo
+CostosForm.importe=Importe
+CostosForm.cantidad=Cantidad<br>
+								
+
+
+
+
+
+logon.title=Fonseca - Ingreso a la Aplicacion
+
+layout.sort = sort.gif
+layout.dataLost = Se han realizado cambios y no se han guardado. Desea continuar y perder los mismos ?
+
+errors.header=<table cellpadding="0" cellspacing="0" border="0" width="80%"><tr><td class="Fonseca_error_title">Error:</td></tr><tr><td class="Fonseca_error_content">
+errors.footer=</td></tr></table>
+errors.prefix=<li>
+errors.suffix=</li>
+
+app.transaction.success=La operaci\u00F3n ha sido completada satisfactoriamente.
+app.error.BDB100=(BDB100) Se ha producido un error. <BR>Comun\u00EDquese con el administrador.
+app.error.BDB101=(BDB101) Se produjo un error al finalizar la transacci\u00F3n.<BR>Comun\u00EDquese con el administrador.
+app.error.BDB102=(BDB102) Se produjo un error al procesar la transacci\u00F3n.<BR><BR><b>{0} existente.</b><BR>Verifique los datos.
+
+app.error.BDB200=(BDB200) Se debe seleccionar un elemento de la lista y luego elegir la opcion.
+#Cuando quieren dar de baja manualmente algo que no se puede (lo ponen en la barra de direcciones
+app.error.BDB201=(BDB201) No se puede realizar la operaci\u00F3n requerida. <BR>Comun\u00EDquese con el administrador.
+app.form.required= Campo obligatorio.
+app.form.maxlength= No se deben exceder los {0} caracteres.
+app.form.notValid= Valor no válido
+app.form.badDate= La fecha de fin no puede ser menor que de la de inicio
+app.form.badPunitorioDia= El día de inicio no puede ser mayor que el día de fin
+app.form.badPunitorioInter= Ya hay otro punitorio para este concepto de cobro cuyo período de vigencia o sus fechas desde/hasta se cruzan con el seleccionado
+app.form.badDescuentoInter2= Ya hay otro descuento para este concepto de cobro cuyo período de vigencia se cruza con el seleccionado
+
+app.form.generateFail=Debe seleccionar al menos una cuenta para generar
+app.form.badComisionConceptoCobro = El concepto de cobro no es válido para esta comisión
+app.form.badComisionConceptoCobro2 = El concepto de cobro ya está asociado con la comisión
+app.form.badMontoIngresado=El monto ingresado debe ser igual al monto a pagar {0}.
+app.form.badImporteIngresado=El importe del cheque ingresado debe ser igual al monto a pagar {0}.
+app.form.badEstadoDeCheque=El estado de cheque debe ser En Escuela para este tipo de movimiento.
+
+app.error.eliminarComision=Baja no permitida. La Comisi\u00F3n cuenta con Alumnos Inscriptos
+app.error.eliminarEntrevista=Baja no permitida. La entrevista est\u00E1 relacionada con una inscripci\u00F3n.
+app.error.eliminarRegimenCobro=Baja no permitida. El Régimen de cobro tiene una fecha de inicio en vigencia superior a la fecha actual.
+app.error.eliminarEgreso=No se puede eliminar un egreso que tiene un cheque afectado.
+app.error.eliminarFormaCobro=Baja no permitida. La Forma de Cobro se encuentra asociada a un Régimen de Cobro.
+app.error.editarFormaCobro=La Forma de Cobro se encuentra asociada a un Régimen de Cobro. Sólo se actualizó su Descripción.
+app.error.eliminarRegimenCobro=Baja no permitida. El Régimen de Cobro se encuentra asociada a un Concepto de Cobro.
+app.error.editarRegimenCobro=El Régimen de Cobro se encuentra asociada a un Concepto de Cobro. Sólo se actualizó su Descripción.
+app.error.eliminarConceptoCobro=Baja no permitida. El Concepto de Cobro posee un Régimen de Cobro asociado.
+
+prompt.password=Contrase\u00F1a:
+prompt.username=Usuario:
+
+
+error.username.required=Usuario es requerido
+error.password.required=Contrase\u00F1a requerida
+error.password.mismatch=Usuario y/o clave incorrecta, por favor intente nuevamente
+error.database.missing=User database is missing, cannot validate logon credentials
+message.logon.nouser=El usuario no existe.
+
+# Buttons de toda la aplicacion
+button.cancel=Cancelar
+button.back=Volver
+button.confirm=Confirmar
+button.reset=Limpiar
+button.save=Guardar
+button.insert=Insertar
+button.find=Buscar
+button.create=Alta
+button.ingresar=Ingresar
+button.edit=Editar
+button.delete=Eliminar
+button.list=Generar Listado
+button.close=Cerrar
+button.print=Imprimir
+button.generate=Generar Cta. Cte.
+button.generate2=Cambiar estados
+button.anular=Anular
+button.procesar=Procesar
+button.descargar=Descargar
+
+button.persona.saveAndTitulo=Insertar y Titulo
+button.persona.saveNewAndTitulo=Grabar y Titulo
+
+# Labels de las tablas de resultados
+label.edit=Editar
+label.delete=Borrar
+label.anular=Anular
+label.generar=Generar
+label.elegir=Elegir
+label.seleccionado=Seleccionado
+label.view=Ver
+
+# Mensajes que se muestran junto al titulo de acuerdo a la accion
+app.inspect.label=- Eliminaci\u00F3n
+app.edit.label=- Modificaci\u00F3n
+app.create.label=- Alta
+app.find.label=- B\u00FAsqueda
+app.findData.label=- B\u00FAsqueda
+
+
+app.img.edit=images/i.p.folder.drafts.gif
+app.img.delete=images/i.p.junkmail.gif
+app.option.defaut=Selecione una opcion
+
+
+# Definiciones comunes a todos los formularios
+app.pattern.date=dd-MM-yyyy
+app.pattern.hours=hh:mm 24 hs
+app.forms.fecha_alta=Fecha alta
+
+error.apellido.required=El Apellido es requerido.
+error.nombre.required=El nombre es requerido.
+error.app.acceso.denegado=NO TIENE PERMISO
+
+#PATTERNS
+pattern.dinero = 0,00 
+pattern.salario = ###.###.##0,00
+
+
+

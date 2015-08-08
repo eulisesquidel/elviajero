@@ -1,0 +1,105 @@
+package com.fonseca.model.trazabilidad;
+
+public class TrazabilidadProveedores {
+
+	private String id; 
+	private String nivel;
+	private String lote;
+	private String proveedor;
+	private String producto;
+	private String cantidad_cueros;
+	private String porcentaje;
+	private String tipo_producto;
+	private String kilogramos;
+	private String pies;
+	private String recepcion;
+	private String ultimaHoja;
+	private String proceso;
+	private String usuario;
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getNivel() {
+		return nivel;
+	}
+	public void setNivel(String nivel) {
+		this.nivel = nivel;
+	}
+	public String getLote() {
+		return lote;
+	}
+	public void setLote(String lote) {
+		this.lote = lote;
+	}
+	public String getProveedor() {
+		return proveedor;
+	}
+	public void setProveedor(String proveedor) {
+		this.proveedor = proveedor;
+	}
+	public String getProducto() {
+		return producto;
+	}
+	public void setProducto(String producto) {
+		this.producto = producto;
+	}
+	public String getCantidad_cueros() {
+		return cantidad_cueros;
+	}
+	public void setCantidad_cueros(String cantidad_cueros) {
+		this.cantidad_cueros = cantidad_cueros;
+	}
+	public String getPorcentaje() {
+		return porcentaje;
+	}
+	public void setPorcentaje(String porcentaje) {
+		this.porcentaje = porcentaje;
+	}
+	public String getTipo_producto() {
+		return tipo_producto;
+	}
+	public void setTipo_producto(String tipo_producto) {
+		this.tipo_producto = tipo_producto;
+	}
+	public String getKilogramos() {
+		return kilogramos;
+	}
+	public void setKilogramos(String kilogramos) {
+		this.kilogramos = kilogramos;
+	}
+	public String getPies() {
+		return pies;
+	}
+	public void setPies(String pies) {
+		this.pies = pies;
+	}
+	public String getRecepcion() {
+		return recepcion;
+	}
+	public void setRecepcion(String recepcion) {
+		this.recepcion = recepcion;
+	}
+	public String getUltimaHoja() {
+		return ultimaHoja;
+	}
+	public void setUltimaHoja(String ultimaHoja) {
+		this.ultimaHoja = ultimaHoja;
+	}
+	public String getProceso() {
+		return proceso;
+	}
+	public void setProceso(String proceso) {
+		this.proceso = proceso;
+	}
+	public String getUsuario() {
+		return usuario;
+	}
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+	
+}

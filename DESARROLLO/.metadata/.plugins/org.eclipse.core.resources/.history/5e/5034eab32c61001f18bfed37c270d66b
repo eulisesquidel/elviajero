@@ -1,0 +1,141 @@
+package com.fonseca.struts.action.interfaces;
+
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
+
+import com.bdb.conexion.ConnectRRHH;
+import com.bdb.model.hibernate.helper.FindDataObjectSet;
+import com.bdb.model.hibernate.helper.HibernateHelper;
+import com.fonseca.model.interfaces.AdmInterfaces;
+import com.fonseca.model.jubilaciones.AdmJubilaciones;
+import com.fonseca.model.rrhh.Dotacion;
+import com.fonseca.struts.action.FonsecaDispatchAction;
+import com.fonseca.struts.form.rrhh.DotacionForm;
+
+import fr.improve.struts.taglib.layout.util.FormUtils;
+
+public class InterfaceAction extends FonsecaDispatchAction {
+    private static final Logger log;
+
+    static  {
+        log = Logger.getLogger(com.fonseca.struts.action.rrhh.DotacionAction.class);
+    }
+	
+    public InterfaceAction() {}
+    
+    
+    public ActionForward ejecutarIQ(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+    	super.edit(mapping, form, request, response);
+    	
+        log.debug("ejecutarIQ++");
+        //JubilacionForm currentForm = (JubilacionForm)form;
+        
+        AdmInterfaces admInterfaces=new AdmInterfaces();
+        
+        admInterfaces.setConexionOYG(obtenerConexionparaJDBC("BD_OYG",request));
+        admInterfaces.setConexionMFG(obtenerConexionparaJDBC("BD_MFG",request));
+        admInterfaces.ejecutarInterfaceIRE();
+        
+        
+        System.out.print(admInterfaces.getInterfaceIRE().getCantidad_MFG());
+        
+        /* admJublilaciones.setAnio(currentForm.getAnio());
+        admJublilaciones.setMes(currentForm.getMes());
+        admJublilaciones.setConexion(obtenerConexionparaJDBC("BD_NEXUS",request));
+        admJublilaciones.controlarJubilaciones();
+        if (!(admJublilaciones.getListaDiferenciaJubilacion().isEmpty()))
+        	request.setAttribute("listaDiferenciaJubilacion",admJublilaciones.getListaDiferenciaJubilacion());
+        
+        ActionMessages mensajes = new ActionMessages();
+        ActionMessage unMensaje= new ActionMessage(admJublilaciones.getError());
+        mensajes.add("mensaje",unMensaje);
+        request.setAttribute(ActionMessages.GLOBAL_MESSAGE ,mensajes);
+        */
+        log.debug("ejecutarIQ--");
+        
+        
+        FormUtils.setFormDisplayMode(request, form, FormUtils.INSPECT_MODE);
+        return mapping.findForward("resultado");
+    }
+    
+    public ActionForward ejecutarVTA(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+    	super.edit(mapping, form, request, response);
+    	
+        log.debug("ejecutarVTA++");
+        //JubilacionForm currentForm = (JubilacionForm)form;
+        
+        AdmInterfaces admInterfaces=new AdmInterfaces();
+        
+        admInterfaces.setConexionOYG(obtenerConexionparaJDBC("BD_OYG",request));
+        admInterfaces.ejecutarInterfaceVTA();
+        
+        
+        System.out.print(admInterfaces.getInterfaceVTA().getVenta_fonseca());
+        
+        /* admJublilaciones.setAnio(currentForm.getAnio());
+        admJublilaciones.setMes(currentForm.getMes());
+        admJublilaciones.setConexion(obtenerConexionparaJDBC("BD_NEXUS",request));
+        admJublilaciones.controlarJubilaciones();
+        if (!(admJublilaciones.getListaDiferenciaJubilacion().isEmpty()))
+        	request.setAttribute("listaDiferenciaJubilacion",admJublilaciones.getListaDiferenciaJubilacion());
+        
+        ActionMessages mensajes = new ActionMessages();
+        ActionMessage unMensaje= new ActionMessage(admJublilaciones.getError());
+        mensajes.add("mensaje",unMensaje);
+        request.setAttribute(ActionMessages.GLOBAL_MESSAGE ,mensajes);
+        */
+        log.debug("ejecutarVTA--");
+        
+        FormUtils.setFormDisplayMode(request, form, FormUtils.INSPECT_MODE);
+        return mapping.findForward("resultado");
+    }
+    
+    
+    public ActionForward ejecutarMPX(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+    	super.edit(mapping, form, request, response);
+    	
+        log.debug("ejecutarMPX++");
+        //JubilacionForm currentForm = (JubilacionForm)form;
+        
+        AdmInterfaces admInterfaces=new AdmInterfaces();
+        
+        admInterfaces.setConexionMPX(obtenerConexionparaJDBC("BD_MPX",request));
+        admInterfaces.ejecutarInterfaceMPX();
+        
+        System.out.print(admInterfaces.getInterfaceMPX().getConsumo_MPX_fon());
+        System.out.print(admInterfaces.getInterfaceMPX().getConsumo_OYG_fon());
+        System.out.print(admInterfaces.getInterfaceMPX().getConsumo_MPX_eof());
+        System.out.print(admInterfaces.getInterfaceMPX().getConsumo_OYG_eof());
+        /* admJublilaciones.setAnio(currentForm.getAnio());
+        admJublilaciones.setMes(currentForm.getMes());
+        admJublilaciones.setConexion(obtenerConexionparaJDBC("BD_NEXUS",request));
+        admJublilaciones.controlarJubilaciones();
+        if (!(admJublilaciones.getListaDiferenciaJubilacion().isEmpty()))
+        	request.setAttribute("listaDiferenciaJubilacion",admJublilaciones.getListaDiferenciaJubilacion());
+        
+        ActionMessages mensajes = new ActionMessages();
+        ActionMessage unMensaje= new ActionMessage(admJublilaciones.getError());
+        mensajes.add("mensaje",unMensaje);
+        request.setAttribute(ActionMessages.GLOBAL_MESSAGE ,mensajes);
+        */
+        log.debug("ejecutarMPX--");
+        
+        FormUtils.setFormDisplayMode(request, form, FormUtils.INSPECT_MODE);
+        return mapping.findForward("resultado");
+    }
+    
+    
+    
+}
+
+

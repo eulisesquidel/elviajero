@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/fonseca/model/security
+END
+Grupo.hbm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/fonseca/model/security/Grupo.hbm.xml
+END
+OpcionMenu.hbm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/fonseca/model/security/OpcionMenu.hbm.xml
+END
+Users.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/fonseca/model/security/Users.java
+END
+Users.hbm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/fonseca/model/security/Users.hbm.xml
+END
+Grupo.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/fonseca/model/security/Grupo.java
+END
+OpcionMenu.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/fonseca/model/security/OpcionMenu.java
+END

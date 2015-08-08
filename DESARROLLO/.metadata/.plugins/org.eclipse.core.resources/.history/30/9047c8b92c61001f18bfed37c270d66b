@@ -1,0 +1,36 @@
+package com.fonseca.model.rrhh;
+
+import com.bdb.conexion.Conexion;
+import com.bdb.conexion.ConnectRRHH;
+
+public class Dotacion {
+	private String mes; 
+	private String anio;
+	private Conexion conexion; 
+	
+	public Conexion getConexion() {
+		return conexion;
+	}
+	public void setConexion(Conexion conexion) {
+		this.conexion = conexion;
+	}
+	public String getMes() {
+		return mes;
+	}
+	public void setMes(String mes) {
+		this.mes = mes;
+	}
+	public String getAnio() {
+		return anio;
+	}
+	public void setAnio(String anio) {
+		this.anio = anio;
+	}
+	
+	public boolean generarDotacion(){
+		ConnectRRHH conRRHH=new ConnectRRHH(conexion); 
+        conRRHH.executeDotacion(new Integer(mes),new Integer(anio));
+        return true; 
+	}
+	
+}

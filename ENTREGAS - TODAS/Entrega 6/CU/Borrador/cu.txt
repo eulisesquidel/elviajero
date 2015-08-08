@@ -1,0 +1,39 @@
+CU-SLORT-1- Ingresar al Sistema
+CU-SLORT-1.0- Mostrar Perfil Operador
+CU-SLORT-1.0.0- Administrar Reserva
+CU-SLORT-1.0.0.0- Consultar Reserva
+CU-SLORT-1.0.0.1- Crear Reserva
+CU-SLORT-1.0.0.1.0- Administrar Cliente
+CU-SLORT-1.0.0.1.0.0-Crear Cliente
+CU-SLORT-1.0.0.1.0.1- Modificar Cliente
+CU-SLORT-1.0.0.1.0.2- Eliminar Cliente
+CU-SLORT-1.0.0.1.1- Cargar Direccion
+CU-SLORT-1.0.0.1.2- Asignar licencia
+CU-SLORT-1.0.0.1.2.0-Calcular Ubicacion Cercana
+CU-SLORT-1.0.0.1.3- Asignar fecha y horario de retorno
+CU-SLORT-1.0.0.1.4- Agregar Informacion adicional
+CU-SLORT-1.0.0.2- Eliminar Reserva
+CU-SLORT-1.0.0.3- Modificar Reserva
+CU-SLORT-1.0.0.3.0- Cambiar Cliente
+CU-SLORT-1.0.0.3.1- Cambiar Licencia
+CU-SLORT-1.0.0.3.2- Cambiar Direccion
+CU-SLORT-1.0.0.3.3- Cambiar Estado
+CU-SLORT-1.0.0.3.4- Cambiar Fecha y Hora
+CU-SLORT-1.0.0.3.5- Cambiar Informacion Adicional
+CU-SLORT-1.0.0.4- Ver Mapa Ubicación Flota
+CU-SLORT-1.1- Mostrar Perfil Administrador
+CU-SLORT-1.1.0- Administrar Sistema
+CU-SLORT-1.1.0.0- Administrar Usuario
+CU-SLORT-1.1.0.0.0- Crear Usuario
+CU-SLORT-1.1.0.0.1.- Eliminar Usuario
+CU-SLORT-1.1.0.0.2- Modificar Usuario
+CU-SLORT-1.1.0.0.3- Consultar Usuario
+CU-SLORT-1.1.0.1- Consultar Reporte
+CU-SLORT-1.1.0.2- Administrar Perfil
+CU-SLORT-1.1.0.2.0- Crear Perfil
+CU-SLORT-1.1.0.2.1- Modificar Perfil
+CU-SLORT-1.1.0.2.2- Eliminar Perfil
+CU-SLORT-1.1.0.2.3- Consultar Perfil
+CU-SLORT-1.2- Mostrar Perfil Gestor de Reportes
+CU-SLORT-1.2.0- Consultar reportes Gestor
+CU-SLORT-2-Capturar Coordenadas

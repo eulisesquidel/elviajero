@@ -1,0 +1,191 @@
+package com.fonseca.model.premios;
+
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import org.apache.log4j.Logger;
+import com.bdb.model.hibernate.helper.HibernateHelper;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Query;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
+
+public class AdmPremios {
+	
+	private static final Logger log;
+
+	static  {
+		log = Logger.getLogger(com.fonseca.struts.action.premios.LiquidaConceptoAction.class);
+	}
+
+	Session hibSession = null; 
+	LiquidaConcepto liquidacion=null;
+	String error=null;
+	
+	public boolean obtenerPremiosdeTaw(){
+		try {
+			    CallableStatement call;
+				try {
+					call = hibSession.connection().prepareCall("{call spu_ObtienePremiosdeTaw_v1_1(?)}");
+					call.setLong(1, liquidacion.getIdLiquidaConcepto());
+					call.execute();
+				} catch (HibernateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}			    
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return true; 
+	}
+
+	
+	public boolean actualizarLegadosPremios(String[] legajos, String premios[]){
+		log.debug("actualizarMontoPremios++");
+		try {
+			Transaction mitransaccion=hibSession.beginTransaction();
+			for (int i = 0; i < legajos.length; i++) {
+				if (legajos[i]==null) break; // no existen mas registros para modificar
+				actualizarLegadoPremio(legajos[i],premios[i]);
+			}
+			hibSession.flush();
+			mitransaccion.commit();
+		} catch (HibernateException e) { e.printStackTrace();}
+		return true; 
+	}
+	
+	private boolean actualizarLegadoPremio(String legajo, String premio){
+		log.debug("actualizarMontoPremios++");
+		try {
+			ConceptoEmpleadoId id=new ConceptoEmpleadoId(liquidacion,new Integer(legajo));
+			ConceptoEmpleado conceptoLegajopremio;
+			conceptoLegajopremio=(ConceptoEmpleado)hibSession.load(com.fonseca.model.premios.ConceptoEmpleado.class, id);
+			Double premiomodificado=new Double(premio);
+			/* verificamos si fue modificado por el usuario */
+			if (conceptoLegajopremio.getPremio().compareTo(premiomodificado)!=0){
+				conceptoLegajopremio.setModificado(Byte.valueOf("1"));
+				conceptoLegajopremio.setPremio(premiomodificado);
+				hibSession.saveOrUpdate(conceptoLegajopremio);
+				hibSession.flush(); 
+				spu_liquidapremios_recalcularMontos();
+			}
+			log.debug("actualizarMontoPremios--");
+			return true;			
+		}catch (HibernateException e) { log.error("Metodo: actualizarMontoPremios", e); e.printStackTrace();return false;}		
+	}
+	
+	public boolean spu_liquidapremios_recalcularMontos(){
+		try {
+		    CallableStatement call;
+			try {
+				call = hibSession.connection().prepareCall("{call spu_liquidapremios_recalcularMontos_v1_1(?)}");
+				call.setLong(1, liquidacion.getIdLiquidaConcepto());
+				call.execute();
+		} catch (HibernateException e) { log.error("Metodo: spu_liquidapremios_recalcularMontos", e); return false; }
+	} catch (SQLException e) { log.error("Metodo: spu_liquidapremios_recalcularMontos", e); return false; }
+		return true;
+	}
+	
+	public Session getHibSession() {
+		return hibSession;
+	}
+
+	public void setHibSession(Session hibSession) {
+		this.hibSession = hibSession;
+	}
+
+	public LiquidaConcepto getLiquidacion() {
+		return liquidacion;
+	}
+
+	public void setLiquidacion(LiquidaConcepto liquidacion) {
+		this.liquidacion = liquidacion;
+	}
+
+	public boolean agregarDatosaNexus(){
+		log.debug("actualizarMontoPremios++");
+		if (hayDuplicados()){
+			error = "AdmPremios.error.liquidacionconduplicados";
+			return false; 
+		}
+		if (!spu_liquid_concepto()) {
+			error = "AdmPremios.error.liquidacionnosepudoagregaranexus";
+			return false;
+		}
+		log.debug("actualizarMontoPremios--");
+	    return true;
+
+	}
+		
+	private boolean hayDuplicados(){
+			try {
+			try {
+				Statement stmt;
+				stmt = hibSession.connection().createStatement();
+				String strSQL =" SELECT count(*) FROM Concepto_Empleado WHERE id_liquida_concepto="+ this.liquidacion.getIdLiquidaConcepto().toString() + " and  duplicado=1 and eliminado=0";  
+				ResultSet rs=stmt.executeQuery(strSQL);
+				rs.next();
+				if (rs.getDouble(1)>0)
+					return true;
+				else
+					return false;
+			} catch (SQLException e) {log.error("Metodo: hayDuplicados", e); e.printStackTrace();return true;}
+			} catch (HibernateException e) {log.error("Metodo: hayDuplicados", e); e.printStackTrace();return true;}
+	}
+	
+	private boolean spu_liquid_concepto(){
+		try {
+			    CallableStatement call;
+				try {
+					call = hibSession.connection().prepareCall("{call spu_liquid_concepto_v1_1(?)}");
+					call.setLong(1, liquidacion.getIdLiquidaConcepto());
+					call.execute();
+				} catch (HibernateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}			    
+		} catch (SQLException e) { log.error("Metodo: spu_liquid_concepto", e); return false; }
+		return true; 
+	}
+
+	public boolean eliminarLegagosConcepto(){
+		try {
+			try {
+				Statement stmt;
+				stmt = hibSession.connection().createStatement();
+				String strSQL =" Delete from Concepto_Empleado where id_liquida_concepto="+ this.liquidacion.getIdLiquidaConcepto().toString() ;  
+				stmt.execute(strSQL);
+				return true;					
+			} catch (SQLException e) {log.error("Metodo: eliminarLegagosConcepto", e); error="AdmPremios.eliminarLegagosConcepto.error"; e.printStackTrace();return false;}
+			} catch (HibernateException e) {log.error("Metodo: eliminarLegagosConcepto", e); error="AdmPremios.eliminarLegagosConcepto.error"; e.printStackTrace();return false;}
+	}
+
+	public String getError() {
+		return error;
+	}
+
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+
+	public boolean spu_liquid_concepto_duplicados_elimina(){
+		try {
+		    CallableStatement call;
+			try {
+				call = hibSession.connection().prepareCall("{call spu_liquid_concepto_duplicados_elimina_v1_1(?)}");
+				call.setLong(1, liquidacion.getIdLiquidaConcepto());
+				call.execute();
+				error="AdmPremios.eliminarTodoslosLegajosDuplicados.ok";
+				spu_liquidapremios_recalcularMontos(); 
+				return true;
+		} catch (HibernateException e) { log.error("Metodo: spu_liquid_concepto_duplicados_elimina_v1_1", e); error="AdmPremios.eliminarTodoslosLegajosDuplicados.ERROR"; return false; }
+		} catch (SQLException e) { log.error("Metodo: spu_liquid_concepto_duplicados_elimina_v1_1", e); error="AdmPremios.eliminarTodoslosLegajosDuplicados.ERROR" ; return false; }
+	}
+	
+}

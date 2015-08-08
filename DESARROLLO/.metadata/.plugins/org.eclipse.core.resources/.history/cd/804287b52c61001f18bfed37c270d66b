@@ -1,0 +1,99 @@
+package com.fonseca.model.jubilaciones;
+
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import org.apache.log4j.Logger;
+
+import com.bdb.conexion.Conexion;
+import com.bdb.conexion.ConnectRRHH;
+
+public class AdmJubilaciones {
+	
+	private static final Logger log;
+
+	static  {
+		log = Logger.getLogger(com.fonseca.struts.action.premios.LiquidaConceptoAction.class);
+	}
+
+	  private Conexion conexion; 
+	  private String error=null;
+	  private String mes;
+	  private String anio;
+	  private ArrayList<DiferenciaJubilacion> listaDiferenciaJubilacion;  
+	  
+	
+	   public boolean controlarJubilaciones(){
+		   try {
+			    ConnectRRHH conRRHH=new ConnectRRHH(conexion); 
+			    CallableStatement call=conRRHH.getConnection().prepareCall("{call spu_ctrl_jubilacion_v1_1(?,?)}");
+			    call.setInt(1, new Integer(mes));
+			    call.setInt(2, new Integer(anio));
+			    ResultSet rs = call.executeQuery();
+			    // si no obtenemos registros es que no se econtraron diferencias
+			    if (rs==null) return true; 
+			    toArrayDiferenciaJubilacion(rs);
+			    return true; 
+	   	   } catch (SQLException e) { log.error("Metodo: controlarJubilaciones", e); error=e.getMessage() ; return false; }		   
+	   }
+
+
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+	public String getMes() {
+		return mes;
+	}
+
+	public void setMes(String mes) {
+		this.mes = mes;
+	}
+
+	public String getAnio() {
+		return anio;
+	}
+
+	public void setAnio(String anio) {
+		this.anio = anio;
+	}
+
+
+	public Conexion getConexion() {
+		return conexion;
+	}
+
+
+	public void setConexion(Conexion conexion) {
+		this.conexion = conexion;
+	}
+
+	private void toArrayDiferenciaJubilacion(ResultSet prs) throws SQLException{
+		listaDiferenciaJubilacion=new ArrayList<DiferenciaJubilacion>();
+		error="AdmJubilaciones.Resultado.NoExistenDiferencias";
+		while (prs.next()){
+				error="AdmJubilaciones.Resultado.ExistenDiferencias";
+				DiferenciaJubilacion unaDiferenciaJubilacion = new DiferenciaJubilacion();
+				unaDiferenciaJubilacion.setNro_leg(prs.getObject("Nro_leg").toString());
+				unaDiferenciaJubilacion.setDif_404(prs.getObject("Dif_404").toString());
+				unaDiferenciaJubilacion.setDif_480(prs.getObject("Dif_480").toString());
+				unaDiferenciaJubilacion.setDif_481(prs.getObject("Dif_481").toString());
+				unaDiferenciaJubilacion.setDif_A17(prs.getObject("Dif_A17").toString());
+				unaDiferenciaJubilacion.setDif_A18(prs.getObject("Dif_A18").toString());
+				listaDiferenciaJubilacion.add(unaDiferenciaJubilacion);
+		}
+		return;
+	}
+
+	
+	public ArrayList<DiferenciaJubilacion> getListaDiferenciaJubilacion() {
+		return listaDiferenciaJubilacion;
+	}
+
+}

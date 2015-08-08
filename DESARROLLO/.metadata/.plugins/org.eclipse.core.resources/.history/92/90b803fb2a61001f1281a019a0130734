@@ -1,0 +1,87 @@
+
+-- execute PROCEDURE "informix".sp_ctrl_ire_v1_20();  
+
+go  
+ 
+DROP PROCEDURE "informix".sp_ctrl_ire_v1_20;
+ 
+go 
+
+
+CREATE PROCEDURE "informix".sp_ctrl_ire_v1_20() RETURNING FLOAT;              
+        DEFINE I FLOAT; 
+		
+select a.tc_int, a.nro_int, a.nro_ext,a.remito,
+a.proveedor, a.fecha_remito, a.fecha,
+"12345678" ||a.sector_rm sector_rm
+from informe_rec a, vccocont b
+where imputac between today-30 and  today-1
+and a.tc_int = b.tc_int
+and a.nro_int = b.nro_int
+into temp uno;
+
+select unique a.tc_int, a.nro_int, a.nro_ext,a.remito,
+a.proveedor, a.fecha_remito, a.fecha , b.articulo
+from uno a , det_ctrl_ir b
+where a.tc_int = b.tc_int
+and   a.nro_int = b.nro_int
+into temp dos;
+
+select a.tc_int, a.nro_int, a.nro_ext,a.remito,
+	   a.proveedor, a.fecha_remito, a.fecha, a.articulo,
+	   "A" || anio anio, nro_lote, cantidad
+from dos a, foc_lote b
+where a.nro_ext =  informe_rec
+and a.articulo = b.articulo
+into temp tres;
+
+select anio[4,5] || "/0" || nro_lote nro_lote, articulo, cantidad
+from tres a
+into temp cuatro;
+
+
+-----------------------------------------------
+--cambia a EOF
+-----------------------------------------------
+
+select a.tc_int, a.nro_int, a.nro_ext,a.remito,
+       a.proveedor, a.fecha_remito, a.fecha, "12345678" || a.sector_rm sector_rm
+from eofjv:informe_rec a, eofjv:vccocont b
+where imputac between today-30 and  today-1
+and a.tc_int = b.tc_int
+and a.nro_int = b.nro_int
+into temp uno_1;
+
+select unique a.tc_int, a.nro_int, a.nro_ext,a.remito,
+       a.proveedor, a.fecha_remito, a.fecha, b.articulo
+from uno_1 a , eofjv:det_ctrl_ir b
+where a.tc_int = b.tc_int
+and   a.nro_int = b.nro_int
+into temp dos_1;
+
+select a.tc_int, a.nro_int, a.nro_ext,a.remito,
+       a.proveedor, a.fecha_remito, a.fecha, b.articulo,
+       "A" || anio anio,  nro_lote, cantidad
+from dos_1 a, eofjv:foc_lote b
+where a.nro_ext =  informe_rec
+and a.articulo = b.articulo
+into temp tres_1;
+
+select anio[4,5] || "E0"|| nro_lote nro_lote, articulo, cantidad
+from tres_1
+into temp cuatro_1;
+
+select * from cuatro
+union all
+select * from cuatro_1
+into temp cinco;
+
+-- Devolución de los resultados
+FOREACH cur1 FOR                                          
+             select sum(cantidad) cantidad_oyg INTO i FROM cinco                                  
+         RETURN i WITH RESUME;                  
+end foreach
+END PROCEDURE;
+
+go
+

@@ -1,0 +1,340 @@
+package com.slort.struts.form.juicios;
+
+import javax.servlet.http.HttpServletRequest;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionMapping;
+import com.slort.struts.action.ActionForm;
+
+public class JuiciosForm extends ActionForm {
+	
+	/**
+	 *  
+	 */
+
+	private String idjuiciolegajo;
+	private String legajo;
+	private String nombre; 
+	private String nroJuicio;
+	private String juzgado;
+	private String expediente;
+	private String fecha;
+	private String estado;
+	
+	private String observacion_id;
+	private String observacion_idjuiciolegajo;
+	private String observacion_item;
+	private String observacion_fecha;
+	private String observacion_observ;
+	
+	private String reclamo_id;
+	private String reclamo_idjuiciolegajo;
+	private String reclamo_item;
+	private String reclamo_codigo_reclamo;
+	private String reclamo_descrip_reclamo; 
+	private String reclamo_monto_reclamado;
+	private String reclamo_monto_pagado;
+	private String reclamo_monto_aceptado;
+	private String reclamo_observaciones; 
+	
+	
+	
+	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
+        ActionErrors errors = new ActionErrors();
+        
+        validateRequired(errors, "idjuciolegajo", this.idjuiciolegajo);
+        validateRequired(errors, "legajo", this.legajo);
+        validateRequired(errors, "nroJuicio", this.nroJuicio);
+        validateRequired(errors, "expediente", this.expediente);
+        return errors;
+        
+    }
+	
+	
+	
+
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+    	//this.idLiquidaConcepto=null;
+    	
+    	idjuiciolegajo="";
+    	legajo="";
+    	nroJuicio="";
+    	juzgado="";
+    	expediente="";
+    	fecha="";
+    	estado="";
+    	observacion_observ="";
+    	reclamo_descrip_reclamo=""; 
+    	reclamo_monto_reclamado="";
+    	reclamo_monto_pagado="";
+    	reclamo_monto_aceptado="";
+    	reclamo_observaciones=""; 
+
+        super.reset(mapping, request);
+    }
+
+
+
+
+	public String getIdjuiciolegajo() {
+		return idjuiciolegajo;
+	}
+
+
+
+
+	public void setIdjuiciolegajo(String idjuiciolegajo) {
+		this.idjuiciolegajo = idjuiciolegajo;
+	}
+
+
+
+
+	public String getLegajo() {
+		return legajo;
+	}
+
+
+
+
+	public void setLegajo(String legajo) {
+		this.legajo = legajo;
+	}
+
+
+
+
+	public String getNroJuicio() {
+		return nroJuicio;
+	}
+
+
+
+
+	public void setNroJuicio(String nroJuicio) {
+		this.nroJuicio = nroJuicio;
+	}
+
+
+
+
+	public String getJuzgado() {
+		return juzgado;
+	}
+
+
+
+
+	public void setJuzgado(String juzgado) {
+		this.juzgado = juzgado;
+	}
+
+
+
+
+	public String getExpediente() {
+		return expediente;
+	}
+
+
+
+
+	public void setExpediente(String expediente) {
+		this.expediente = expediente;
+	}
+
+
+
+
+	public String getFecha() {
+		return fecha;
+	}
+
+
+
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
+
+
+
+	public String getEstado() {
+		return estado;
+	}
+
+
+
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+
+	public String getObservacion_id() {
+		return observacion_id;
+	}
+
+	public void setObservacion_id(String observacion_id) {
+		this.observacion_id = observacion_id;
+	}
+
+
+	public String getObservacion_idjuiciolegajo() {
+		return observacion_idjuiciolegajo;
+	}
+
+
+	public void setObservacion_idjuiciolegajo(String observacion_idjuiciolegajo) {
+		this.observacion_idjuiciolegajo = observacion_idjuiciolegajo;
+	}
+
+
+
+	public String getObservacion_item() {
+		return observacion_item;
+	}
+
+
+
+
+	public void setObservacion_item(String observacion_item) {
+		this.observacion_item = observacion_item;
+	}
+
+
+	public String getObservacion_fecha() {
+		return observacion_fecha;
+	}
+
+
+	public void setObservacion_fecha(String observacion_fecha) {
+		this.observacion_fecha = observacion_fecha;
+	}
+
+
+	public String getObservacion_observ() {
+		return observacion_observ;
+	}
+
+
+	public void setObservacion_observ(String observacion_observ) {
+		this.observacion_observ = observacion_observ;
+	}
+
+
+	public String getReclamo_id() {
+		return reclamo_id;
+	}
+
+
+	public void setReclamo_id(String reclamo_id) {
+		this.reclamo_id = reclamo_id;
+	}
+
+
+	public String getReclamo_idjuiciolegajo() {
+		return reclamo_idjuiciolegajo;
+	}
+
+
+	public void setReclamo_idjuiciolegajo(String reclamo_idjuiciolegajo) {
+		this.reclamo_idjuiciolegajo = reclamo_idjuiciolegajo;
+	}
+
+
+	public String getReclamo_item() {
+		return reclamo_item;
+	}
+
+
+	public void setReclamo_item(String reclamo_item) {
+		this.reclamo_item = reclamo_item;
+	}
+
+
+	public String getReclamo_codigo_reclamo() {
+		return reclamo_codigo_reclamo;
+	}
+
+
+	public void setReclamo_codigo_reclamo(String reclamo_codigo_reclamo) {
+		this.reclamo_codigo_reclamo = reclamo_codigo_reclamo;
+	}
+
+
+	public String getReclamo_descrip_reclamo() {
+		return reclamo_descrip_reclamo;
+	}
+
+
+	public void setReclamo_descrip_reclamo(String reclamo_descrip_reclamo) {
+		this.reclamo_descrip_reclamo = reclamo_descrip_reclamo;
+	}
+
+
+	public String getReclamo_monto_reclamado() {
+		return reclamo_monto_reclamado;
+	}
+
+
+
+
+	public void setReclamo_monto_reclamado(String reclamo_monto_reclamado) {
+		this.reclamo_monto_reclamado = reclamo_monto_reclamado;
+	}
+
+
+
+
+	public String getReclamo_monto_pagado() {
+		return reclamo_monto_pagado;
+	}
+
+
+
+
+	public void setReclamo_monto_pagado(String reclamo_monto_pagado) {
+		this.reclamo_monto_pagado = reclamo_monto_pagado;
+	}
+
+
+
+
+	public String getReclamo_monto_aceptado() {
+		return reclamo_monto_aceptado;
+	}
+
+
+
+
+	public void setReclamo_monto_aceptado(String reclamo_monto_aceptado) {
+		this.reclamo_monto_aceptado = reclamo_monto_aceptado;
+	}
+
+
+	public String getReclamo_observaciones() {
+		return reclamo_observaciones;
+	}
+
+
+	public void setReclamo_observaciones(String reclamo_observaciones) {
+		this.reclamo_observaciones = reclamo_observaciones;
+	}
+
+
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+}

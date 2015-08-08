@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+ 
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"/>
+    <title>Google Maps JavaScript API Example: 	Reverse Geocoder</title>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAAbuXxLBFMgYlDNbrbDJvWzRSy2ooY7TB3FPLn4gqqVYh8dN86zxTPFEykr52-hr-X4o60TKPs3CaToQ" 
+            type="text/javascript"></script>
+    <script language="Javascript"  src="jscript/ajax.js"></script>
+	<script src="jscript/googlemaps.js"></script>
+    <script type="text/javascript">
+
+
+    var map;
+	var directions = new Array();
+	
+    function initialize() {
+      map = new GMap2(document.getElementById("map_canvas"));
+      point = new GLatLng(-34.65580390505896, -58.58802795410156);
+      map.setCenter(point, 10);
+      map.addControl(new GLargeMapControl);
+      //map.addOverlay(new GMarker(point)); 
+      ajax_GoogleMaps_Distance (this,"getUbicacionrealGoogleMapsView");
+      map.closeInfoWindow();
+    }
+    
+    
+    function calcularDistancia(i,lat, long, info, latlongGM){
+        point2 = new GLatLng(lat,long);
+        point3 = new GLatLng(lat,long);        
+        var marker = new GMarker(point2)
+        GEvent.addListener(marker, "click", function() { 
+		    var myHtml = "<b>#" + info + "</b>"; 
+		    map.openInfoWindowHtml(new GLatLng(lat,long), myHtml); 
+		    }); 
+        map.addOverlay(marker);
+        
+        directions[i]= new GDirections(map);
+      	directions[i].load("from: "+ latlongGM +" to: Acevedo 1399, Banfield, buenos aires argentina");
+      	GEvent.addListener(directions[i], "load",function() { 
+      	        //alert( directions[i].getDistance().html +" " + directions[i].getDuration().html);
+          	    document.getElementById("route").innerHTML = directions[i].getDistance().html +" " + directions[i].getDuration().html ;
+        }); 
+      
+    }
+    
+    
+    function onGDirectionsLoad(){
+      document.getElementById("route").innerHTML = directions.getSummaryHtml();
+   	}
+
+    </script>    			
+  </head>
+
+  <body onload="initialize()">
+    <div id="map_canvas" style="width: 600px; height: 400px"></div>
+    <span id="span_result"></span>
+    <div id="route"></div>
+  </body>
+  
+</html>
+

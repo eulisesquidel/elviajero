@@ -1,0 +1,181 @@
+<%@ page language="java" %>
+<%@ page import="com.bdb.util.HttpUtils"%>
+<%@ page import="com.slort.util.slortUtils"%>
+ 
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-layout.tld" prefix="layout" %>
+<%@ taglib uri='/WEB-INF/struts-template.tld' prefix='template' %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
+<%@ taglib uri='/WEB-INF/struts-bean.tld' prefix='bean' %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+
+
+<head>
+	<html:javascript formName="JuiciosForm"  />				
+</head>
+
+<app:CheckSimpleLogon />
+<template:insert template='templates/default.jsp'>
+
+	<%-- Valor del title del IE se concatena al texto 'slort'. Valor no requerido --%>
+	<template:put name='titlePage' content=' ' direct='true' />
+
+	<%-- Titulo del la pantalla actual. Valor no requerido --%>
+	<template:put name='title' direct="true">
+		<bean:message key="JuiciosForm.window.titulo" /> 
+	</template:put>
+	  
+	<%-- Contenido a incluir en la pantalla --%>
+	<template:put name='content'>
+		
+		<%-- CONTENT.INICIO ----------------------------------------------------------------------------- --%>
+		<layout:form action="/juicios.do" styleClass="Body" reqCode=""
+		onsubmit="return validateJuiciosForm(this);" >
+
+		<layout:text key="JuiciosForm.idjuiciolegajo" 
+										 property="idjuiciolegajo" 
+										 styleClass="LABEL"
+										 mode="H,H,H"
+										 size="8"
+										 maxlength="8"/>
+								 
+
+		<layout:text key="JuiciosForm.legajo" 
+								 property="legajo" 
+								 styleClass="LABEL"
+								 mode="E,I,I"
+								 size="20"
+								 maxlength="20"
+								 onkeyup="ajax_showOptions_2(this,'getEmpleadosporporNombreLetras',event,200,0)"/>
+		
+		  <layout:text key="JuiciosForm.nombre" 
+							 property="nombre" 
+							 styleClass="LABEL" 
+							 mode="I,I,I"
+							 size="70"
+							 maxlength="70"
+							 />
+		
+		 <input type="hidden" id="legajo_hidden" name="idlegajo">
+		
+		  <layout:text key="JuiciosForm.nroJuicio" 
+							 property="nroJuicio" 
+							 styleClass="LABEL" 
+							 mode="E,I,I"
+							 size="100"
+							 maxlength="100"
+							 />
+
+		<layout:text key="JuiciosForm.juzgado" 
+							 property="juzgado" 
+							 styleClass="LABEL" 
+							 mode="E,I,I"
+							 size="60"
+							 maxlength="60"
+							 />						 
+		
+
+		<layout:text key="JuiciosForm.expediente" 
+								 property="expediente" 
+								 styleClass="LABEL" 
+								 mode="E,I,I"
+								 size="80"
+								 maxlength="80"
+								 />
+	
+	<layout:date key="JuiciosForm.fecha" 
+				property="fecha"
+				styleClass="LABEL" 
+				mode="E,I,I"
+				size="12"
+				maxlength="10"
+				startYear="1920"
+				endYear="<%=slortUtils.getMaxAnio()%>"
+				patternKey="app.pattern.date"
+				onfocus="CheckFechaNoFocus('idjuciolegajo');"
+		/>
+						
+						
+		<layout:text key="JuiciosForm.estado" 
+								 property="estado" 
+								 styleClass="LABEL" 
+								 mode="H,I,I"
+								 size="15"
+								 maxlength="15"
+								 />
+		  <layout:space/>
+							 
+		  <layout:formActions>
+		  		<layout:submit mode="D,N,N" reqCode="<%=HttpUtils.STRUTS_ACTION_SAVE%>" styleClass="button">
+				<bean:message key="button.save"/></layout:submit>
+			    <layout:submit mode="N,N,D" reqCode="<%=HttpUtils.STRUTS_ACTION_DELETE%>" styleClass="button" 
+											 onclick="return confirm('Realmente desea borrar estos datos ?');" >
+					<bean:message key="button.delete"/>
+				</layout:submit>
+				<layout:submit mode="D,D,D" reqCode="<%=HttpUtils.STRUTS_ACTION_FIND%>" styleClass="button">
+					<bean:message key="button.back"/>
+				</layout:submit>
+				<logic:notEqual  name="juiciosform" property="estado" value="Cerrado">
+				<layout:submit mode="N,D,N" reqCode="cerrarJucio" styleClass="button" 
+											 onclick="return confirm('Realmente desea cerrar el jucio?  no podra agregar mas datos reclamos u observaciones');" >
+					<bean:message key="JuiciosForm.button.cerrarjucio"/>
+				</layout:submit>
+				</logic:notEqual>						
+		  </layout:formActions>
+		  <layout:space/>
+		
+		  <logic:present name="observaciones" scope="request">
+		    <layout:message key="JuiciosForm.observaciones.titulo" />
+			<layout:collection name="observaciones" id="objeto" styleClass="FORM" align="center" sortAction="client" >
+									<layout:collectionItem  title="JuiciosForm.observacion_item" name="objeto"  property="item" styleClass="negro-nor-2" />
+									<layout:collectionItem  title="JuiciosForm.observacion_observ" name="objeto"  property="observaciones" styleClass="negro-nor-2" />
+									<layout:collectionItem  title="JuiciosForm.observacion_fecha" styleClass="negro-nor-2" >
+										<bean:write name="objeto" property="fecha" format="dd-MM-yyyy" />
+								    </layout:collectionItem>									
+			</layout:collection>
+			</logic:present>
+			<layout:space/>
+			
+			<logic:notEqual  name="juiciosform" property="estado" value="Cerrado">
+			<layout:formActions>
+					<layout:submit mode="N,D,N" reqCode="agregarObservacion" styleClass="button">
+						<bean:message key="JuiciosForm.button.agregarObservacion"/>
+					</layout:submit>	
+			</layout:formActions>
+			</logic:notEqual>
+
+
+			<layout:space/>
+
+			<logic:present name="reclamos" scope="request">
+		    <layout:message key="JuiciosForm.reclamos.titulo" />
+			<layout:collection name="reclamos" id="objeto" styleClass="FORM" align="center" sortAction="client" >
+									<layout:collectionItem  title="JuiciosForm.reclamo_item" name="objeto"  property="item" styleClass="negro-nor-2" />
+									<layout:collectionItem  title="JuiciosForm.reclamo_codigo_reclamo.grilla" name="objeto"  property="juReclamos.codigoReclamo" styleClass="negro-nor-2" />
+									<layout:collectionItem  title="JuiciosForm.reclamo_descrip_reclamo" name="objeto"  property="descripReclamo" styleClass="negro-nor-2" />
+									<layout:collectionItem  title="JuiciosForm.reclamo_monto_reclamado.grilla" name="objeto"  property="montoReclamado" styleClass="negro-nor-2" />
+									<layout:collectionItem  title="JuiciosForm.reclamo_monto_pagado.grilla" name="objeto"  property="montoPagado" styleClass="negro-nor-2" />
+									<layout:collectionItem  title="JuiciosForm.reclamo_monto_aceptado.grilla" name="objeto"  property="montoAceptado" styleClass="negro-nor-2" />
+									<layout:collectionItem  title="JuiciosForm.reclamo_observaciones.grilla" name="objeto"  property="observaciones" styleClass="negro-nor-2" />
+									<layout:collectionItem  title="JuiciosForm.reclamo_fecha" styleClass="negro-nor-2" >
+										<bean:write name="objeto" property="fecha" format="dd-MM-yyyy" />
+								    </layout:collectionItem>										
+			</layout:collection>
+			</logic:present>
+			
+			<layout:space/>
+			
+			<logic:notEqual  name="juiciosform" property="estado" value="Cerrado">
+			<layout:formActions>
+					<layout:submit mode="N,D,N" reqCode="agregarReclamo" styleClass="button">
+						<bean:message key="JuiciosForm.button.agregarReclamo"/>
+					</layout:submit>	
+			</layout:formActions>
+			</logic:notEqual>
+			
+			
+
+	<%-- CONTENT.FIN ----------------------------------------------------------------------------- --%>
+	</layout:form>
+	</template:put>
+</template:insert>

@@ -1,0 +1,30 @@
+<xml>
+  <entidad>Menu_ssa</entidad>
+  <tabla>Menu_ssa</tabla>
+  <clase>Menussa</clase>
+  <coleccion>Menuesssa</coleccion>
+  <path_relativo>./modules/menuesssa</path_relativo>
+  <properties>
+    <property>
+      <nombre>Id</nombre>
+      <campo>id_menu_ssa</campo>
+      <tipo>number</tipo>
+      <nulo>n</nulo>
+      <key>pk</key>
+    </property>
+    <property>
+      <nombre>Link</nombre>
+      <campo>link</campo>
+      <tipo>varchar2</tipo>
+      <nulo>y</nulo>
+      <key></key>
+    </property>
+    <property>
+      <nombre>Seccion</nombre>
+      <campo>seccion</campo>
+      <tipo>varchar2</tipo>
+      <nulo>y</nulo>
+      <key></key>
+    </property>
+  </properties>
+</xml>

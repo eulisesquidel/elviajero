@@ -1,0 +1,116 @@
+package com.slort.struts.form.reparaciones;
+
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionMapping;
+
+
+
+import com.slort.struts.action.ActionForm;
+
+public class ReparacionesProductosForm extends ActionForm {
+	
+	public static String JSP_VISTA_ALTA = "Alta";
+	public static String JSP_VISTA_MODIFICACION = "Modificacion";
+	public static String JSP_VISTA_ELIMINACION ="Eliminacion";
+	
+	
+	private static final long serialVersionUID = 1L;
+
+	private String  idproducto;
+	private String  descripcion;
+	private String  familia;
+	private String  sufijo;
+	private String  estado; 
+	private String  fecha_actualiz;
+	private String  idfamilia;
+	private String  jsp_vista;
+	
+	public String getJsp_vista() {
+		return jsp_vista;
+	}
+
+	public void setJsp_vista(String jsp_vista) {
+		this.jsp_vista = jsp_vista;
+	}
+
+	public String getFamilia() {
+		return familia;
+	}
+
+	public void setFamilia(String familia) {
+		this.familia = familia;
+	}
+
+	public String getSufijo() {
+		return sufijo;
+	}
+
+	public void setSufijo(String sufijo) {
+		this.sufijo = sufijo;
+	}
+
+	public String getIdfamilia() {
+		return idfamilia;
+	}
+
+	public void setIdfamilia(String idfamilia) {
+		this.idfamilia = idfamilia;
+	}
+
+	public String getIdproducto() {
+		return idproducto;
+	}
+
+	public void setIdproducto(String idproducto) {
+		this.idproducto = idproducto;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public String getFecha_actualiz() {
+		return fecha_actualiz;
+	}
+
+	public void setFecha_actualiz(String fecha_actualiz) {
+		this.fecha_actualiz = fecha_actualiz;
+	}
+
+	public ReparacionesProductosForm() {
+		super();
+		
+	}
+
+	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
+        ActionErrors errors = new ActionErrors();
+        return errors;
+    }
+	
+	
+	
+
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+    	this.idproducto = "";
+    	this.descripcion = "";
+        super.reset(mapping, request);
+    }
+
+
+    
+}

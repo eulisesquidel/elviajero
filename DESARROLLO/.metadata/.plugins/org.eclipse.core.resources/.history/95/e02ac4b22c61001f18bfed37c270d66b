@@ -1,0 +1,175 @@
+package com.fonseca.model.reparaciones;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
+import net.sf.hibernate.Session;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.LockMode;
+import org.springframework.context.ApplicationContext;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import com.bdb.model.hibernate.helper.FindDataObjectSet;
+import com.bdb.util.BDBUtils;
+import com.bdb.util.SQLUtils;
+
+/**
+ * Data access object (DAO) for domain model class ReparProducto.
+ * 
+ * @see com.fonseca.model.reparaciones.ReparProducto
+ * @author MyEclipse Persistence Tools
+ */
+
+public class ReparProductoDAO extends HibernateDaoSupport {
+	private static final Log log = LogFactory.getLog(ReparProductoDAO.class);
+
+	
+	private Session hibSession;
+	
+	protected void initDao() {
+		// do nothing
+	}
+
+	public void save(ReparProducto transientInstance) {
+		log.debug("saving ReparProducto instance");
+		try {
+			getHibernateTemplate().save(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
+
+	public void delete(ReparProducto persistentInstance) {
+		log.debug("deleting ReparProducto instance");
+		try {
+			getHibernateTemplate().delete(persistentInstance);
+			log.debug("delete successful");
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			throw re;
+		}
+	}
+
+	public ReparProducto findById(java.lang.String id) {
+		log.debug("getting ReparProducto instance with id: " + id);
+		try {
+			ReparProducto instance = (ReparProducto) getHibernateTemplate()
+					.get("com.fonseca.model.reparaciones.ReparProducto", id);
+			return instance;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		}
+	}
+
+	public List findByExample(ReparProducto instance) {
+		log.debug("finding ReparProducto instance by example");
+		try {
+			List results = getHibernateTemplate().findByExample(instance);
+			log.debug("find by example successful, result size: "
+					+ results.size());
+			return results;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List findByGuiPosibilities(ReparProducto unproductobuscado){
+		
+		Vector arguments = new Vector();
+		if(!BDBUtils.isEmpty(unproductobuscado.getDescripcion()))
+			arguments.add((new Object[] {"descripcion", " LIKE ","%"+ unproductobuscado.getDescripcion()+"%", SQLUtils.QUERY_DATATYPE_STRING}));
+
+		if(!BDBUtils.isEmpty(unproductobuscado.getIdproducto()))
+			arguments.add((new Object[] {"idproducto", " LIKE ", "%" + unproductobuscado.getIdproducto()+ "%" , SQLUtils.QUERY_DATATYPE_STRING}));				
+		FindDataObjectSet findDataSet = new FindDataObjectSet();
+
+		List miList = findDataSet.getDataObjectSet(hibSession, "ReparProducto", arguments);
+		
+		return miList; 
+		
+	}
+	
+	
+	
+	
+
+	public List findByProperty(String propertyName, Object value) {
+		log.debug("finding ReparProducto instance with property: "
+				+ propertyName + ", value: " + value);
+		try {
+			String queryString = "from ReparProducto as model where model."
+					+ propertyName + "= ?";
+			return getHibernateTemplate().find(queryString, value);
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+
+	public List findAll() {
+		log.debug("finding all ReparProducto instances");
+		try {
+			String queryString = "from ReparProducto";
+			return getHibernateTemplate().find(queryString);
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+
+	public ReparProducto merge(ReparProducto detachedInstance) {
+		log.debug("merging ReparProducto instance");
+		try {
+			ReparProducto result = (ReparProducto) getHibernateTemplate()
+					.merge(detachedInstance);
+			log.debug("merge successful");
+			return result;
+		} catch (RuntimeException re) {
+			log.error("merge failed", re);
+			throw re;
+		}
+	}
+
+	public void attachDirty(ReparProducto instance) {
+		log.debug("attaching dirty ReparProducto instance");
+		try {
+			getHibernateTemplate().saveOrUpdate(instance);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+
+	public void attachClean(ReparProducto instance) {
+		log.debug("attaching clean ReparProducto instance");
+		try {
+			getHibernateTemplate().lock(instance, LockMode.NONE);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+
+	public static ReparProductoDAO getFromApplicationContext(
+			ApplicationContext ctx) {
+		return (ReparProductoDAO) ctx.getBean("ReparProductoDAO");
+	}
+
+	public Session getHibSession() {
+		return hibSession;
+	}
+
+	public void setHibSession(Session hibSession) {
+		this.hibSession = hibSession;
+	}
+}

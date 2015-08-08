@@ -1,0 +1,26 @@
+
+
+package com.slort.model.interfaces;
+
+public class InterfaceVTA {
+	
+	private String venta_slort;
+	private String venta_slort_mfg;
+
+	public String getVenta_slort() {
+		return venta_slort;
+	}
+
+	public void setVenta_slort(String venta_slort) {
+		this.venta_slort = venta_slort;
+	}
+
+	public String getVenta_slort_mfg() {
+		return venta_slort_mfg;
+	}
+
+	public void setVenta_slort_mfg(String venta_slort_mfg) {
+		this.venta_slort_mfg = venta_slort_mfg;
+	}
+	
+}

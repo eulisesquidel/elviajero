@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/struts/action
+END
+BDBActionErrors.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/struts/action/BDBActionErrors.java
+END
+BDBExceptionHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/struts/action/BDBExceptionHandler.java
+END
+BDBAction.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/struts/action/BDBAction.java
+END
+BDBActionForm.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/struts/action/BDBActionForm.java
+END
+BDBActionServlet.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/struts/action/BDBActionServlet.java
+END

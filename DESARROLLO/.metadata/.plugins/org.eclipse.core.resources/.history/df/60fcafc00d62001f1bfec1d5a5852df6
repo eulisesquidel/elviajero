@@ -1,0 +1,53 @@
+package com.slort.struts.form.trazabilidad;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionMapping;
+import com.slort.struts.action.ActionForm;
+
+public class TrazabilidadForm extends ActionForm {
+
+	private static final long serialVersionUID = 1L;
+
+	private String lote;
+	private String niveldecorte; 
+       
+
+	public String getLote() {
+		return lote;
+	}
+
+
+	public void setLote(String lote) {
+		this.lote = lote;
+	}
+
+
+	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
+        ActionErrors errors = new ActionErrors();
+        
+        return errors;
+    }
+	
+
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+    	niveldecorte ="2";
+        super.reset(mapping, request);
+    }
+
+
+	public String getNiveldecorte() {
+		return niveldecorte;
+	}
+
+
+	public void setNiveldecorte(String niveldecorte) {
+		this.niveldecorte = niveldecorte;
+	}
+
+
+
+	
+}

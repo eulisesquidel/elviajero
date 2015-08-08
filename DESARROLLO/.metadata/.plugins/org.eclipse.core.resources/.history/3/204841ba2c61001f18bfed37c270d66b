@@ -1,0 +1,172 @@
+package com.fonseca.model.reparaciones;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.LockMode;
+import org.springframework.context.ApplicationContext;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+/**
+ * Data access object (DAO) for domain model class ReparReclamos.
+ * 
+ * @see com.fonseca.model.reparaciones.ReparReclamos
+ * @author MyEclipse Persistence Tools
+ */
+
+public class ReparReclamosDAO extends HibernateDaoSupport {
+	private static final Log log = LogFactory.getLog(ReparReclamosDAO.class);
+
+	protected void initDao() {
+		// do nothing
+	}
+
+	
+	private Session hibSession;
+	
+	
+	public Session getHibSession() {
+		return hibSession;
+	}
+
+	public void setHibSession(Session hibSession) {
+		this.hibSession = hibSession;
+	}
+	
+	public void save(ReparReclamos transientInstance) {
+		log.debug("saving ReparReclamos instance");
+		try {
+			getHibernateTemplate().save(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
+
+	public void delete(ReparReclamos persistentInstance) {
+		log.debug("deleting ReparReclamos instance");
+		try {
+			getHibernateTemplate().delete(persistentInstance);
+			log.debug("delete successful");
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			throw re;
+		}
+	}
+
+	public ReparReclamos findById(java.lang.Integer id) {
+		log.debug("getting ReparReclamos instance with id: " + id);
+		try {
+			ReparReclamos instance = (ReparReclamos) getHibernateTemplate()
+					.get("com.fonseca.model.reparaciones.ReparReclamos", id);
+			return instance;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		}
+	}
+
+	public List findByExample(ReparReclamos instance) {
+		log.debug("finding ReparReclamos instance by example");
+		try {
+			List results = getHibernateTemplate().findByExample(instance);
+			log.debug("find by example successful, result size: "
+					+ results.size());
+			return results;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
+		}
+	}
+
+	public List findByProperty(String propertyName, Object value) {
+		log.debug("finding ReparReclamos instance with property: "
+				+ propertyName + ", value: " + value);
+		try {
+			String queryString = "from ReparReclamos as model where model."
+					+ propertyName + "= ?";
+			return getHibernateTemplate().find(queryString, value);
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+
+	public List findAll() {
+		log.debug("finding all ReparReclamos instances");
+		try {
+			String queryString = "from ReparReclamos";
+			return getHibernateTemplate().find(queryString);
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+
+	public ReparReclamos merge(ReparReclamos detachedInstance) {
+		log.debug("merging ReparReclamos instance");
+		try {
+			ReparReclamos result = (ReparReclamos) getHibernateTemplate()
+					.merge(detachedInstance);
+			log.debug("merge successful");
+			return result;
+		} catch (RuntimeException re) {
+			log.error("merge failed", re);
+			throw re;
+		}
+	}
+
+	public void attachDirty(ReparReclamos instance) {
+		log.debug("attaching dirty ReparReclamos instance");
+		try {
+			getHibernateTemplate().saveOrUpdate(instance);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+
+	public void attachClean(ReparReclamos instance) {
+		log.debug("attaching clean ReparReclamos instance");
+		try {
+			getHibernateTemplate().lock(instance, LockMode.NONE);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+
+	public static ReparReclamosDAO getFromApplicationContext(
+			ApplicationContext ctx) {
+		return (ReparReclamosDAO) ctx.getBean("ReparReclamosDAO");
+	}
+	
+	
+	public Integer obtenerProximoNroItem(ReparCabEnvio reparacion){
+		
+		try {
+			try {
+				Statement stmt;
+				stmt = hibSession.connection().createStatement();
+				String strSQL =" SELECT count(*) FROM repar_reclamos WHERE idenvio="+reparacion.getIdenvio();  
+				ResultSet rs=stmt.executeQuery(strSQL);
+				if (rs.next()) 
+					return rs.getInt(1)+1;
+				else
+					return 1;
+			} catch (SQLException e) {log.error("Metodo: obtenerProximoNroItem", e); e.printStackTrace();return -1;}
+			} catch (HibernateException e) {log.error("Metodo: obtenerProximoNroItem", e); e.printStackTrace();return -1 ;}
+			
+	}
+	
+}

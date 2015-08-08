@@ -1,0 +1,498 @@
+package com.fonseca.struts.form.reparaciones;
+
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionMapping;
+import com.fonseca.struts.action.ActionForm;
+
+public class ReparacionesForm extends ActionForm {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public static String JSP_VISTA_ALTA_ENVIO = "Alta_Envio";
+	public static String JSP_VISTA_EDITANDO_ENVIO = "Editando_Envio";
+	public static String JSP_VISTA_AGREGANDO_ITEM = "Agregando_Item";
+	public static String JSP_VISTA_EDITANDO_ITEM = "Editando_Item";
+	public static String JSP_VISTA_ELIMINANDO_ITEM = "Eliminando_Item";
+	public static String JSP_VISTA_CONSULTANDO_ITEMS = "Consultando_Item";
+	public static String JSP_VISTA_CONSULTANDO_RECLAMOS = "Consultando_Reclamos";
+	public static String JSP_VISTA_ALTA_RECLAMOS = "Alta_Reclamos";
+	
+	/**
+	 * 
+	 */
+	private Integer idenvio;
+	private Date fecha;
+	private String idproveedor;
+	private String proveedor;
+	private String remitoSalida;
+	private String idautorizador;
+	private String autorizador;
+	private String idremitente;
+	private String remitente;
+	private Integer idUser;
+	private Date fechaActualiza;
+	private String estado; 
+	
+	private String producto;  
+	private String fechadesde;
+	private String fechahasta;
+	private String fechaReclamo;
+	private String fechaRecepcion;
+	
+	
+    private String jsp_vista;
+    private Integer item_idenvioItem; 
+	private String item_estado;
+	private String item_producto;
+	private String item_idproducto; 
+	private String Item_fechaEstimadaEntrega;
+	private String item_fechaEntrega;
+	private String item_cantidad;						
+	private String item_cantidadRecibida;
+	private String item_presNumero;
+	private String item_presMoneda;
+	private String item_presImporte;
+	private String item_observaciones;
+	private String validatorForm;
+	
+	// atributos de un reclamo 
+	private String reclamo_realizadoPor;
+	private String reclamo_texto;
+	private String reclamo_personaContactada;
+	private String reclamo_cargo;
+	private String reclamo_fechaProximoReclamo;
+	private String reclamo_idUser;
+	private String reclamo_idrealizadoPor;
+	
+	// atributos de un recepción
+	private Integer recepcion_idenvioItem;
+	private Integer recepcion_idrecepcion;
+	private String recepcion_nroRecepcion;
+	private String recepcion_fecha;
+	private String recepcion_remitoProveedor;
+	private String recepcion_numeroIre;
+	private String recepcion_cantidad;
+	private String recepcion_estado; 
+
+	public String getRecepcion_estado() {
+		return recepcion_estado;
+	}
+
+	public void setRecepcion_estado(String recepcion_estado) {
+		this.recepcion_estado = recepcion_estado;
+	}
+
+	public String getItem_estado() {
+		return item_estado;
+	}
+
+	public void setItem_estado(String item_estado) {
+		this.item_estado = item_estado;
+	}
+
+	public String getItem_producto() {
+		return item_producto;
+	}
+
+	public void setItem_producto(String item_producto) {
+		this.item_producto = item_producto;
+	}
+
+	public String getItem_fechaEstimadaEntrega() {
+		return Item_fechaEstimadaEntrega;
+	}
+
+	public void setItem_fechaEstimadaEntrega(String item_fechaEstimadaEntrega) {
+		Item_fechaEstimadaEntrega = item_fechaEstimadaEntrega;
+	}
+
+	public String getItem_fechaEntrega() {
+		return item_fechaEntrega;
+	}
+
+	public void setItem_fechaEntrega(String item_fechaEntrega) {
+		this.item_fechaEntrega = item_fechaEntrega;
+	}
+
+	public String getItem_cantidad() {
+		return item_cantidad;
+	}
+
+	public void setItem_cantidad(String item_cantidad) {
+		this.item_cantidad = item_cantidad;
+	}
+
+	public String getItem_cantidadRecibida() {
+		return item_cantidadRecibida;
+	}
+
+	public void setItem_cantidadRecibida(String item_cantidadRecibida) {
+		this.item_cantidadRecibida = item_cantidadRecibida;
+	}
+
+	public String getItem_presNumero() {
+		return item_presNumero;
+	}
+
+	public void setItem_presNumero(String item_presNumero) {
+		this.item_presNumero = item_presNumero;
+	}
+
+	public String getItem_presImporte() {
+		return item_presImporte;
+	}
+
+	public void setItem_presImporte(String item_presImporte) {
+		this.item_presImporte = item_presImporte;
+	}
+
+	public Integer getIdenvio() {
+		return idenvio;
+	}
+
+	public void setIdenvio(Integer idenvio) {
+		this.idenvio = idenvio;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+	public String getIdproveedor() {
+		return idproveedor;
+	}
+
+	public void setIdproveedor(String idproveedor) {
+		this.idproveedor = idproveedor;
+	}
+
+	public String getProveedor() {
+		return proveedor;
+	}
+
+	public void setProveedor(String proveedor) {
+		this.proveedor = proveedor;
+	}
+
+	public String getRemitoSalida() {
+		return remitoSalida;
+	}
+
+	public void setRemitoSalida(String remitoSalida) {
+		this.remitoSalida = remitoSalida;
+	}
+
+	public String getIdautorizador() {
+		return idautorizador;
+	}
+
+	public void setIdautorizador(String idautorizador) {
+		this.idautorizador = idautorizador;
+	}
+
+	public String getAutorizador() {
+		return autorizador;
+	}
+
+	public void setAutorizador(String autorizador) {
+		this.autorizador = autorizador;
+	}
+
+	public String getIdremitente() {
+		return idremitente;
+	}
+
+	public void setIdremitente(String idremitente) {
+		this.idremitente = idremitente;
+	}
+
+	public String getRemitente() {
+		return remitente;
+	}
+
+	public void setRemitente(String remitente) {
+		this.remitente = remitente;
+	}
+
+	public Integer getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(Integer idUser) {
+		this.idUser = idUser;
+	}
+
+	public Date getFechaActualiza() {
+		return fechaActualiza;
+	}
+
+	public void setFechaActualiza(Date fechaActualiza) {
+		this.fechaActualiza = fechaActualiza;
+	}
+
+	
+
+	public ReparacionesForm() {
+		super();
+		
+	}
+
+	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
+        ActionErrors errors = new ActionErrors();
+        
+        validateRequired(errors, "proveedor", this.idproveedor);
+        validateRequired(errors, "remitente", this.idremitente);
+        validateRequired(errors, "autorizador", this.idautorizador);
+        validateRequired(errors, "item_producto", this.item_idproducto);
+        
+        return errors;
+    }
+	
+	
+	
+
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+    	//this.idLiquidaConcepto=null;
+    	idenvio=null;
+    	fecha=null;
+    	idproveedor=null;
+    	proveedor="";
+    	remitoSalida="";
+    	idautorizador=null;
+    	autorizador="";
+    	idremitente=null;
+    	remitente="";
+    	idUser=null;
+    	fechaActualiza=null;
+    	estado=""; 
+    	producto="";  
+    	fechadesde="";
+    	fechahasta="";
+    	validatorForm="return validateReparacionesForm(this);"; 
+    	request.setAttribute("validatorForm", "return validateReparacionesForm(this);"); 
+        super.reset(mapping, request);
+    }
+
+	public String getProducto() {
+		return producto;
+	}
+
+	public void setProducto(String producto) {
+		this.producto = producto;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public String getFechadesde() {
+		return fechadesde;
+	}
+
+	public void setFechadesde(String fechadesde) {
+		this.fechadesde = fechadesde;
+	}
+
+	public String getFechahasta() {
+		return fechahasta;
+	}
+
+	public void setFechahasta(String fechahasta) {
+		this.fechahasta = fechahasta;
+	}
+
+	public String getJsp_vista() {
+		return jsp_vista;
+	}
+
+	public void setJsp_vista(String jsp_vista) {
+		this.jsp_vista = jsp_vista;
+	}
+
+	public String getValidatorForm() {
+		return validatorForm;
+	}
+
+	public void setValidatorForm(String validatorForm) {
+		this.validatorForm = validatorForm;
+	}
+
+	/* Propiedades para relaizar el reclamo */
+	public String getReclamo_realizadoPor() {
+		return reclamo_realizadoPor;
+	}
+
+	public void setReclamo_realizadoPor(String reclamo_realizadoPor) {
+		this.reclamo_realizadoPor = reclamo_realizadoPor;
+	}
+
+	public String getReclamo_texto() {
+		return reclamo_texto;
+	}
+
+	public void setReclamo_texto(String reclamo_texto) {
+		this.reclamo_texto = reclamo_texto;
+	}
+
+	public String getReclamo_personaContactada() {
+		return reclamo_personaContactada;
+	}
+
+	public void setReclamo_personaContactada(String reclamo_personaContactada) {
+		this.reclamo_personaContactada = reclamo_personaContactada;
+	}
+
+	public String getReclamo_cargo() {
+		return reclamo_cargo;
+	}
+
+	public void setReclamo_cargo(String reclamo_cargo) {
+		this.reclamo_cargo = reclamo_cargo;
+	}
+
+	public String getReclamo_fechaProximoReclamo() {
+		return reclamo_fechaProximoReclamo;
+	}
+
+	public void setReclamo_fechaProximoReclamo(String reclamo_fechaProximoReclamo) {
+		this.reclamo_fechaProximoReclamo = reclamo_fechaProximoReclamo;
+	}
+
+	public String getReclamo_idUser() {
+		return reclamo_idUser;
+	}
+
+	public void setReclamo_idUser(String reclamo_idUser) {
+		this.reclamo_idUser = reclamo_idUser;
+	}
+
+	public String getReclamo_idrealizadoPor() {
+		return reclamo_idrealizadoPor;
+	}
+
+	public void setReclamo_idrealizadoPor(String reclamo_idrealizadoPor) {
+		this.reclamo_idrealizadoPor = reclamo_idrealizadoPor;
+	}
+
+	public String getRecepcion_nroRecepcion() {
+		return recepcion_nroRecepcion;
+	}
+
+	public void setRecepcion_nroRecepcion(String recepcion_nroRecepcion) {
+		this.recepcion_nroRecepcion = recepcion_nroRecepcion;
+	}
+
+
+
+	public String getRecepcion_remitoProveedor() {
+		return recepcion_remitoProveedor;
+	}
+
+	public void setRecepcion_remitoProveedor(String recepcion_remitoProveedor) {
+		this.recepcion_remitoProveedor = recepcion_remitoProveedor;
+	}
+
+	public String getRecepcion_numeroIre() {
+		return recepcion_numeroIre;
+	}
+
+	public void setRecepcion_numeroIre(String recepcion_numeroIre) {
+		this.recepcion_numeroIre = recepcion_numeroIre;
+	}
+
+	public String getRecepcion_cantidad() {
+		return recepcion_cantidad;
+	}
+
+	public void setRecepcion_cantidad(String recepcion_cantidad) {
+		this.recepcion_cantidad = recepcion_cantidad;
+	}
+
+	public Integer getRecepcion_idenvioItem() {
+		return recepcion_idenvioItem;
+	}
+
+	public void setRecepcion_idenvioItem(Integer recepcion_idenvioItem) {
+		this.recepcion_idenvioItem = recepcion_idenvioItem;
+	}
+
+	public Integer getRecepcion_idrecepcion() {
+		return recepcion_idrecepcion;
+	}
+
+	public void setRecepcion_idrecepcion(Integer recepcion_idrecepcion) {
+		this.recepcion_idrecepcion = recepcion_idrecepcion;
+	}
+
+	public String getRecepcion_fecha() {
+		return recepcion_fecha;
+	}
+
+	public void setRecepcion_fecha(String recepcion_fecha) {
+		this.recepcion_fecha = recepcion_fecha;
+	}
+
+	public String getItem_presMoneda() {
+		return item_presMoneda;
+	}
+
+	public void setItem_presMoneda(String item_presMoneda) {
+		this.item_presMoneda = item_presMoneda;
+	}
+
+	public String getFechaReclamo() {
+		return fechaReclamo;
+	}
+
+	public void setFechaReclamo(String fechaReclamo) {
+		this.fechaReclamo = fechaReclamo;
+	}
+
+
+
+	public String getFechaRecepcion() {
+		return fechaRecepcion;
+	}
+
+	public void setFechaRecepcion(String fechaRecepcion) {
+		this.fechaRecepcion = fechaRecepcion;
+	}
+
+	public String getItem_observaciones() {
+		return item_observaciones;
+	}
+
+	public void setItem_observaciones(String item_observaciones) {
+		this.item_observaciones = item_observaciones;
+	}
+
+	public Integer getItem_idenvioItem() {
+		return item_idenvioItem;
+	}
+
+	public void setItem_idenvioItem(Integer item_idenvioItem) {
+		this.item_idenvioItem = item_idenvioItem;
+	}
+
+	public String getItem_idproducto() {
+		return item_idproducto;
+	}
+
+	public void setItem_idproducto(String item_idproducto) {
+		this.item_idproducto = item_idproducto;
+	}
+
+}

@@ -1,0 +1,302 @@
+package com.fonseca.model.reparaciones;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
+
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.LockMode;
+import org.springframework.context.ApplicationContext;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import com.bdb.model.hibernate.helper.FindDataObjectSet;
+import com.bdb.util.BDBUtils;
+import com.bdb.util.DateUtils;
+import com.bdb.util.SQLUtils;
+
+/**
+ * Data access object (DAO) for domain model class ReparCabEnvio.
+ * 
+ * @see com.fonseca.model.reparaciones.ReparCabEnvio
+ * @author MyEclipse Persistence Tools
+ */
+
+public class ReparCabEnvioDAO extends HibernateDaoSupport {
+	private static final Log log = LogFactory.getLog(ReparCabEnvioDAO.class);
+
+	private Session hibSession;
+	
+	
+	public Session getHibSession() {
+		return hibSession;
+	}
+
+	public void setHibSession(Session hibSession) {
+		this.hibSession = hibSession;
+	}
+
+	protected void initDao() {
+		// do nothing
+	}
+
+	public void save(ReparCabEnvio transientInstance) {
+		log.debug("saving ReparCabEnvio instance");
+		try {
+			getHibernateTemplate().save(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
+
+	public void delete(ReparCabEnvio persistentInstance) {
+		log.debug("deleting ReparCabEnvio instance");
+		try {
+			getHibernateTemplate().delete(persistentInstance);
+			log.debug("delete successful");
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			throw re;
+		}
+	}
+
+	public ReparCabEnvio findById(java.lang.Integer id) {
+		log.debug("getting ReparCabEnvio instance with id: " + id);
+		try {
+			ReparCabEnvio instance = (ReparCabEnvio) getHibernateTemplate()
+					.get("com.fonseca.model.reparaciones.ReparCabEnvio", id);
+			return instance;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		}
+	}
+
+	public List findByExample(ReparCabEnvio instance) {
+		log.debug("finding ReparCabEnvio instance by example");
+		try {
+			List results = getHibernateTemplate().findByExample(instance);
+			log.debug("find by example successful, result size: "
+					+ results.size());
+			return results;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
+		}
+	}
+
+	public List findByProperty(String propertyName, Object value) {
+		log.debug("finding ReparCabEnvio instance with property: "
+				+ propertyName + ", value: " + value);
+		try {
+			String queryString = "from ReparCabEnvio as model where model."
+					+ propertyName + "= ?";
+			return getHibernateTemplate().find(queryString, value);
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+
+	public List findAll() {
+		log.debug("finding all ReparCabEnvio instances");
+		try {
+			String queryString = "from ReparCabEnvio";
+			return getHibernateTemplate().find(queryString);
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+
+	public ReparCabEnvio merge(ReparCabEnvio detachedInstance) {
+		log.debug("merging ReparCabEnvio instance");
+		try {
+			ReparCabEnvio result = (ReparCabEnvio) getHibernateTemplate()
+					.merge(detachedInstance);
+			log.debug("merge successful");
+			return result;
+		} catch (RuntimeException re) {
+			log.error("merge failed", re);
+			throw re;
+		}
+	}
+
+	public void attachDirty(ReparCabEnvio instance) {
+		log.debug("attaching dirty ReparCabEnvio instance");
+		try {
+			getHibernateTemplate().saveOrUpdate(instance);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+
+	public void attachClean(ReparCabEnvio instance) {
+		log.debug("attaching clean ReparCabEnvio instance");
+		try {
+			getHibernateTemplate().lock(instance, LockMode.NONE);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+
+	public static ReparCabEnvioDAO getFromApplicationContext(
+			ApplicationContext ctx) {
+		return (ReparCabEnvioDAO) ctx.getBean("ReparCabEnvioDAO");
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List findByGUIPosibilities(ReparCabEnvio reparacion, Date fechaDesde,
+									  Date fechaHasta, String producto,
+									  String fechaReclamo, String fechaRecepcion){
+		
+		Vector arguments = new Vector();
+		
+		if(!BDBUtils.isEmpty(reparacion.getAutorizador()))
+			arguments.add((new Object[] {"autorizador", " LIKE ", "%"+reparacion.getAutorizador()+"%", SQLUtils.QUERY_DATATYPE_STRING}));
+		if(!BDBUtils.isEmpty(reparacion.getRemitoSalida()))
+			arguments.add((new Object[] {"remitoSalida", " LIKE ","%"+ reparacion.getRemitoSalida()+"%", SQLUtils.QUERY_DATATYPE_STRING}));
+		if(!BDBUtils.isEmpty(reparacion.getProveedor()))
+			arguments.add((new Object[] {"proveedor", " LIKE ","%"+ reparacion.getProveedor()+"%", SQLUtils.QUERY_DATATYPE_STRING}));
+		if(!BDBUtils.isEmpty(reparacion.getRemitente()))
+			arguments.add((new Object[] {"remitente", " LIKE ","%"+ reparacion.getRemitente()+"%", SQLUtils.QUERY_DATATYPE_STRING}));
+
+		if(!BDBUtils.isEmpty(reparacion.getEstado()))
+			arguments.add((new Object[] {"estado", "=",reparacion.getEstado(), SQLUtils.QUERY_DATATYPE_STRING}));
+		
+		if(fechaDesde!=null)
+			arguments.add((new Object[] {"fecha", ">=",fechaDesde,SQLUtils.QUERY_DATATYPE_DATE })); 
+		
+		if(fechaHasta!=null)
+			arguments.add((new Object[] {"fecha", "<=",fechaHasta, SQLUtils.QUERY_DATATYPE_DATE })); 
+				
+		FindDataObjectSet findDataSet = new FindDataObjectSet();
+		findDataSet.setOrderByClause("idenvio desc");
+		List miList = findDataSet.getDataObjectSet(hibSession, "ReparCabEnvio", arguments);
+		
+		List listafiltrada=new ArrayList(); 
+		
+		if(BDBUtils.isEmpty(producto)){
+			listafiltrada = miList;	
+		}else{
+			for (Iterator iterator = miList.iterator(); iterator.hasNext();) {
+				ReparCabEnvio unaReparacion = (ReparCabEnvio) iterator.next();
+				Set<ReparDetEnvio> myList2 = unaReparacion.getReparDetEnvios();
+				for (ReparDetEnvio reparDetEnvio : myList2) {
+					if (reparDetEnvio.getProducto().toLowerCase().contains(producto.toLowerCase())){
+						unaReparacion.setProductoBuscado(reparDetEnvio.getProducto());
+						listafiltrada.add(unaReparacion);
+						break;
+					}
+				}
+			}
+		}
+		 
+		List listafiltrada2 = new ArrayList(); 
+		
+		if ((fechaReclamo!="")  && (fechaReclamo!=null)) {
+			Date fechaReclamoDate = DateUtils.getFechaFormateada(fechaReclamo);
+			for (Iterator iterator = listafiltrada.iterator(); iterator
+					.hasNext();) {
+				ReparCabEnvio unaReparacion = (ReparCabEnvio) iterator.next();
+				Set<ReparReclamos> reclamos = unaReparacion.getReparReclamos();
+				for (ReparReclamos unreclamo : reclamos) {
+					if ( DateUtils.deltaDias(fechaReclamoDate , unreclamo.getFechaProximoReclamo())>=0) {
+						listafiltrada2.add(unaReparacion);
+					}
+				}
+			}
+		}
+		else{listafiltrada2 = listafiltrada;}
+		
+		List listafiltrada3 = new ArrayList(); 
+		
+		if ((fechaRecepcion!=null) && (fechaRecepcion!="")) {
+			Date fechaRecepcionDate = DateUtils.getFechaFormateada(fechaRecepcion);
+			for (Iterator iterator = listafiltrada2.iterator(); iterator
+					.hasNext();) {
+				ReparCabEnvio unaReparacion = (ReparCabEnvio) iterator.next();
+				Set<ReparDetEnvio> repardetenvios = unaReparacion.getReparDetEnvios();
+				for (ReparDetEnvio unrepardetenvio : repardetenvios) {
+					if ( DateUtils.deltaDias(fechaRecepcionDate , unrepardetenvio.getFechaEstimadaEntrega())>=0) {
+						listafiltrada3.add(unaReparacion);
+					}
+				}
+			}
+		} else {listafiltrada3 = listafiltrada2;}
+		
+		return listafiltrada3;
+		
+	
+	}
+	
+	public boolean elimninarEnvioReparacion(ReparCabEnvio reparacion){
+		Statement stmt;
+		try {
+		try {
+		hibSession.connection().setAutoCommit(false);
+		stmt = hibSession.connection().createStatement();
+		String strSQL =" DELETE FROM repar_det_rececepciones WHERE envio="+reparacion.getIdenvio();
+		stmt.execute(strSQL);
+		strSQL =" DELETE FROM repar_det_envio WHERE idenvio="+reparacion.getIdenvio();
+		stmt.execute(strSQL);
+		strSQL =" DELETE FROM repar_reclamos WHERE idenvio="+reparacion.getIdenvio();
+		stmt.execute(strSQL);
+		strSQL =" DELETE FROM repar_cab_envio WHERE idenvio="+reparacion.getIdenvio();
+		stmt.execute(strSQL);
+		hibSession.connection().commit();
+		} catch (SQLException e) {log.error("Metodo: elimninarEnvioReparacion", e); e.printStackTrace();return false;}
+		} catch (HibernateException e) {log.error("Metodo: elimninarEnvioReparacion", e); e.printStackTrace();return false ;}
+		return true; 
+		
+	}
+	public Integer obtenerProximoNroItem(ReparCabEnvio reparacion){
+		
+		try {
+			try {
+				Statement stmt;
+				stmt = hibSession.connection().createStatement();
+				String strSQL =" SELECT count(*) FROM repar_det_envio WHERE idenvio="+reparacion.getIdenvio();  
+				ResultSet rs=stmt.executeQuery(strSQL);
+				if (rs.next()) 
+					return rs.getInt(1)+1;
+				else
+					return 1;
+			} catch (SQLException e) {log.error("Metodo: obtenerProximoNroItem", e); e.printStackTrace();return -1;}
+			} catch (HibernateException e) {log.error("Metodo: obtenerProximoNroItem", e); e.printStackTrace();return -1 ;}
+		
+			
+			
+			
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<ReparDetEnvio> findEnvioItems(ReparCabEnvio reparacion) {
+		log.debug("findEnvioItems");
+		try {
+			String queryString = "from ReparDetEnvio as model where model.reparCabEnvio.idenvio= ?";
+			return getHibernateTemplate().find(queryString, reparacion.getIdenvio());
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	
+}

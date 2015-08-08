@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rsp stat="ok" xmlns:georss="http://www.georss.org/georss">
+  <user writable="true"        readable="true"        located-at="2010-07-24T14:31:52-07:00"        token="NzeWDCPDCImr">
+    <location-hierarchy string="23424747|2344681|20070753|468739|329892|28360083|329892"                        timezone="America/Argentina/Buenos_Aires">
+      <location best-guess="true">
+        <georss:point>-34.798636 -58.407192</georss:point>
+        <label/>
+        <level>0</level>
+        <level-name>exact</level-name>
+        <located-at>2010-07-24T14:31:52-07:00</located-at>
+        <name>101 Jorge Dekay, Almirante Brown, Argentina</name>
+        <normal-name>101 Jorge Dekay</normal-name>
+        <place-id exact-match="false">wGVHcBKbCZ_t1GiQsQ</place-id>
+        <woeid exact-match="false">28360083</woeid>
+        <query>lat=-34.7986&amp;lon=-58.4072</query>
+      </location>
+      <location best-guess="false">
+        <georss:box>-34.70525 -58.531471 -34.529499 -58.335159</georss:box>
+        <label/>
+        <level>1</level>
+        <level-name>postal</level-name>
+        <located-at>2010-07-24T14:31:52-07:00</located-at>
+        <name>C1001, Almirante Brown, Argentina</name>
+        <normal-name>C1001</normal-name>
+        <place-id exact-match="true">wGVHcBKbCZ_t1GiQsQ</place-id>
+        <woeid exact-match="true">28360083</woeid>
+      </location>
+      <location best-guess="false">
+        <georss:box>-34.67498 -58.460098 -34.65836 -58.439899</georss:box>
+        <label/>
+        <level>2</level>
+        <level-name>neighborhood</level-name>
+        <located-at>2010-07-24T14:31:52-07:00</located-at>
+        <name>Almirante Brown, Almirante Brown, Argentina</name>
+        <normal-name>Almirante Brown</normal-name>
+        <place-id exact-match="true">FBkO_iuaA5XTTmc</place-id>
+        <woeid exact-match="true">329892</woeid>
+      </location>
+      <location best-guess="false">
+        <georss:box>-34.716068 -58.638939 -34.41465 -58.30043</georss:box>
+        <label/>
+        <level>3</level>
+        <level-name>city</level-name>
+        <located-at>2010-07-24T14:31:52-07:00</located-at>
+        <name>Buenos Aires, Argentina</name>
+        <normal-name>Buenos Aires</normal-name>
+        <place-id exact-match="true">z5uPE3mdB5T0Fps</place-id>
+        <woeid exact-match="true">468739</woeid>
+      </location>
+      <location best-guess="false">
+        <georss:box>-34.70525 -58.531471 -34.52948 -58.335159</georss:box>
+        <label/>
+        <level>4</level>
+        <level-name>region</level-name>
+        <located-at>2010-07-24T14:31:52-07:00</located-at>
+        <name>Ciudad de Buenos Aires, Argentina</name>
+        <normal-name>Ciudad de Buenos Aires</normal-name>
+        <place-id exact-match="true">fTYVQW6bAZx3m5tgxQ</place-id>
+        <woeid exact-match="true">20070753</woeid>
+      </location>
+      <location best-guess="false">
+        <georss:box>-34.70525 -58.531471 -34.52948 -58.335159</georss:box>
+        <label/>
+        <level>5</level>
+        <level-name>state</level-name>
+        <located-at>2010-07-24T14:31:52-07:00</located-at>
+        <name>Autonomous City of Buenos Aires, Argentina</name>
+        <normal-name>Autonomous City of Buenos Aires</normal-name>
+        <place-id exact-match="true">MnwrhuibAph9GXdR</place-id>
+        <woeid exact-match="true">2344681</woeid>
+      </location>
+      <location best-guess="false">
+        <georss:box>-55.06712 -73.577782 -21.781269 -53.591831</georss:box>
+        <label/>
+        <level>6</level>
+        <level-name>country</level-name>
+        <located-at>2010-07-24T14:31:52-07:00</located-at>
+        <name>Argentina</name>
+        <normal-name>Argentina</normal-name>
+        <place-id exact-match="true">6W4_JdubAphR0wHLfQ</place-id>
+        <woeid exact-match="true">23424747</woeid>
+      </location>
+    </location-hierarchy>
+  </user>
+</rsp>

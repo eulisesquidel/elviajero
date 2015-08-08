@@ -1,0 +1,137 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones
+END
+ReparProducto.hbm2.xml
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparProducto.hbm2.xml
+END
+ReparReclamos.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparReclamos.java
+END
+ReparProducto.hbm3.xml
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparProducto.hbm3.xml
+END
+ReparDetRececepciones.hbm2.xml
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparDetRececepciones.hbm2.xml
+END
+ReparCabEnvioDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparCabEnvioDAO.java
+END
+ReparDetRececepciones.hbm3.xml
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparDetRececepciones.hbm3.xml
+END
+Proveedor.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/Proveedor.java
+END
+ReparReclamos.hbm2.xml
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparReclamos.hbm2.xml
+END
+ReparReclamos.hbm3.xml
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparReclamos.hbm3.xml
+END
+ReparDetEnvio.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparDetEnvio.java
+END
+ReparDetEnvio.hbm2.xml
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparDetEnvio.hbm2.xml
+END
+ReparProductoDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparProductoDAO.java
+END
+ReparDetEnvio.hbm3.xml
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparDetEnvio.hbm3.xml
+END
+ReparCabEnvio.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparCabEnvio.java
+END
+ReparDetRececepcionesDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparDetRececepcionesDAO.java
+END
+ReparReclamosDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparReclamosDAO.java
+END
+ReparCabEnvio.hbm2.xml
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparCabEnvio.hbm2.xml
+END
+ReparCabEnvio.hbm3.xml
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparCabEnvio.hbm3.xml
+END
+ReparProducto.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparProducto.java
+END
+ReparDetEnvioDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparDetEnvioDAO.java
+END
+AdmReparaciones.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/AdmReparaciones.java
+END
+ReparDetRececepciones.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/reparaciones/ReparDetRececepciones.java
+END

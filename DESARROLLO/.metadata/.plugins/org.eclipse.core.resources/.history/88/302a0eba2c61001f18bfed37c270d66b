@@ -1,0 +1,178 @@
+<%@ page language="java" %>
+<%@ page import="java.util.Vector"%>
+<%@ page import="com.bdb.util.HttpUtils"%>
+<%@page import="org.apache.struts.action.Action;"%>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-layout.tld" prefix="layout" %>
+<%@ taglib uri='/WEB-INF/struts-template.tld' prefix='template' %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
+<%@ taglib uri='/WEB-INF/struts-bean.tld' prefix='bean' %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+
+<head>
+	<html:javascript formName="LiquidaConceptoParticularesArchivoForm"  />
+</head>
+
+<app:CheckSimpleLogon />
+
+<template:insert template='templates/default.jsp'>
+
+  <%-- Valor del title del IE se concatena al texto 'Fonseca'. Valor no requerido --%>
+  <template:put name='titlePage' content=' ' direct='true' />
+  
+  <%-- Titulo del la pantalla actual. Valor no requerido --%>
+  <template:put name='title' direct="true">
+  	<bean:message key="LiquidaConceptoParticularesForm.window.titulo" /> 
+  	<app:ActionLabelTag  parameter="reqCode" />
+  </template:put>
+  
+  <!-- 
+  <template:put name='OnLoad'>
+  		tipoLiquid.focus();
+  </template:put>
+  !-->
+  
+  <%-- Contenido a incluir en la pantalla --%>
+  <template:put name='content'>
+
+	<%-- CONTENT.INICIO ----------------------------------------------------------------------------- --%>
+
+	<layout:form action="/liquidacionconceptoparticular.do" styleClass="Body" reqCode="" >	
+	
+		<layout:text key="LiquidaConceptoParticularesForm.idLiquidaConcepto" 
+								 property="idLiquidaConcepto" 
+								 styleClass="LABEL"
+								 mode="H,I,I"
+								 size="6"
+								 maxlength="6"/>
+								 
+	   <layout:select	key="LiquidaConceptoParticularesForm.tipoLiquid" 
+									property="tipoLiquid"
+									styleClass="LABEL" tabindex="0" mode="I,I,I">
+			
+			<layout:option value="ADE1" key="ADE1" />
+			<layout:option value="ADE2" key="ADE2" />
+			<layout:option value="AGUI" key="AGUI" />
+			<layout:option value="ESP1" key="ESP1" />
+			<layout:option value="FARM" key="FARM" />
+			<layout:option value="FINM" key="FINM" />
+			<layout:option value="MENS" key="MENS" />
+			<layout:option value="QUI1" key="QUI1" />
+			<layout:option value="QUI2" key="QUI2" />
+			<layout:option value="RENU" key="RENU" />
+			<layout:option value="TICK" key="TICK" />
+			<layout:option value="VACA" key="VACA" />
+	   </layout:select>
+	
+	   <layout:select	key="LiquidaConceptoParticularesForm.mes" 
+									property="mes" 
+									styleClass="LABEL"
+									mode="I,I,I">
+			<layout:option value="1" key="01"/>
+			<layout:option value="2" key="02"/>
+			<layout:option value="3" key="03"/>
+			<layout:option value="4" key="04"/>
+			<layout:option value="5" key="05"/>
+			<layout:option value="6" key="06"/>
+			<layout:option value="7" key="07"/>
+			<layout:option value="8" key="08"/>
+			<layout:option value="9" key="09"/>
+			<layout:option value="10" key="10"/>
+			<layout:option value="11" key="11"/>
+			<layout:option value="12" key="12"/>
+	 </layout:select>
+		   	
+								 	
+		 <layout:text key="LiquidaConceptoParticularesForm.anio" 
+								 property="anio" 
+								 styleClass="LABEL" 
+								 mode="I,I,I"
+								 size="4"
+								 maxlength="4"/>						 
+		
+		<layout:text key="LiquidaConceptoParticularesForm.concepto" 
+								 property="concepto" 
+								 styleClass="LABEL" 
+								 mode="I,I,I"
+								 size="4"
+								 maxlength="4"/>
+								 						 				 						 							 
+	    <layout:select	key="LiquidaConceptoParticularesForm.empresa" 
+										property="empresa" 
+										styleClass="LABEL"
+										mode="I,I,I">
+				<layout:option value="Fonseca" key="Fonseca"/>
+				<layout:option value="Ottawa" key="Ottawa"/>
+		</layout:select>
+		   		 						 							 
+		<layout:text key="LiquidaConceptoParticularesForm.estado" 
+								 property="estado" 
+								 styleClass="LABEL" 
+								 mode="I,I,I"
+								 size="20"
+								 maxlength="20"/>
+
+
+
+		
+		<layout:text key="LiquidaConceptoParticularesForm.monto" 
+								 property="monto" 
+								 styleClass="LABEL" 
+								 mode="H,I,I"
+								 size="20"
+								 maxlength="20"/>
+		
+		<layout:text key="LiquidaConceptoParticularesForm.montosinduplicados" 
+								 property="montosinduplicados" 
+								 styleClass="LABEL" 
+								 mode="H,I,I"
+								 size="20"
+								 maxlength="20"/>
+								 						 
+		<layout:text key="LiquidaConceptoParticularesForm.montosennexus" 
+								 property="montosennexus" 
+								 styleClass="LABEL" 
+								 mode="H,I,I"
+								 size="20"
+								 maxlength="20"/>
+		
+		<layout:text key="LiquidaConceptoParticularesForm.usuario" 
+								 property="usuario" 
+								 styleClass="LABEL" 
+								 mode="H,I,I"
+								 size="30"
+								 maxlength="30"/>
+		
+
+		<layout:text key="LiquidaConceptoParticularesForm.fecha" 
+								 property="fecha" 
+								 styleClass="LABEL" 
+								 mode="H,I,I"
+								 size="30"
+								 maxlength="30"/>								 
+		
+	</layout:form>
+
+	<layout:form enctype="multipart/form-data" action="/liquidacionconceptoparticulararchivo.do" styleClass="Body" reqCode="" onsubmit="return validateLiquidaConceptoParticularesArchivoForm(this);" >
+	
+			
+			<layout:row><html:file  styleClass="button" size="50" property="theFile" accept="image/gif, jpg, jpeg,application/vnd.ms-excel,xls" /></layout:row>
+			<layout:row><layout:space/></layout:row>
+			<layout:row>
+			<layout:column>
+				<html:submit styleClass="button">Enviar Archivo</html:submit>
+			</layout:column>
+			<layout:column>
+				<layout:button mode="D,D,D" reqCode="<%=HttpUtils.STRUTS_ACTION_FIND%>" onclick="javascript:history.go(-1);" styleClass="button">
+					<bean:message key="button.back"/>
+			</layout:button>
+			</layout:column>	
+			
+			</layout:row>
+	
+	</layout:form>
+	
+	<%-- CONTENT.FIN ----------------------------------------------------------------------------- --%>
+	</template:put>
+</template:insert>
+

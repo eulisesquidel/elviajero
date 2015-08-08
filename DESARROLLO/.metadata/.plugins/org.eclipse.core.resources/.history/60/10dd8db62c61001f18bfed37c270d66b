@@ -1,0 +1,25 @@
+PENDIENTES
+OK - Controlar que la fecha de recepción sea igual o mayor a la fecha de envío
+OK - Controlar que no se ingresen cantidades negativas
+OK - Cambiar el icono para realizar la recepciones
+OK - Actualizar la fecha y cantidad de recepcion
+OK - Agregar la moneda del presupuesto item , ver grilla  Items Enviados
+OK - Realizar reportes de recepciones pendientes
+OK - Realizar reportes de reclamos pendientes 
+OK - Crear ABM de productos (Lunes terminar maestro de Producto)
+OK - Posibilidad de editar un Item/producto enviado 
+OK - Agregar la descripción del reclamo 
+OK - Agregar una observación a nivel del item producto enviado
+
+Verificar que el codigo de producto asignado no exista en MPX (falta)
+	evitar el ingreso del articulo
+OK - Realizar busquedas sobre el maestro de productos local
+Validar los campos de la pantalla de busqueda
+
+CREAR DIRECTORIO
+
+ \fonseca_gestion\fonseca\upload
+
+
+
+

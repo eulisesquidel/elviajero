@@ -1,0 +1,273 @@
+package com.slort.struts.action.ajax;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
+import net.sf.hibernate.expression.Expression;
+import net.sf.hibernate.expression.MatchMode;
+
+import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+
+import com.bdb.conexion.Conexion;
+import com.slort.model.Empleado;
+import com.slort.model.Producto;
+import com.slort.model.juicios.AdmJuicios;
+import com.slort.model.reparaciones.AdmReparaciones;
+import com.slort.model.reparaciones.Proveedor;
+import com.slort.model.security.Users;
+import com.slort.struts.action.slortDispatchAction;
+
+public class SuggestAjaxAction  extends slortDispatchAction {
+	
+	
+	public static String SISTEMA_ORIGEN_MPX_EQUIPOS="MPX.EQUIPOS";
+	public static String SISTEMA_ORIGEN_MPX_ARTICULOS="MPX.ARTICULOS";
+	public static String SISTEMA_ORIGEN_FG_ARTICULOS="FG.ARTICULOS";
+	
+	
+	private static final Logger log  = Logger.getLogger(com.slort.struts.action.ajax.SuggestAjaxAction.class);
+	private 			 Session hibSession;
+	
+	public ActionForward getPersonaByLetters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {	
+		
+		String texto = null;
+		
+		AjaxPopulate ajax = new AjaxPopulate();
+		
+		hibSession = this.getHibernateSession(request);
+		
+		try {
+			String criterio = request.getParameter("letters");
+			StringBuffer text = new StringBuffer();
+			List usuarios = hibSession.createCriteria(Users.class).add(Expression.like("nombre",criterio+"%",MatchMode.ANYWHERE)).list();
+			Iterator iter = usuarios.iterator();
+			while(iter.hasNext()) {
+				Users currentWord = (Users) iter.next();
+				text.append( currentWord.getIdUser().toString() + "###" + currentWord.getNombre() + "|");
+			}
+			texto = text.toString();
+		}catch (Exception e) {
+			texto = "No se encontro la persona";
+		}finally {
+			ajax.escribirAjax(response,texto);
+		}
+		return null;
+	}
+	
+	
+	public ActionForward getProveedorByLetters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String texto = null;
+		AjaxPopulate ajax = new AjaxPopulate();
+		hibSession = this.getHibernateSession(request);
+		Conexion conexion = obtenerConexionparaJDBC( "BD_OYG", request);
+		String criterio = request.getParameter("letters").toUpperCase();
+		ArrayList<Proveedor> listaprovedores;
+		synchronized (this){
+			AdmReparaciones admreparaciones = new AdmReparaciones();
+			admreparaciones.setConexionOYG(conexion);
+			admreparaciones.executeProveedores(criterio);
+			listaprovedores=admreparaciones.getListaProveedores();
+			admreparaciones.cerrarConexiones();
+		}
+		StringBuffer text = new StringBuffer();
+		for (Proveedor proveedor : listaprovedores) {
+				text.append( proveedor.getCodigo().trim() + "###" + proveedor.getNombre().trim()+ " - COD: ("+proveedor.getCodigo().trim() + ") |");			
+		}
+		texto = "No se encontro al proveedor";
+		if (text.length()>0) 
+			texto =text.toString();	
+		ajax.escribirAjax(response,texto);
+		return null;
+	} 
+	
+
+	public ActionForward getEmpleadoByLetters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String texto = null;
+		
+		AjaxPopulate ajax = new AjaxPopulate();
+		hibSession = this.getHibernateSession(request);
+		Conexion conexion = obtenerConexionparaJDBC( "BD_MPX", request);
+		String criterio = request.getParameter("letters").toUpperCase();
+		ArrayList<Empleado> listaEmpleados;
+		synchronized (this){
+			AdmReparaciones admreparaciones = new AdmReparaciones();
+			admreparaciones.setConexionMPX(conexion);
+			admreparaciones.obtenerEmpleados(criterio);
+			listaEmpleados=admreparaciones.getListaEmpleados();
+			admreparaciones.cerrarConexiones();
+		}
+		
+		StringBuffer text = new StringBuffer();
+		for (Empleado empleado : listaEmpleados) {
+				text.append( empleado.getLegajo().trim() + "###" + empleado.getNombre().trim()+ " - COD: ("+empleado.getLegajo().trim() + ") |");			
+		}
+		texto = "No se encontro al Empleado";
+		if (text.length()>0) 
+			texto =text.toString();	
+		ajax.escribirAjax(response,texto);
+		return null;
+	} 
+	
+	
+public ActionForward getEmpleadoAutorizadorByLetters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String texto = null;
+		
+		AjaxPopulate ajax = new AjaxPopulate();
+		hibSession = this.getHibernateSession(request);
+		Conexion conexion = obtenerConexionparaJDBC( "BD_MPX", request);
+		String criterio = request.getParameter("letters").toUpperCase();
+		
+		ArrayList<Empleado> listaEmpleados;
+		synchronized (this){
+			AdmReparaciones admreparaciones  = new AdmReparaciones();
+			admreparaciones.setConexionMPX(conexion);
+			admreparaciones.obtenerEmpleadosAutorizadores(criterio);
+			listaEmpleados=admreparaciones.getListaEmpleados();
+			admreparaciones.cerrarConexiones();
+		}
+		
+		StringBuffer text = new StringBuffer();
+		for (Empleado empleado : listaEmpleados) {
+				text.append( empleado.getLegajo().trim() + "###" + empleado.getNombre().trim()+ " - COD: ("+empleado.getLegajo().trim() + ") |");			
+		}
+		texto = "No se encontro al Empleado";
+		if (text.length()>0) 
+			texto =text.toString();	
+		ajax.escribirAjax(response,texto);
+		return null;
+	}
+
+	
+	/// realizar el siguiente  metodo getProductoByLetters
+	//  Este metodo debe buscar en los tres maestros que se disponen
+    //  Articulos, Equipos y productos dados de alta en slort gestion 
+	public ActionForward getProductoByLetters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String texto = null;
+		
+		AjaxPopulate ajax = new AjaxPopulate();
+		hibSession = this.getHibernateSession(request);
+		
+		Conexion conexion = obtenerConexionparaJDBC( "BD_MPX", request);
+		String criterio = request.getParameter("letters").toUpperCase();
+		ArrayList<Producto> listaProductos;
+		synchronized (this){
+			AdmReparaciones admreparaciones = new AdmReparaciones();
+			admreparaciones.setHibSession(hibSession); 
+			admreparaciones.setConexionMPX(conexion);
+			admreparaciones.buscarArticulosenTodoslosMaestros(criterio);
+			listaProductos=admreparaciones.getListaProductos();
+			admreparaciones.cerrarConexiones();
+		}
+		StringBuffer text = new StringBuffer();
+		for (Producto unproducto : listaProductos) {
+				text.append( unproducto.getCodigo().trim() + "###" + unproducto.getDescripcion().trim()+ " - COD: ("+unproducto.getCodigo().trim() + ") |");			
+		}
+		texto = "No se encontro al producto";
+		if (text.length()>0) 
+			texto =text.toString();	
+		ajax.escribirAjax(response,texto);
+		return null;
+	} 
+	
+	
+	public ActionForward getFamiliadeProductoByLetters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+			String texto = null;
+			AjaxPopulate ajax = new AjaxPopulate();
+			hibSession = this.getHibernateSession(request);
+			Conexion conexion = obtenerConexionparaJDBC( "BD_MPX", request);
+			String criterio = request.getParameter("letters").toUpperCase();
+			ArrayList<Producto> listaProductos;
+			synchronized (this){
+				AdmReparaciones admreparaciones = new AdmReparaciones();
+				admreparaciones.setConexionMPX(conexion);
+				admreparaciones.setHibSession(hibSession);
+				admreparaciones.buscarTodosLosArtilosPorFamiliaCodigo(criterio);
+				listaProductos=admreparaciones.getListaProductos();
+				admreparaciones.cerrarConexiones();
+			}
+			StringBuffer text = new StringBuffer();
+			for (Producto unproducto : listaProductos) {
+					text.append( AdmReparaciones.obtenerCodigoFamiliadeProductos(unproducto.getCodigo().trim()) + "###" +  unproducto.getDescripcion().trim() + " |");			
+			}
+			texto = "No se encontro ningun producto";
+			if (text.length()>0) 
+				texto =text.toString();	
+			ajax.escribirAjax(response,texto);
+			return null;
+		
+	} 
+	
+
+	public ActionForward getEmpleadosporLegajoLetras(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String texto = null;
+		AjaxPopulate ajax = new AjaxPopulate();
+		hibSession = this.getHibernateSession(request);
+		Conexion conexion = obtenerConexionparaJDBC( "BD_NEXUS", request);
+		String criterio = request.getParameter("letters").toUpperCase();
+		ArrayList<Empleado> listaEmpleados;
+		synchronized (this){
+			AdmJuicios admjucios = new AdmJuicios();
+			admjucios.setConexion(conexion);
+			admjucios.setHibSession(hibSession);
+			admjucios.obtenerEmpleadosporLegajo(criterio);
+			listaEmpleados=admjucios.getListaEmpleados();
+		}
+		
+		StringBuffer text = new StringBuffer();
+		for (Empleado unempleado : listaEmpleados) {
+				text.append( unempleado.getLegajo().trim() + "###" +  unempleado.getNombre().trim() + " - ("+ unempleado.getLegajo().trim()+") |");			
+		}
+		texto = "No se encontro ningun empleado";
+		if (text.length()>0) 
+			texto =text.toString();	
+		ajax.escribirAjax(response,texto);
+		return null;
+	
+	} 
+	
+	
+public ActionForward getEmpleadosporporNombreLetras(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String texto = null;
+		AjaxPopulate ajax = new AjaxPopulate();
+		hibSession = this.getHibernateSession(request);
+		Conexion conexion = obtenerConexionparaJDBC( "BD_NEXUS", request);
+		String criterio = request.getParameter("letters");
+		ArrayList<Empleado> listaEmpleados;
+		
+		AdmJuicios admjucios = new AdmJuicios();
+		admjucios.setConexion(conexion);
+		admjucios.setHibSession(hibSession);
+		admjucios.obtenerEmpleadosporNombre(criterio);
+		listaEmpleados=admjucios.getListaEmpleados();
+
+		StringBuffer text = new StringBuffer();
+		for (Empleado unempleado : listaEmpleados) {
+				text.append( unempleado.getLegajo().trim() + "###" +  unempleado.getNombre().trim() +" |");			
+		}
+		texto = "No se encontro ningun empleado";
+		if (text.length()>0) 
+			texto =text.toString();	
+		ajax.escribirAjax(response,texto);
+		return null;
+	
+	} 
+
+	
+	
+}

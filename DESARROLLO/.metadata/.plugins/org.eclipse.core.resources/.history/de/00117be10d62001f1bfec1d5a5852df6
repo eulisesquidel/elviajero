@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="datasource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/dbSLORT">
+		</property>
+		<property name="username" value="root"></property>
+		<property name="password" value="alumno"></property>
+	</bean>
+	
+	<bean id="sessionFactoryHibernate"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="datasource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+				org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.show_sql">
+					true
+				</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+			</list>
+		</property></bean> 	
+	<bean id="ReparCabEnvioDAO"
+		class="com.slort.model.reparaciones.ReparCabEnvioDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="ReparProductoDAO"
+		class="com.slort.model.reparaciones.ReparProductoDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="ReparDetEnvioDAO"
+		class="com.slort.model.reparaciones.ReparDetEnvioDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="ReparDetRececepcionesDAO"
+		class="com.slort.model.reparaciones.ReparDetRececepcionesDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="ReparReclamosDAO"
+		class="com.slort.model.reparaciones.ReparReclamosDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+
+	<bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	  <property name="sessionFactory" ref="sessionFactoryHibernate" />
+	</bean>
+
+
+
+	<bean id="JuLegJuicioReclamosDAO"
+		class="com.slort.model.juicios.JuLegJuicioReclamosDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="JuLegJuicioObsDAO"
+		class="com.slort.model.juicios.JuLegJuicioObsDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="JuLegJuicioDAO"
+		class="com.slort.model.juicios.JuLegJuicioDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="JuReclamosDAO"
+		class="com.slort.model.juicios.JuReclamosDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean></beans>

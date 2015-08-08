@@ -1,0 +1,22 @@
+#
+#Wed Sep 16 12:11:57 ART 2009
+genBasicCompId=false
+sessionFactoryName=
+profile=
+daoSFId=sessionFactoryHibernate
+version=3.1
+jndiPath=
+detectM2M=false
+reStrategyClass=
+springDaoFile=src/applicationContext.xml
+useJavaTypes=true
+keyGenerator=
+libInstallFolder=slort/WEB-INF/lib
+addLibs2Project=false
+genVersionTag=false
+sessionFactoryId=sessionFactoryHibernate
+basePersistenceClass=
+reSettingsFile=/slort_gestion/hibernate.reveng.xml
+configFile=/slort_gestion/src/applicationContext.xml
+createConfigFile=false
+addLibs2Classpath=false

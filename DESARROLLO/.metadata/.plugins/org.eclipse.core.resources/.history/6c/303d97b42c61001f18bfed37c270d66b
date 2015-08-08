@@ -1,0 +1,196 @@
+// Decompiled by DJ v3.11.11.95 Copyright 2009 Atanas Neshkov  Date: 19/11/2009 03:13:05 
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   AdmCostos.java
+
+package com.fonseca.model.nexus.costos;
+
+import com.bdb.conexion.Conexion;
+import com.bdb.conexion.ConnectRRHH;
+import com.bdb.model.TwoObjects;
+import com.bdb.util.BDBUtils;
+import com.fonseca.struts.action.premios.LiquidaConceptoAction;
+import java.sql.*;
+import java.util.ArrayList;
+import org.apache.log4j.Logger;
+
+// Referenced classes of package com.fonseca.model.nexus.costos:
+//            Costo
+
+public class AdmCostos
+{
+
+    public AdmCostos()
+    {
+        error = null;
+    }
+
+    public boolean obtenerCostos()
+    {
+    	try
+        {
+    	ResultSet rs;
+        ConnectRRHH conRRHH = new ConnectRRHH(conexion);
+        CallableStatement call = conRRHH.getConnection().prepareCall("{call spu_costos_nexus_v1_1(?,?)}");
+        call.setInt(1, (new Integer(anio)).intValue());
+        call.setInt(2, (new Integer(mes)).intValue());
+        rs = call.executeQuery();
+        if(rs == null)
+            return true;
+            toArrayCosto(rs);
+        }
+        catch(SQLException e)
+        {
+            log.error("Metodo: spu_costos_nexus_v1_1", e);
+            error = e.getMessage();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean obtenerCostosaArrayList()
+    {
+    	
+    	try
+        {
+        ResultSet rs;
+        ConnectRRHH conRRHH = new ConnectRRHH(conexion);
+        CallableStatement call = conRRHH.getConnection().prepareCall("{call spu_costos_nexus_v1_1(?,?)}");
+        call.setInt(1, (new Integer(anio)).intValue());
+        call.setInt(2, (new Integer(mes)).intValue());
+        rs = call.executeQuery();
+        if(rs == null)
+            return true;
+            toArraydeArray(rs);
+        }
+        catch(SQLException e)
+        {
+            log.error("Metodo: spu_costos_nexus_v1_1", e);
+            error = e.getMessage();
+            return false;
+        }
+        return true;
+    }
+
+    public String getError()
+    {
+        return error;
+    }
+
+    public void setError(String error)
+    {
+        this.error = error;
+    }
+
+    public String getMes()
+    {
+        return mes;
+    }
+
+    public void setMes(String mes)
+    {
+        this.mes = mes;
+    }
+
+    public String getAnio()
+    {
+        return anio;
+    }
+
+    public void setAnio(String anio)
+    {
+        this.anio = anio;
+    }
+
+    public Conexion getConexion()
+    {
+        return conexion;
+    }
+
+    public void setConexion(Conexion conexion)
+    {
+        this.conexion = conexion;
+    }
+
+    private void toArrayCosto(ResultSet prs)
+        throws SQLException
+    {
+        listaCostos = new ArrayList();
+        error = "AdmCostos.Resultado.NoExistenDatos";
+        Costo unCosto;
+        for(; prs.next(); listaCostos.add(unCosto))
+        {
+            error = "AdmCostos.Resultado.ExistenDatos";
+            unCosto = new Costo();
+            unCosto.setCod_cpto(prs.getObject("cod_cpto").toString());
+            unCosto.setNombre(prs.getObject("nombre").toString());
+            unCosto.setDebe(prs.getObject("debe").toString());
+            unCosto.setHaber(prs.getObject("haber").toString());
+            unCosto.setAgrupacion_1(prs.getObject("agrupacion_1").toString());
+            unCosto.setAgrupacion_2(prs.getObject("agrupacion_2").toString());
+            unCosto.setEmpresa(prs.getObject("empresa").toString());
+            unCosto.setCentro_costo(prs.getObject("centro_costo").toString());
+            unCosto.setPeriodicidad_liq(prs.getObject("periodicidad_liq").toString());
+            unCosto.setImporte(prs.getObject("importe").toString());
+            unCosto.setCantidad(BDBUtils.AdaptarCamposNulos(prs.getObject("cantidad")));
+        }
+
+    }
+
+    private void toArraydeArray(ResultSet prs)
+        throws SQLException
+    {
+        listaCostosArray = new ArrayList();
+        error = "AdmCostos.Resultado.NoExistenDatos";
+        ArrayList unArrayH = new ArrayList();
+        unArrayH.add(new TwoObjects("Texto", "Concepto"));
+        unArrayH.add(new TwoObjects("Texto", "Nombre"));
+        unArrayH.add(new TwoObjects("Texto", "Debe"));
+        unArrayH.add(new TwoObjects("Texto", "Haber"));
+        unArrayH.add(new TwoObjects("Texto", "Agrup. 1"));
+        unArrayH.add(new TwoObjects("Texto", "Agrup. 2"));
+        unArrayH.add(new TwoObjects("Texto", "Empresa"));
+        unArrayH.add(new TwoObjects("Texto", "Centro de Costo"));
+        unArrayH.add(new TwoObjects("Texto", "Periodo"));
+        unArrayH.add(new TwoObjects("Texto", "Importe"));
+        unArrayH.add(new TwoObjects("Texto", "Cantidad"));
+        listaCostosArray.add(unArrayH);
+        ArrayList unArray;
+        for(; prs.next(); listaCostosArray.add(unArray))
+        {
+            error = "AdmCostos.Resultado.ExistenDatos";
+            unArray = new ArrayList();
+            unArray.add(new TwoObjects("Numerico", prs.getObject("cod_cpto").toString()));
+            unArray.add(new TwoObjects("Texto", prs.getObject("nombre").toString()));
+            unArray.add(new TwoObjects("Numerico", prs.getObject("debe").toString()));
+            unArray.add(new TwoObjects("Numerico", prs.getObject("haber").toString()));
+            unArray.add(new TwoObjects("Texto", prs.getObject("agrupacion_1").toString()));
+            unArray.add(new TwoObjects("Texto", prs.getObject("agrupacion_2").toString()));
+            unArray.add(new TwoObjects("Numerico", prs.getObject("empresa").toString()));
+            unArray.add(new TwoObjects("Numerico", prs.getObject("centro_costo").toString()));
+            unArray.add(new TwoObjects("Texto", prs.getObject("periodicidad_liq").toString()));
+            unArray.add(new TwoObjects("Numerico", prs.getObject("importe").toString()));
+            unArray.add(new TwoObjects("Numerico", BDBUtils.AdaptarCamposNulos(prs.getObject("cantidad"), "Numerico")));
+        }
+
+    }
+
+    public ArrayList getListaCostos()
+    {
+        return listaCostos;
+    }
+
+    public ArrayList getListaCostosArrayList()
+    {
+        return listaCostosArray;
+    }
+
+    private static final Logger log = Logger.getLogger(com.fonseca.model.nexus.costos.AdmCostos.class);
+    private Conexion conexion;
+    private String error;
+    private String mes;
+    private String anio;
+    private ArrayList listaCostos;
+    private ArrayList listaCostosArray;
+
+}

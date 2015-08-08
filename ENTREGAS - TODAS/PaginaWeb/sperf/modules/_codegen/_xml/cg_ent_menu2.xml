@@ -1,0 +1,37 @@
+<xml>
+  <entidad>Menu2</entidad>
+  <tabla>Menu2</tabla>
+  <clase>Menu2</clase>
+  <coleccion>Menues2</coleccion>
+  <path_relativo>./modules/menues2</path_relativo>
+  <properties>
+    <property>
+      <nombre>Id</nombre>
+      <campo>id_menu2</campo>
+      <tipo>number</tipo>
+      <nulo>n</nulo>
+      <key>pk</key>
+    </property>
+    <property>
+      <nombre>Link</nombre>
+      <campo>link</campo>
+      <tipo>varchar2</tipo>
+      <nulo>y</nulo>
+      <key></key>
+    </property>
+    <property>
+      <nombre>Icono</nombre>
+      <campo>icono</campo>
+      <tipo>varchar2</tipo>
+      <nulo>y</nulo>
+      <key></key>
+    </property>
+    <property>
+      <nombre>Nombre</nombre>
+      <campo>nombre</campo>
+      <tipo>varchar2</tipo>
+      <nulo>y</nulo>
+      <key></key>
+    </property>
+  </properties>
+</xml>

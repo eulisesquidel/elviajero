@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Sign in to Yahoo automatico</title>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+</head>
+
+<script type="text/javascript" language="javascript">
+
+ 
+   var http_request = false;
+   function makePOSTRequest(url, parameters) {
+      http_request = false;
+      if (window.XMLHttpRequest) { // Mozilla, Safari,...
+         http_request = new XMLHttpRequest();
+         if (http_request.overrideMimeType) {
+         	// set type accordingly to anticipated content type
+            //http_request.overrideMimeType('text/xml');
+            http_request.overrideMimeType('text/html');
+         }
+      } else if (window.ActiveXObject) { // IE
+         try {
+            http_request = new ActiveXObject("Msxml2.XMLHTTP");
+         } catch (e) {
+            try {
+               http_request = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {}
+         }
+      }
+      if (!http_request) {
+         alert('Cannot create XMLHTTP instance');
+         return false;
+      }
+      
+      http_request.onreadystatechange = alertContents;
+      http_request.open('G', url, true);
+      http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      http_request.setRequestHeader("Content-length", parameters.length);
+      http_request.setRequestHeader("Connection", "close");
+      http_request.send();
+   }
+
+   function alertContents() {
+      if (http_request.readyState == 4) {
+         if (http_request.status == 200) {
+            //alert(http_request.responseText);
+            result = http_request.responseText;
+            document.getElementById('resultado_request').innerHTML = result;            
+         } else {
+            alert('There was a problem with the request.');
+         }
+      }
+   }
+   
+
+   
+ 
+</script>
+
+
+<script type="text/javascript">
+var startTime = new Date().getTime();
+var loadTime = null;
+
+
+      xhr = false;
+      if (window.XMLHttpRequest) { // Mozilla, Safari,...
+         xhr = new XMLHttpRequest();
+         if (xhr.overrideMimeType) {
+         	// set type accordingly to anticipated content type
+            //http_request.overrideMimeType('text/xml');
+            xhr.overrideMimeType('text/html');
+         }
+      } else if (window.ActiveXObject) { // IE
+         try {
+            xhr = new ActiveXObject("Msxml2.XMLHTTP");
+         } catch (e) {
+            try {
+               xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {}
+         }
+      }
+      if (!xhr) {
+         alert('Cannot create XMLHTTP instance');
+      }
+	  
+ xhr.open("GET","https://login.yahoo.com/",false);   
+ xhr.send(null);   
+ document.getElementById("resultado_request").innerHTML=xhr.responseText;
+ 
+</script>
+
+<body>
+<BR>
+<input type="button" name="button" value="LLamar a yahoo" 
+   onclick="javascript:makePOSTRequest('http://fireeagle.yahoo.net/oauth/authorize', '');">
+<BR>
+RESULTADO: <BR>
+<textarea id="resultado_request"   width="4000" height="4000" >
+</textarea>
+ <BR>
+A ENVIAR: <BR>
+<textarea id="datos_a_enviar" width="4000" height="4000">
+</textarea>
+  
+</body></html>

@@ -1,0 +1,1200 @@
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0//EN"
+          "http://jakarta.apache.org/commons/dtds/validator_1_3_0.dtd">
+<!--
+
+   This file contains the default Struts Validator pluggable validator
+   definitions.  It should be placed somewhere under /WEB-INF and
+   referenced in the struts-config.xml under the plug-in element
+   for the ValidatorPlugIn.
+
+      <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property property="pathnames" value="/WEB-INF/validator-rules.xml,
+                                                  /WEB-INF/validation.xml"/>
+      </plug-in>
+
+   These are the default error messages associated with
+   each validator defined in this file.  They should be
+   added to your projects ApplicationResources.properties
+   file or you can associate new ones by modifying the
+   pluggable validators msg attributes in this file.
+
+   # Struts Validator Error Messages
+   errors.required={0} is required.
+   errors.minlength={0} can not be less than {1} characters.
+   errors.maxlength={0} can not be greater than {1} characters.
+   errors.invalid={0} is invalid.
+
+   errors.byte={0} must be a byte.
+   errors.short={0} must be a short.
+   errors.integer={0} must be an integer.
+   errors.long={0} must be a long.
+   errors.float={0} must be a float.
+   errors.double={0} must be a double.
+
+   errors.date={0} is not a date.
+   errors.range={0} is not in the range {1} through {2}.
+   errors.creditcard={0} is an invalid credit card number.
+   errors.email={0} is an invalid e-mail address.
+
+-->
+
+<form-validation>
+
+   <global>
+
+      <validator name="required"
+            classname="org.apache.struts.validator.FieldChecks"
+               method="validateRequired"
+         methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+                  msg="errors.required">
+                  <javascript><![CDATA[
+                    /*$RCSfile: validateRequired.js,v $ $Revision: 1.13 $ $Date: 2004/03/28 16:53:21 $ */
+				    /**
+				    *  Check to see if fields must contain a value.
+				    * Fields are not checked if they are disabled.
+				    * <p>
+				    * @param form The form validation is taking place on.
+				    */
+				
+				    function validateRequired(form) {
+				        var isValid = true;
+				        var focusField = null;
+				        var i = 0;
+				        var fields = new Array();
+				        var formName = form.getAttributeNode("name");
+				        
+						oRequired = new required();
+				
+				        // oRequired = eval('new ' + formName.value + '_required()');
+				
+				        for (x in oRequired) {
+				            var field = form[oRequired[x][0]];
+				
+				            if ((field.type == 'hidden' ||
+				                field.type == 'text' ||
+				                field.type == 'textarea' ||
+				                field.type == 'file' ||
+				                field.type == 'checkbox' ||
+				                field.type == 'select-one' ||
+				                field.type == 'password') &&
+				                field.disabled == false) {
+				
+				                var value = '';
+				                // get field's value
+				                if (field.type == "select-one") {
+				                    var si = field.selectedIndex;
+				                    if (si >= 0) {
+				                        value = field.options[si].value;
+				                    }
+				                } else if (field.type == 'checkbox') {
+				                    if (field.checked) {
+				                        value = field.value;
+				                    }
+				                } else {
+				                    value = field.value;
+				                }
+				
+				                if (trim(value).length == 0) {
+				
+				                    if (i == 0) {
+				                        focusField = field;
+				                    }
+				                    fields[i++] = oRequired[x][1];
+				                    isValid = false;
+				                }
+				            } else if (field.type == "select-multiple") { 
+				                var numOptions = field.options.length;
+				                lastSelected=-1;
+				                for(loop=numOptions-1;loop>=0;loop--) {
+				                    if(field.options[loop].selected) {
+				                        lastSelected = loop;
+				                        value = field.options[loop].value;
+				                        break;
+				                    }
+				                }
+				                if(lastSelected < 0 || trim(value).length == 0) {
+				                    if(i == 0) {
+				                        focusField = field;
+				                    }
+				                    fields[i++] = oRequired[x][1];
+				                    isValid=false;
+				                }
+				            } else if ((field.length > 0) && (field[0].type == 'radio' || field[0].type == 'checkbox')) {
+				                isChecked=-1;
+				                for (loop=0;loop < field.length;loop++) {
+				                    if (field[loop].checked) {
+				                        isChecked=loop;
+				                        break; // only one needs to be checked
+				                    }
+				                }
+				                if (isChecked < 0) {
+				                    if (i == 0) {
+				                        focusField = field[0];
+				                    }
+				                    fields[i++] = oRequired[x][1];
+				                    isValid=false;
+				                }
+				            }
+				        }
+				        if (fields.length > 0) {
+				           focusField.focus();
+				           alert(fields.join('\n'));
+				        }
+				        return isValid;
+				    }
+				    
+				    // Trim whitespace from left and right sides of s.
+				    function trim(s) {
+				        return s.replace( /^\s*/, "" ).replace( /\s*$/, "" );
+				    }
+                  
+                  
+                  
+			      ]]>
+			         </javascript>             
+      </validator>
+
+      <validator name="requiredif"
+                 classname="org.apache.struts.validator.FieldChecks"
+                 method="validateRequiredIf"
+                 methodParams="java.lang.Object,
+                               org.apache.commons.validator.ValidatorAction,
+                               org.apache.commons.validator.Field,
+                               org.apache.struts.action.ActionMessages,
+                               org.apache.commons.validator.Validator,
+                               javax.servlet.http.HttpServletRequest"
+                 msg="errors.required">
+      </validator>
+
+      <validator name="minlength"
+            classname="org.apache.struts.validator.FieldChecks"
+               method="validateMinLength"
+         methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+              depends=""
+                  msg="errors.minlength">
+                  <javascript><![CDATA[
+    function validateMinLength(form) {
+        var isValid = true;
+        var focusField = null;
+        var i = 0;
+        var fields = new Array();
+        var formName = form.getAttributeNode("name");
+
+
+        oMinLength = eval('new ' + formName.value + '_minlength()');
+
+        for (x in oMinLength) {
+            var field = form[oMinLength[x][0]];
+
+            if ((field.type == 'hidden' ||
+                field.type == 'text' ||
+                field.type == 'password' ||
+                field.type == 'textarea') &&
+                field.disabled == false) {
+
+                var iMin = parseInt(oMinLength[x][2]("minlength"));
+                if ((trim(field.value).length > 0) && (field.value.length < iMin)) {
+                    if (i == 0) {
+                        focusField = field;
+                    }
+                    fields[i++] = oMinLength[x][1];
+                    isValid = false;
+                }
+            }
+        }
+        if (fields.length > 0) {
+           focusField.focus();
+           alert(fields.join('\n'));
+        }
+        return isValid;
+    }]]>
+         </javascript>
+    </validator>
+
+
+      <validator name="maxlength"
+            classname="org.apache.struts.validator.FieldChecks"
+               method="validateMaxLength"
+         methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+              depends=""
+                  msg="errors.maxlength">
+                  <javascript><![CDATA[
+
+    /*$RCSfile$ $Revision$ $Date$ */
+    /**
+    * A field is considered valid if less than the specified maximum.
+    * Fields are not checked if they are disabled.
+    * <p>
+    * <strong>Caution:</strong> Using <code>validateMaxLength</code> on a password field in a 
+    *  login page gives unnecessary information away to hackers. While it only slightly
+    *  weakens security, we suggest using it only when modifying a password.</p>
+    * @param form The form validation is taking place on.
+    */
+    function validateMaxLength(form) {
+        var isValid = true;
+        var focusField = null;
+        var i = 0;
+        var fields = new Array();
+        var formName = form.getAttributeNode("name"); 
+
+        oMaxLength = eval('new ' + formName.value + '_maxlength()');        
+        for (x in oMaxLength) {
+            var field = form[oMaxLength[x][0]];
+
+            if ((field.type == 'hidden' ||
+                field.type == 'text' ||
+                field.type == 'password' ||
+                field.type == 'textarea') &&
+                field.disabled == false) {
+
+                var iMax = parseInt(oMaxLength[x][2]("maxlength"));
+                if (field.value.length > iMax) {
+                    if (i == 0) {
+                        focusField = field;
+                    }
+                    fields[i++] = oMaxLength[x][1];
+                    isValid = false;
+                }
+            }
+        }
+        if (fields.length > 0) {
+           focusField.focus();
+           alert(fields.join('\n'));
+        }
+        return isValid;
+    }]]>
+         </javascript>
+      </validator>
+
+
+      <validator name="mask"
+            classname="org.apache.struts.validator.FieldChecks"
+               method="validateMask"
+         methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+              depends=""
+                  msg="errors.invalid">
+                  
+                   <javascript><![CDATA[
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+    /*$RCSfile: validateMask.js,v $ $Rev: 478676 $ $Date: 2006-11-23 21:35:44 +0000 (Thu, 23 Nov 2006) $ */
+    /**
+    * Check to see if fields are a valid using a regular expression.
+    * Fields are not checked if they are disabled.
+    * @param form The form validation is taking place on.
+    */
+    function validateMask(form) {
+        var isValid = true;
+        var focusField = null;
+        var i = 0;
+        var fields = new Array();
+ 
+        var oMasked = new mask();      
+        //var oMasked = eval('new ' + jcv_retrieveFormName(form) +  '_mask()'); 
+        for (var x in oMasked) {
+            if (!jcv_verifyArrayElement(x, oMasked[x])) {
+                continue;
+            }
+            var field = form[oMasked[x][0]];
+            if (!jcv_isFieldPresent(field)) {
+              continue;
+            }
+
+            if ((field.type == 'hidden' ||
+                field.type == 'text' ||
+                 field.type == 'textarea' ||
+				 field.type == 'file') &&
+                 (field.value.length > 0)) {
+
+                if (!jcv_matchPattern(field.value, oMasked[x][2]("mask"))) {
+                    if (i == 0) {
+                        focusField = field;
+                    }
+                    fields[i++] = oMasked[x][1];
+                    isValid = false;
+                }
+            }
+        }
+
+        if (fields.length > 0) {
+           jcv_handleErrors(fields, focusField);
+        }
+        return isValid;
+    }
+
+    function jcv_matchPattern(value, mask) {
+       return mask.exec(value);
+    }
+]]>
+         </javascript>
+
+      </validator>
+
+
+      <validator name="byte"
+            classname="org.apache.struts.validator.FieldChecks"
+               method="validateByte"
+         methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+              depends=""
+                  msg="errors.byte"
+       jsFunctionName="ByteValidations">
+
+      </validator>
+
+
+      <validator name="short"
+            classname="org.apache.struts.validator.FieldChecks"
+               method="validateShort"
+         methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+              depends=""
+                  msg="errors.short"
+       jsFunctionName="ShortValidations">
+      </validator>
+
+
+      <validator name="integer"
+            classname="org.apache.struts.validator.FieldChecks"
+               method="validateInteger"
+         methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+              depends=""
+                  msg="errors.integer">
+       			 <javascript><![CDATA[
+       			    /*$RCSfile: validateInteger.js,v $ $Revision: 1.9 $ $Date: 2004/03/28 16:53:21 $ */
+				    /**
+				    * Check to see if fields are a valid integer.
+				    * Fields are not checked if they are disabled.
+				    * <p>
+				    * @param form The form validation is taking place on.
+				    */
+				    function validateInteger(form) {
+				        var bValid = true;
+				        var focusField = null;
+				        var i = 0;
+				        var fields = new Array();
+				        var formName = form.getAttributeNode("name"); 
+						oInteger = new integer();
+				        // oInteger = eval('new ' + formName.value + '_IntegerValidations()');
+				        
+				        for (x in oInteger) {
+				            var field = form[oInteger[x][0]];
+				
+				            if ((field.type == 'hidden' ||
+				                field.type == 'text' ||
+				                field.type == 'textarea' ||
+				                field.type == 'select-one' ||
+				                field.type == 'radio') &&
+				                field.disabled == false) {
+				
+				                var value = '';
+				                // get field's value
+				                if (field.type == "select-one") {
+				                    var si = field.selectedIndex;
+				                    if (si >= 0) {
+				                        value = field.options[si].value;
+				                    }
+				                } else {
+				                    value = field.value;
+				                }
+				
+				                if (value.length > 0) {
+				
+				                    if (!jcv_isAllDigits(value)) {
+				                        bValid = false;
+				                        if (i == 0) {
+				                            focusField = field;
+				                        }
+				                        fields[i++] = oInteger[x][1];
+				
+				                    } else {
+				                        var iValue = parseInt(value);
+				                        if (isNaN(iValue) || !(iValue >= -2147483648 && iValue <= 2147483647)) {
+				                            if (i == 0) {
+				                                focusField = field;
+				                            }
+				                            fields[i++] = oInteger[x][1];
+				                            bValid = false;
+				                       }
+				                   }
+				               }
+				            }
+				        }
+				        if (fields.length > 0) {
+				           focusField.focus();
+				           alert(fields.join('\n'));
+				        }
+				        return bValid;
+				    }
+       			 ]]>
+         		 </javascript>
+      </validator>
+
+
+      <validator name="long"
+            classname="org.apache.struts.validator.FieldChecks"
+               method="validateLong"
+         methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+              depends=""
+                  msg="errors.long"/>
+
+
+      <validator name="float"
+            classname="org.apache.struts.validator.FieldChecks"
+               method="validateFloat"
+         methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+              depends=""
+                  msg="errors.float"
+       jsFunctionName="FloatValidations">
+ 		<javascript><![CDATA[
+            function validateFloat(form) {
+                var bValid = true;
+                var focusField = null;
+                var i = 0;
+                var fields = new Array();
+                oFloat = new FloatValidations();
+                for (x in oFloat) {
+                	var field = form[oFloat[x][0]];
+
+                    if (field.type == 'text' ||
+                        field.type == 'textarea' ||
+                        field.type == 'select-one' ||
+                        field.type == 'radio') {
+
+                    	var value = '';
+						// get field's value
+						if (field.type == "select-one") {
+							var si = field.selectedIndex;
+							if (si >= 0) {
+							    value = field.options[si].value;
+							}
+						} else {
+							value = field.value;
+						}
+
+                        if (value.length > 0) {
+                            // remove '.' before checking digits
+                            var tempArray = value.split('.');
+                            var joinedString= tempArray.join('');
+
+                            if (!jcv_isAllDigits(joinedString)) {
+                                bValid = false;
+                                if (i == 0) {
+                                    focusField = field;
+                                }
+                                fields[i++] = oFloat[x][1];
+
+                            } else {
+	                            var iValue = parseFloat(value);
+	                            if (isNaN(iValue)) {
+	                                if (i == 0) {
+	                                    focusField = field;
+	                                }
+	                                fields[i++] = oFloat[x][1];
+	                                bValid = false;
+	                            }
+                            }
+                        }
+                    }
+                }
+                if (fields.length > 0) {
+                   focusField.focus();
+                   alert(fields.join('\n'));
+                }
+                return bValid;
+            }]]>
+         </javascript>       
+      </validator>
+
+      <validator name="double"
+            classname="org.apache.struts.validator.FieldChecks"
+               method="validateDouble"
+         methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+              depends=""
+                  msg="errors.double"/>
+
+
+      <validator name="date"
+            classname="org.apache.struts.validator.FieldChecks"
+               method="validateDate"
+         methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+              depends=""
+                  msg="errors.date"
+       jsFunctionName="DateValidations">
+       <javascript><![CDATA[
+		     /*
+		 * Licensed to the Apache Software Foundation (ASF) under one or more
+		 * contributor license agreements.  See the NOTICE file distributed with
+		 * this work for additional information regarding copyright ownership.
+		 * The ASF licenses this file to You under the Apache License, Version 2.0
+		 * (the "License"); you may not use this file except in compliance with
+		 * the License.  You may obtain a copy of the License at
+		 *
+		 *    http://www.apache.org/licenses/LICENSE-2.0
+		 *
+		 * Unless required by applicable law or agreed to in writing, software
+		 * distributed under the License is distributed on an "AS IS" BASIS,
+		 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+		 * See the License for the specific language governing permissions and
+		 * limitations under the License.
+		 */
+		   /*$RCSfile: validateDate.js,v $ $Rev: 478676 $ $Date: 2006-11-23 21:35:44 +0000 (Thu, 23 Nov 2006) $ */
+		    /**
+		    * Check to see if fields are a valid date.
+		    * Fields are not checked if they are disabled.
+		    * @param form The form validation is taking place on.
+		    */
+		    function validateDate(form) {
+		       var bValid = true;
+		       var focusField = null;
+		       var i = 0;
+		       var fields = new Array();
+		 
+		       var oDate = new DateValidations();
+		
+		       for (var x in oDate) {
+		            if (!jcv_verifyArrayElement(x, oDate[x])) {
+		                continue;
+		            }
+		           var field = form[oDate[x][0]];
+		           if (!jcv_isFieldPresent(field)) {
+		             continue;
+		           }
+		           var value = field.value;
+		           var isStrict = true;
+		           var datePattern = oDate[x][2]("datePatternStrict");
+		           // try loose pattern
+		           if (datePattern == null) {
+		               datePattern = oDate[x][2]("datePattern");
+		               isStrict = false;
+		           }    
+		           if ((field.type == 'hidden' ||
+		                field.type == 'text' ||
+		                field.type == 'textarea') &&
+		               (value.length > 0) && (datePattern.length > 0)) {
+		                 var MONTH = "MM";
+		                 var DAY = "dd";
+		                 var YEAR = "yyyy";
+		                 var orderMonth = datePattern.indexOf(MONTH);
+		                 var orderDay = datePattern.indexOf(DAY);
+		                 var orderYear = datePattern.indexOf(YEAR);
+		                 if ((orderDay < orderYear && orderDay > orderMonth)) {
+		                     var iDelim1 = orderMonth + MONTH.length;
+		                     var iDelim2 = orderDay + DAY.length;
+		                     var delim1 = datePattern.substring(iDelim1, iDelim1 + 1);
+		                     var delim2 = datePattern.substring(iDelim2, iDelim2 + 1);
+		                     if (iDelim1 == orderDay && iDelim2 == orderYear) {
+		                        dateRegexp = isStrict 
+		                             ? new RegExp("^(\\d{2})(\\d{2})(\\d{4})$") 
+		                             : new RegExp("^(\\d{1,2})(\\d{1,2})(\\d{4})$");
+		                     } else if (iDelim1 == orderDay) {
+		                        dateRegexp = isStrict 
+		                             ? new RegExp("^(\\d{2})(\\d{2})[" + delim2 + "](\\d{4})$")
+		                             : new RegExp("^(\\d{1,2})(\\d{1,2})[" + delim2 + "](\\d{4})$");
+		                     } else if (iDelim2 == orderYear) {
+		                        dateRegexp = isStrict
+		                             ? new RegExp("^(\\d{2})[" + delim1 + "](\\d{2})(\\d{4})$")
+		                             : new RegExp("^(\\d{1,2})[" + delim1 + "](\\d{1,2})(\\d{4})$");
+		                     } else {
+		                        dateRegexp = isStrict
+		                             ? new RegExp("^(\\d{2})[" + delim1 + "](\\d{2})[" + delim2 + "](\\d{4})$")
+		                             : new RegExp("^(\\d{1,2})[" + delim1 + "](\\d{1,2})[" + delim2 + "](\\d{4})$");
+		                     }
+		                     var matched = dateRegexp.exec(value);
+		                     if(matched != null) {
+		                        if (!jcv_isValidDate(matched[2], matched[1], matched[3])) {
+		                           if (i == 0) {
+		                               focusField = field;
+		                           }
+		                           fields[i++] = oDate[x][1];
+		                           bValid =  false;
+		                        }
+		                     } else {
+		                        if (i == 0) {
+		                            focusField = field;
+		                        }
+		                        fields[i++] = oDate[x][1];
+		                        bValid =  false;
+		                     }
+		                 } else if ((orderMonth < orderYear && orderMonth > orderDay)) {
+		                     var iDelim1 = orderDay + DAY.length;
+		                     var iDelim2 = orderMonth + MONTH.length;
+		                     var delim1 = datePattern.substring(iDelim1, iDelim1 + 1);
+		                     var delim2 = datePattern.substring(iDelim2, iDelim2 + 1);
+		                     if (iDelim1 == orderMonth && iDelim2 == orderYear) {
+		                         dateRegexp = isStrict 
+		                            ? new RegExp("^(\\d{2})(\\d{2})(\\d{4})$")
+		                            : new RegExp("^(\\d{1,2})(\\d{1,2})(\\d{4})$");
+		                     } else if (iDelim1 == orderMonth) {
+		                         dateRegexp = isStrict
+		                            ? new RegExp("^(\\d{2})(\\d{2})[" + delim2 + "](\\d{4})$")
+		                            : new RegExp("^(\\d{1,2})(\\d{1,2})[" + delim2 + "](\\d{4})$");
+		                     } else if (iDelim2 == orderYear) {
+		                         dateRegexp = isStrict
+		                            ? new RegExp("^(\\d{2})[" + delim1 + "](\\d{2})(\\d{4})$")
+		                            : new RegExp("^(\\d{1,2})[" + delim1 + "](\\d{1,2})(\\d{4})$");
+		                     } else {
+		                         dateRegexp = isStrict
+		                            ? new RegExp("^(\\d{2})[" + delim1 + "](\\d{2})[" + delim2 + "](\\d{4})$")
+		                            : new RegExp("^(\\d{1,2})[" + delim1 + "](\\d{1,2})[" + delim2 + "](\\d{4})$");
+		                     }
+		                     var matched = dateRegexp.exec(value);
+		                     if(matched != null) {
+		                         if (!jcv_isValidDate(matched[1], matched[2], matched[3])) {
+		                             if (i == 0) {
+		                                  focusField = field;
+		                             }
+		                             fields[i++] = oDate[x][1];
+		                             bValid =  false;
+		                          }
+		                     } else {
+		                         if (i == 0) {
+		                             focusField = field;
+		                         }
+		                         fields[i++] = oDate[x][1];
+		                         bValid =  false;
+		                     }
+		                 } else if ((orderMonth > orderYear && orderMonth < orderDay)) {
+		                     var iDelim1 = orderYear + YEAR.length;
+		                     var iDelim2 = orderMonth + MONTH.length;
+		                     var delim1 = datePattern.substring(iDelim1, iDelim1 + 1);
+		                     var delim2 = datePattern.substring(iDelim2, iDelim2 + 1);
+		                     if (iDelim1 == orderMonth && iDelim2 == orderDay) {
+		                         dateRegexp = isStrict
+		                            ? new RegExp("^(\\d{4})(\\d{2})(\\d{2})$")
+		                            : new RegExp("^(\\d{4})(\\d{1,2})(\\d{1,2})$");
+		                     } else if (iDelim1 == orderMonth) {
+		                         dateRegexp = isStrict
+		                            ? new RegExp("^(\\d{4})(\\d{2})[" + delim2 + "](\\d{2})$")
+		                            : new RegExp("^(\\d{4})(\\d{1,2})[" + delim2 + "](\\d{1,2})$");
+		                     } else if (iDelim2 == orderDay) {
+		                         dateRegexp = isStrict
+		                            ? new RegExp("^(\\d{4})[" + delim1 + "](\\d{2})(\\d{2})$")
+		                            : new RegExp("^(\\d{4})[" + delim1 + "](\\d{1,2})(\\d{1,2})$");
+		                     } else {
+		                         dateRegexp = isStrict
+		                            ? new RegExp("^(\\d{4})[" + delim1 + "](\\d{2})[" + delim2 + "](\\d{2})$")
+		                            : new RegExp("^(\\d{4})[" + delim1 + "](\\d{1,2})[" + delim2 + "](\\d{1,2})$");
+		                     }
+		                     var matched = dateRegexp.exec(value);
+		                     if(matched != null) {
+		                         if (!jcv_isValidDate(matched[3], matched[2], matched[1])) {
+		                             if (i == 0) {
+		                                 focusField = field;
+		                             }
+		                             fields[i++] = oDate[x][1];
+		                             bValid =  false;
+		                         }
+		                     } else {
+		                          if (i == 0) {
+		                              focusField = field;
+		                          }
+		                          fields[i++] = oDate[x][1];
+		                          bValid =  false;
+		                     }
+		                 } else {
+		                     if (i == 0) {
+		                         focusField = field;
+		                     }
+		                     fields[i++] = oDate[x][1];
+		                     bValid =  false;
+		                 }
+		          }
+		       }
+		       if (fields.length > 0) {
+		          jcv_handleErrors(fields, focusField);
+		       }
+		       return bValid;
+		    }
+		    
+		    function jcv_isValidDate(day, month, year) {
+			    if (month < 1 || month > 12) {
+		            return false;
+		        }
+		        if (day < 1 || day > 31) {
+		            return false;
+		        }
+		        if ((month == 4 || month == 6 || month == 9 || month == 11) &&
+		            (day == 31)) {
+		            return false;
+		        }
+		        if (month == 2) {
+		            var leap = (year % 4 == 0 &&
+		               (year % 100 != 0 || year % 400 == 0));
+		            if (day>29 || (day == 29 && !leap)) {
+		                return false;
+		            }
+		        }
+		        return true;
+		    }
+		       
+			     /*
+			 * Licensed to the Apache Software Foundation (ASF) under one or more
+			 * contributor license agreements.  See the NOTICE file distributed with
+			 * this work for additional information regarding copyright ownership.
+			 * The ASF licenses this file to You under the Apache License, Version 2.0
+			 * (the "License"); you may not use this file except in compliance with
+			 * the License.  You may obtain a copy of the License at
+			 *
+			 *    http://www.apache.org/licenses/LICENSE-2.0
+			 *
+			 * Unless required by applicable law or agreed to in writing, software
+			 * distributed under the License is distributed on an "AS IS" BASIS,
+			 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+			 * See the License for the specific language governing permissions and
+			 * limitations under the License.
+			 */
+			  /*$RCSfile: validateUtilities.js,v $ $Rev: 478676 $ $Date: 2006-11-23 21:35:44 +0000 (Thu, 23 Nov 2006) $ */
+			  /**
+			  * This is a place holder for common utilities used across the javascript validation
+			  *
+			  **/
+			
+			  /**
+			   * Retreive the name of the form
+			   * @param form The form validation is taking place on.
+			   */
+			  function jcv_retrieveFormName(form) {
+			
+			      // Please refer to Bugs 31534, 35127, 35294, 37315 & 38159
+			      // for the history of the following code
+			
+			      var formName;
+			
+			      if (form.getAttributeNode) {
+			          if (form.getAttributeNode("id") && form.getAttributeNode("id").value) {
+			              formName = form.getAttributeNode("id").value;
+			          } else {
+			              formName = form.getAttributeNode("name").value;
+			          }
+			      } else if (form.getAttribute) {
+			          if (form.getAttribute("id")) {
+			              formName = form.getAttribute("id");
+			          } else {
+			              formName = form.attributes["name"];
+			          }
+			      } else {
+			          if (form.id) {
+			              formName = form.id;
+			          } else {
+			              formName = form.name;
+			          }
+			      }
+			
+			      return formName;
+			
+			  }  
+			
+			  /**
+			   * Handle error messages.
+			   * @param messages Array of error messages.
+			   * @param focusField Field to set focus on.
+			   */
+			  function jcv_handleErrors(messages, focusField) {
+			      if (focusField && focusField != null) {
+			          var doFocus = true;
+			          if (focusField.disabled || focusField.type == 'hidden') {
+			              doFocus = false;
+			          }
+			          if (doFocus && 
+			              focusField.style && 
+			              focusField.style.visibility &&
+			              focusField.style.visibility == 'hidden') {
+			              doFocus = false;
+			          }
+			          if (doFocus) {
+			              focusField.focus();
+			          }
+			      }
+			      alert(messages.join('\n'));
+			  }
+			
+			  /**
+			   * Checks that the array element is a valid
+			   * Commons Validator element and not one inserted by
+			   * other JavaScript libraries (for example the
+			   * prototype library inserts an "extends" into
+			   * all objects, including Arrays).
+			   * @param name The element name.
+			   * @param value The element value.
+			   */
+			  function jcv_verifyArrayElement(name, element) {
+			      if (element && element.length && element.length == 3) {
+			          return true;
+			      } else {
+			          return false;
+			      }
+			  }
+			
+			  /**
+			   * Checks whether the field is present on the form.
+			   * @param field The form field.
+			   */
+			  function jcv_isFieldPresent(field) {
+			      var fieldPresent = true;
+			      if (field == null || (typeof field == 'undefined')) {
+			          fieldPresent = false;
+			      } else {
+			          if (field.disabled) {
+			              fieldPresent = false;
+			          }
+			      }
+			      return fieldPresent;
+			  }
+			
+			  /**
+			   * Check a value only contains valid numeric digits
+			   * @param argvalue The value to check.
+			   */
+			  function jcv_isAllDigits(argvalue) {
+			      argvalue = argvalue.toString();
+			      var validChars = "0123456789";
+			      var startFrom = 0;
+			      if (argvalue.substring(0, 2) == "0x") {
+			         validChars = "0123456789abcdefABCDEF";
+			         startFrom = 2;
+			      } else if (argvalue.charAt(0) == "0") {
+			         validChars = "01234567";
+			         startFrom = 1;
+			      } else if (argvalue.charAt(0) == "-") {
+			          startFrom = 1;
+			      }
+			
+			      for (var n = startFrom; n < argvalue.length; n++) {
+			          if (validChars.indexOf(argvalue.substring(n, n+1)) == -1) return false;
+			      }
+			      return true;
+			  }
+			
+			  /**
+			   * Check a value only contains valid decimal digits
+			   * @param argvalue The value to check.
+			   */
+			  function jcv_isDecimalDigits(argvalue) {
+			      argvalue = argvalue.toString();
+			      var validChars = "0123456789";
+			
+			      var startFrom = 0;
+			      if (argvalue.charAt(0) == "-") {
+			          startFrom = 1;
+			      }
+			
+			      for (var n = startFrom; n < argvalue.length; n++) {
+			          if (validChars.indexOf(argvalue.substring(n, n+1)) == -1) return false;
+			      }
+			      return true;
+			  }]]>
+        </javascript>           
+      </validator>
+
+<!-- range is deprecated use intRange instead -->
+      <validator name="range"
+            classname="org.apache.struts.validator.FieldChecks"
+               method="validateIntRange"
+         methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+              depends="integer"
+                  msg="errors.range">
+                        </validator>
+
+      <validator name="intRange"
+            classname="org.apache.struts.validator.FieldChecks"
+               method="validateIntRange"
+         methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+              depends="integer"
+                  msg="errors.range">
+                  <javascript><![CDATA[
+                      function validateIntRange(form) {
+				        var isValid = true;
+				        var focusField = null;
+				        var i = 0;
+				        var fields = new Array();
+				 
+				        // var oRange = eval('new ' + jcv_retrieveFormName(form) +  '_intRange()');
+				        
+				  		var oRange =  intRange();
+				              
+				        for (var x in oRange) {
+				            if (!jcv_verifyArrayElement(x, oRange[x])) {
+				                continue;
+				            }
+				            var field = form[oRange[x][0]];
+				            if (jcv_isFieldPresent(field)) {
+				                var value = '';
+				                if (field.type == 'hidden' ||
+				                    field.type == 'text' || field.type == 'textarea' ||
+				                    field.type == 'radio' ) {
+				                    value = field.value;
+				                }
+				                if (field.type == 'select-one') {
+				                    var si = field.selectedIndex;
+				                    if (si >= 0) {
+				                        value = field.options[si].value;
+				                    }
+				                }
+				                if (value.length > 0) {
+				                    var iMin = parseInt(oRange[x][2]("min"));
+				                    var iMax = parseInt(oRange[x][2]("max"));
+				                    var iValue = parseInt(value, 10);
+				                    if (!(iValue >= iMin && iValue <= iMax)) {
+				                        if (i == 0) {
+				                            focusField = field;
+				                        }
+				                        fields[i++] = oRange[x][1];
+				                        isValid = false;
+				                    }
+				                }
+				            }
+				        }
+				        if (fields.length > 0) {
+				            jcv_handleErrors(fields, focusField);
+				        }
+				        return isValid;
+				    }
+                  ]]></javascript>           
+      </validator>
+
+      <validator name="floatRange"
+            classname="org.apache.struts.validator.FieldChecks"
+               method="validateFloatRange"
+         methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+              depends="float"
+                  msg="errors.range">
+      </validator>
+
+      <validator name="creditCard"
+            classname="org.apache.struts.validator.FieldChecks"
+               method="validateCreditCard"
+         methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+              depends=""
+                  msg="errors.creditcard">
+      </validator>
+
+
+      <validator name="email"
+            classname="org.apache.struts.validator.FieldChecks"
+               method="validateEmail"
+         methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+              depends=""
+                  msg="errors.email">
+      </validator>
+      
+      <validator name="compara"
+	       classname="com.sp.spshop.commons.validator.SpShopValidator"
+    	   method="compara"
+           methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+           depends=""
+           msg="errors.compara">
+           <javascript><![CDATA[
+    function compara(form) {
+        var isValid = true;
+        var focusField = null;
+        var i = 0;
+        var fields = new Array();
+        var formName = form.getAttributeNode("name"); 
+
+        oCompara = eval('new ' + formName.value + '_compara()');        
+        for (x in oCompara) {
+            var field = form[oCompara[x][0]];
+
+            if ((field.type == 'hidden' ||
+                field.type == 'text' ||
+                field.type == 'password' ||
+                field.type == 'textarea') &&
+                field.disabled == false) {
+
+                var nombreOtroCampo = oCompara[x][2]("segundoCampo");
+                var otroCampo = form[nombreOtroCampo];
+                if (field.value != otroCampo.value) {
+                    if (i == 0) {
+                        focusField = field;
+                    }
+                    fields[i++] = oCompara[x][1];
+                    isValid = false;
+                }
+            }
+        }
+        if (fields.length > 0) {
+           focusField.focus();
+           alert(fields.join('\n'));
+        }
+        return isValid;
+    }]]>
+         </javascript>
+      </validator>
+      
+     <validator name="hora"
+            classname="org.apache.struts.validator.FieldChecks"
+               method="validateHora"
+         methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       javax.servlet.http.HttpServletRequest"
+              depends=""
+                  msg="errors.hora">
+           <javascript><![CDATA[
+function validateHora(form) {
+	// Verifica que la hora este en el formato HH:MM.
+        var isValid = true;
+        var focusField = null;
+        var i = 0;
+        var fields = new Array();
+        var formName = form.getAttributeNode("name"); 
+
+  		var oHora =  new hora();
+
+        for (x in oHora) {
+            var field = form[oHora[x][0]];
+
+            if ((field.type == 'hidden' ||
+                field.type == 'text' ||
+                field.type == 'select-one' ||
+                field.type == 'textarea') &&
+                field.disabled == false) {
+
+                var value = '';
+                // get field's value
+                if (field.type == "select-one") {
+                    var si = field.selectedIndex;
+                    if (si >= 0) {
+                        value = field.options[si].value;
+                    }
+                } else {
+                    value = field.value;
+                }
+                if (!(_IsValidTime (value))) {
+                    if (i == 0) {
+                        focusField = field;
+                    }
+                    fields[i++] = oHora[x][1];
+                    isValid = false;
+                }
+                	
+            }
+            
+            
+        }//cierra el for
+        if (fields.length > 0) {
+           focusField.focus();
+           alert(fields.join('\n'));
+        }
+        return isValid;
+    }
+    
+    
+    function _IsValidTime(timeStr) {
+	// Verifica que la hora este en el formato HH:MM.
+
+	if (timeStr=="") {
+		return true;
+	}
+
+	var timePat = /^(\d{2}):(\d{2})(:(\d{2}))?(\s?(AM|am|PM|pm))?$/;
+
+	var matchArray = timeStr.match(timePat);
+	if (matchArray == null) {
+		alert("Formato de hora incorrecto");
+		return false;
+	}
+	hour = matchArray[1];
+	minute = matchArray[2];
+
+	if (hour < 0  || hour > 23) {
+		alert("La hora debe estar entre 0 y 23");
+		return false;
+	}
+	if (minute<0 || minute > 59) {
+		alert ("Los minutos deben estar entre 0 y 59.");
+		return false;
+	}
+	return true;
+}
+    
+    ]]>
+         </javascript>
+      </validator>
+      
+   </global>
+
+</form-validation>

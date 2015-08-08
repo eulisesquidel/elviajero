@@ -1,0 +1,199 @@
+package com.slort.model.trazabilidad;
+
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import org.apache.log4j.Logger;
+
+import com.bdb.conexion.Conexion;
+import com.bdb.conexion.ConnectMFG;
+import com.bdb.conexion.ConnectOYG;
+import com.bdb.conexion.ConnectRRHH;
+import com.slort.model.Producto;
+import com.slort.model.interfaces.InterfaceIRE;
+
+public class AdmTrazabilidad {
+
+	private static final Logger log;
+
+	static  {
+		log = Logger.getLogger(com.slort.model.trazabilidad.AdmTrazabilidad.class);
+	}
+
+	private Conexion conexion; 
+	private String   error=null;
+	private String   lote; 
+	private int      niveldecorte;
+	private String   usuario;   
+	private ConnectRRHH conRRHH;
+	
+	private ArrayList<TrazabilidadNivelesExplotados> listaTrazabilidadNivelesExplotados;
+	private ArrayList<TrazabilidadProveedores> listaTrazabilidadProveedores;
+
+	public boolean obtenerTrazabilidad(){
+		
+
+		try {
+			conRRHH=new ConnectRRHH(conexion);			
+			
+			if (!(existeLote())) {
+				error ="AdmTrazabilidad.obtenerTrazabilidad.loteInexistente";
+				return false; 
+			}
+			
+			CallableStatement call= conRRHH.getConnection().prepareCall("{call spu_obtenertrazabilidadHaciaAtras(?,?,?,?)}");
+
+			call.setString(1, this.lote); // @lote_param as varchar(70) 
+			call.setInt(2, niveldecorte); //  @nivel_stop_param as int
+			call.setInt(3, 0);            //  @nivel_param as int
+			call.setString(4, usuario);   //  @usuario_param as varchar(50) 
+			ResultSet rs = call.executeQuery();
+			// si no obtenemos registros es que no se econtraron diferencias
+			if (rs==null) { conRRHH.getConnection().close(); return true;}
+			toTrazabilidadNivelesExplotados(rs);
+			call.getMoreResults();
+			rs = call.getResultSet();
+			if (rs==null) { conRRHH.getConnection().close(); return true;}
+			toTrazabilidadProveedores(rs);
+			conRRHH.getConnection().close();
+			return true ;
+		} catch (SQLException e) { log.error("Metodo: obtenerTrazabilidad ", e); error=e.getMessage() ; return false; }
+	}
+
+
+
+	private void toTrazabilidadNivelesExplotados(ResultSet prs ) throws SQLException{
+		listaTrazabilidadNivelesExplotados=new ArrayList<TrazabilidadNivelesExplotados>();
+		error="AdmTrazabilidad.Resultado.NohayDatos";
+		while (prs.next()){
+			TrazabilidadNivelesExplotados unNivelExplotado = new TrazabilidadNivelesExplotados();
+			unNivelExplotado.setIdtabla(prs.getString(1));
+			unNivelExplotado.setLinea(prs.getString(2));
+			unNivelExplotado.setProceso(prs.getString(3));
+			unNivelExplotado.setProceso(prs.getString(4));
+			listaTrazabilidadNivelesExplotados.add(unNivelExplotado);
+		}
+		return;
+	}
+
+
+	private void toTrazabilidadProveedores(ResultSet prs ) throws SQLException{
+		listaTrazabilidadProveedores=new ArrayList<TrazabilidadProveedores>();
+		error="AdmTrazabilidad.Resultado.NohayDatos";
+		while (prs.next()){
+			TrazabilidadProveedores undatoprovedoor = new TrazabilidadProveedores();
+			undatoprovedoor.setId(prs.getString("id"));
+			undatoprovedoor.setNivel(prs.getString("nivel"));
+			undatoprovedoor.setLote(prs.getString("lote"));
+			undatoprovedoor.setProveedor(prs.getString("proveedor"));
+			undatoprovedoor.setProducto(prs.getString("producto"));
+			undatoprovedoor.setCantidad_cueros(prs.getString("cantidad_cueros"));
+			undatoprovedoor.setPorcentaje(prs.getString("porcentaje"));
+			undatoprovedoor.setTipo_producto(prs.getString("tipo_producto"));
+			undatoprovedoor.setKilogramos(prs.getString("kilogramos"));
+			undatoprovedoor.setPies(prs.getString("pies"));
+			undatoprovedoor.setRecepcion(prs.getString("recepcion"));
+			undatoprovedoor.setUltimaHoja(prs.getString("ultimaHoja"));
+
+			listaTrazabilidadProveedores.add( undatoprovedoor);
+		}
+		return;
+	}
+
+	public Conexion getConexion() {
+		return conexion;
+	}
+
+
+
+	public void setConexion(Conexion conexion) {
+		this.conexion = conexion;
+	}
+
+
+
+	public String getError() {
+		return error;
+	}
+
+
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+
+
+	public String getLote() {
+		return lote;
+	}
+
+
+	public void setLote(String lote) {
+		this.lote = lote;
+	}
+
+
+
+	public ArrayList<TrazabilidadNivelesExplotados> getListaTrazabilidadNivelesExplotados() {
+		return listaTrazabilidadNivelesExplotados;
+	}
+
+
+
+	public void setListaTrazabilidadNivelesExplotados(
+			ArrayList<TrazabilidadNivelesExplotados> listaTrazabilidadNivelesExplotados) {
+		this.listaTrazabilidadNivelesExplotados = listaTrazabilidadNivelesExplotados;
+	}
+
+
+
+	public ArrayList<TrazabilidadProveedores> getListaTrazabilidadProveedores() {
+		return listaTrazabilidadProveedores;
+	}
+
+
+
+	public void setListaTrazabilidadProveedores(
+			ArrayList<TrazabilidadProveedores> listaTrazabilidadProveedores) {
+		this.listaTrazabilidadProveedores = listaTrazabilidadProveedores;
+	}
+
+
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}  
+	
+	public boolean existeLote(){
+		if  (conRRHH==null){  conRRHH=new ConnectRRHH(conexion); }
+		try {
+			PreparedStatement preparaStmt = conRRHH.getConnection().prepareStatement("select zcue_lote from zcue_mstr where zcue_lote=?");
+			preparaStmt.setString(1,this.lote );
+			ResultSet rs = preparaStmt.executeQuery();
+			return rs.next();
+		} catch (SQLException e) { e.printStackTrace(); return false; } 
+	}
+
+
+
+	public int getNiveldecorte() {
+		return niveldecorte;
+	}
+
+
+
+	public void setNiveldecorte(int niveldecorte) {
+		this.niveldecorte = niveldecorte;
+	}
+	
+}

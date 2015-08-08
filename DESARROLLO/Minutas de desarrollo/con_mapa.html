@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Google Maps JavaScript API Example: Simple Map</title>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAYsTWpac1r3KKQ1JHn6c2zBT_3tjkOcBfI9QgOqXyYZe19fLr8BQ6cqcHRRFE7R920KmEmkTUE7SgeA"
+            type="text/javascript"></script>
+    <script type="text/javascript">
+
+		var directionsPanel;
+    var directions;
+
+    function initialize() {
+      if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("map_canvas"));
+        map.setCenter(new GLatLng(-34.75769170155789, -58.382205963134766), 13);
+        map.setUIToDefault();
+        directions = new GDirections(map);
+      	directions.load("from: Acevedo 100, Banfield, buenos aires argentina to: Acevedo 1399, Banfield, buenos aires argentina");
+      	GEvent.addListener(directions, "load", onGDirectionsLoad);
+      }
+    }
+    
+    function initialize2() {
+      if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("map_canvas2"));
+        map.setCenter(new GLatLng(-34.75769170155789, -58.382205963134766), 13);
+        map.setUIToDefault();
+        directions2 = new GDirections(map);
+      	directions2.load("from: Acevedo 150, Banfield, buenos aires argentina to: Acevedo 1399, Banfield, buenos aires argentina");
+      	GEvent.addListener(directions2, "load", onGDirectionsLoad2);
+      }
+    }
+    
+    function onGDirectionsLoad(){
+      document.getElementById("route").innerHTML = directions.getSummaryHtml();
+   	}
+   	function onGDirectionsLoad2(){
+      document.getElementById("route2").innerHTML = directions2.getSummaryHtml();
+   	}
+    
+    	
+      
+
+    </script>
+  </head>
+
+  <body onload="initialize(); initialize2()" onunload="GUnload()">
+    <div id="map_canvas" style="height: 300px; width: 300px"></div>
+    <div id="map_canvas2" style="height: 300px; width: 300px"></div>
+    <div id="route"></div>
+    <div id="route2"></div>
+  </body>
+</html>

@@ -1,0 +1,179 @@
+package com.fonseca.model.juicios;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.LockMode;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.context.ApplicationContext;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import com.bdb.model.hibernate.helper.FindDataObjectSet;
+import com.bdb.util.BDBUtils;
+import com.bdb.util.DateUtils;
+import com.bdb.util.SQLUtils;
+import com.fonseca.model.reparaciones.ReparCabEnvio;
+import com.fonseca.model.reparaciones.ReparDetEnvio;
+import com.fonseca.model.reparaciones.ReparReclamos;
+
+/**
+ * Data access object (DAO) for domain model class JuLegJuicio.
+ * 
+ * @see com.fonseca.model.juicios.JuLegJuicio
+ * @author MyEclipse Persistence Tools
+ */
+
+public class JuLegJuicioDAO extends HibernateDaoSupport {
+	private static final Log log = LogFactory.getLog(JuLegJuicioDAO.class);
+
+	protected void initDao() {
+		// do nothing
+	}
+
+	public void save(JuLegJuicio transientInstance) {
+		log.debug("saving JuLegJuicio instance");
+		try {
+			getHibernateTemplate().save(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
+
+	public void delete(JuLegJuicio persistentInstance) {
+		log.debug("deleting JuLegJuicio instance");
+		try {
+			getHibernateTemplate().delete(persistentInstance);
+			log.debug("delete successful");
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			throw re;
+		}
+	}
+
+	public JuLegJuicio findById(java.lang.Integer id) {
+		log.debug("getting JuLegJuicio instance with id: " + id);
+		try {
+			JuLegJuicio instance = (JuLegJuicio) getHibernateTemplate().get(
+					"com.fonseca.model.juicios.JuLegJuicio", id);
+			return instance;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		}
+	}
+
+	public List findByExample(JuLegJuicio instance) {
+		log.debug("finding JuLegJuicio instance by example");
+		try {
+			List results = getHibernateTemplate().findByExample(instance);
+			log.debug("find by example successful, result size: "
+					+ results.size());
+			return results;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
+		}
+	}
+
+	public List findByProperty(String propertyName, Object value) {
+		log.debug("finding JuLegJuicio instance with property: " + propertyName
+				+ ", value: " + value);
+		try {
+			String queryString = "from JuLegJuicio as model where model."
+					+ propertyName + "= ?";
+			return getHibernateTemplate().find(queryString, value);
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+
+	public List findAll() {
+		log.debug("finding all JuLegJuicio instances");
+		try {
+			String queryString = "from JuLegJuicio";
+			return getHibernateTemplate().find(queryString);
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+
+	public JuLegJuicio merge(JuLegJuicio detachedInstance) {
+		log.debug("merging JuLegJuicio instance");
+		try {
+			JuLegJuicio result = (JuLegJuicio) getHibernateTemplate().merge(
+					detachedInstance);
+			log.debug("merge successful");
+			return result;
+		} catch (RuntimeException re) {
+			log.error("merge failed", re);
+			throw re;
+		}
+	}
+
+	public void attachDirty(JuLegJuicio instance) {
+		log.debug("attaching dirty JuLegJuicio instance");
+		try {
+			getHibernateTemplate().saveOrUpdate(instance);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+
+	public void attachClean(JuLegJuicio instance) {
+		log.debug("attaching clean JuLegJuicio instance");
+		try {
+			getHibernateTemplate().lock(instance, LockMode.NONE);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+
+	public static JuLegJuicioDAO getFromApplicationContext(
+			ApplicationContext ctx) {
+		return (JuLegJuicioDAO) ctx.getBean("JuLegJuicioDAO");
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<JuLegJuicio>  findByGUIPosibilities(JuLegJuicio instance){
+
+		DetachedCriteria criteria = DetachedCriteria.forClass(JuLegJuicio.class);
+		
+		if (BDBUtils.AdaptarCamposNulos( instance.getEstado())=="")   
+			instance.setEstado(JuLegJuicio.ESTADO_EN_PROCESO);
+		
+		if (instance.getLegajo()!=null)
+			criteria.add(Restrictions.eq("legajo", instance.getLegajo()));
+
+		if (instance.getFecha()!=null)
+			criteria.add(Restrictions.eq("fecha",instance.getFecha()));
+		
+		criteria.add(Restrictions.ilike("expediente", BDBUtils.AdaptarLike( BDBUtils.AdaptarCamposNulos(instance.getExpediente()))));
+		criteria.add(Restrictions.ilike("juzgado", BDBUtils.AdaptarLike( BDBUtils.AdaptarCamposNulos(instance.getJuzgado()))));
+		criteria.add(Restrictions.ilike("nroJuicio", BDBUtils.AdaptarLike( BDBUtils.AdaptarCamposNulos(instance.getNroJuicio()))));
+		criteria.add(Restrictions.ilike("estado", BDBUtils.AdaptarLike( BDBUtils.AdaptarCamposNulos(instance.getEstado()))));
+		
+		return  getHibernateTemplate().findByCriteria(criteria);
+		 
+	}
+	
+	
+	
+	
+	
+}

@@ -1,0 +1,37 @@
+<xml>
+  <entidad>Menu1_items</entidad>
+  <tabla>Menu1_items</tabla>
+  <clase>Menu1_item</clase>
+  <coleccion>Menu1_items</coleccion>
+  <path_relativo>./modules/menu1_items</path_relativo>
+  <properties>
+    <property>
+      <nombre>Id</nombre>
+      <campo>id</campo>
+      <tipo>number</tipo>
+      <nulo>n</nulo>
+      <key>pk</key>
+    </property>
+    <property>
+      <nombre>Nombre</nombre>
+      <campo>nombre</campo>
+      <tipo>varchar2</tipo>
+      <nulo>y</nulo>
+      <key></key>
+    </property>
+    <property>
+      <nombre>Link</nombre>
+      <campo>link</campo>
+      <tipo>varchar2</tipo>
+      <nulo>y</nulo>
+      <key></key>
+    </property>
+    <property>
+      <nombre>Id_raiz</nombre>
+      <campo>id_raiz</campo>
+      <tipo>number</tipo>
+      <nulo>y</nulo>
+      <key></key>
+    </property>
+  </properties>
+</xml>

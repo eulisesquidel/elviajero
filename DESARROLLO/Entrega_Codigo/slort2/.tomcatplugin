@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tomcatProjectProperties>
+    <rootDir>slort</rootDir>
+    <exportSource>true</exportSource>
+    <reloadable>true</reloadable>
+    <redirectLogger>false</redirectLogger>
+    <updateXml>true</updateXml>
+    <warLocation>C:\Eulises\Slort\Slort_gestion\Versiones\version1.5\Slort_gestion_v1_5</warLocation>
+    <extraInfo></extraInfo>
+    <webPath>/slort</webPath>
+</tomcatProjectProperties>

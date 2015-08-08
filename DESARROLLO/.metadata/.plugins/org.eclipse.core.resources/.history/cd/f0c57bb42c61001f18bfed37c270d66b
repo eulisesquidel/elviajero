@@ -1,0 +1,56 @@
+// Decompiled by DJ v3.11.11.95 Copyright 2009 Atanas Neshkov  Date: 19/11/2009 03:32:47 
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   JubilacionForm.java
+
+package com.fonseca.struts.form.jubilaciones;
+
+import com.fonseca.struts.action.ActionForm;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionMapping;
+
+public class JubilacionForm extends ActionForm
+{
+
+    public JubilacionForm()
+    {
+    }
+
+    public ActionErrors validate(ActionMapping mapping, HttpServletRequest request)
+    {
+        ActionErrors errors = new ActionErrors();
+        validateRequired(errors, "mes", mes);
+        validateRequired(errors, "anio", anio);
+        return errors;
+    }
+
+    public void reset(ActionMapping mapping, HttpServletRequest request)
+    {
+        super.reset(mapping, request);
+    }
+
+    public String getMes()
+    {
+        return mes;
+    }
+
+    public void setMes(String mes)
+    {
+        this.mes = mes;
+    }
+
+    public String getAnio()
+    {
+        return anio;
+    }
+
+    public void setAnio(String anio)
+    {
+        this.anio = anio;
+    }
+
+    private static final long serialVersionUID = 1L;
+    private String mes;
+    private String anio;
+}

@@ -1,0 +1,75 @@
+package com.slort.util;
+
+public class Numbers {
+	
+	public static int DECIMALES_DEFECTO=2;
+	
+	public static double truc(double target, int precision) {
+		double factor = Math.pow(10, precision);
+		int result = (int) (target * factor);
+		return result / factor;
+	}
+	public static float truc(float target, int precision) {
+		//return (float) truc((double)target, precision);
+		return (float) round((double)target, DECIMALES_DEFECTO);
+	}
+
+	public static float truc(float target) {
+		return (float) round((double)target, DECIMALES_DEFECTO);
+	}
+	
+
+	public static double round(double val, int places)
+	{
+		boolean isNegative = false;
+		double output = val;
+		if (val < 0)
+		{
+			isNegative = true;
+			val = Math.abs(val);
+		}
+
+		long factor = (long)Math.pow(10,places);
+
+		//		Shift the decimal the correct number of places
+		//		to the right.
+		val = val * factor;
+
+		//		Round to the nearest integer.
+		long tmp = Math.round(val);
+
+		//		Shift the decimal the correct number of places
+		//		back to the left.
+		output = ((double)tmp) / factor;
+
+		if (isNegative)
+		{
+			output = output * -1;
+		}
+
+		return output;
+	}
+
+
+	public static boolean isNumber(String str, Class<? extends Number> clazz) {
+		try {
+			if (clazz.equals(Byte.class)) {
+				Byte.parseByte(str);
+			} else if (clazz.equals(Double.class)) {
+				Double.parseDouble(str);
+			} else if (clazz.equals(Float.class)) {
+				Float.parseFloat(str);
+			} else if (clazz.equals(Integer.class)) {
+				Integer.parseInt(str);
+			} else if (clazz.equals(Long.class)) {
+				Long.parseLong(str);
+			} else if (clazz.equals(Short.class)) {
+				Short.parseShort(str);
+			}
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
+	}
+	
+}

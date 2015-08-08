@@ -1,0 +1,206 @@
+package com.slort.struts.form.premios;
+
+
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+
+import com.bdb.util.NumberUtils;
+import com.slort.model.premios.LiquidaConcepto;
+import com.slort.model.security.Grupo;
+import com.slort.model.security.Users;
+import com.slort.struts.action.ActionForm;
+
+public class LiquidaConceptoForm extends ActionForm {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Long idLiquidaConcepto;
+	private String tipoLiquid;
+	private String estado;
+	private String fecha;
+	private Double monto;
+	private Double montosinduplicados;
+	private Double montosennexus; 
+	private String mes;
+	private String anio;
+	private String empresa;
+	private String concepto;
+	private String usuario;
+    private String[] premios;
+    private String[] legajos;
+    
+	
+	public String[] getLegajos() {
+		return legajos;
+	}
+
+	public void setLegajos(String[] legajos) {
+		this.legajos = legajos;
+	}
+
+	public LiquidaConceptoForm() {
+		super();
+		this.premios = new String[1000];
+		this.legajos = new String[1000];
+	}
+
+	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
+        ActionErrors errors = new ActionErrors();
+        
+        validateRequired(errors, "tipoLiquid", this.tipoLiquid);
+        validateRequired(errors, "estado", this.estado);
+        validateRequired(errors, "mes", this.mes);
+        validateRequired(errors, "anio", this.anio);
+        validateRequired(errors, "empresa", this.empresa);
+        return errors;
+    }
+
+
+	public ActionErrors validateMontosPremios() {
+        ActionErrors errors = new ActionErrors();
+        for (int i = 0; i < legajos.length-1; i++) {
+        	if (!(legajos[i]==null)) {
+        		if (!NumberUtils.isDouble(premios[i])){
+        			errors.add( "premios[" + String.valueOf(i) + " ]", new ActionError("LiquidaConceptoForm.premio.validacion.error"));
+        			return errors;			
+        		}
+        	}
+		}
+        return errors;
+    }
+
+	
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+
+    	this.idLiquidaConcepto=null;
+    	this.tipoLiquid=null;
+    	this.estado=null;
+    	this.fecha=null;
+    	this.monto=null;
+    	this.mes=null;
+    	this.anio=null;
+    	this.empresa=null;
+    	this.concepto=null;
+    	this.usuario=null;
+    	
+        super.reset(mapping, request);
+    }
+
+	public Long getIdLiquidaConcepto() {
+		return idLiquidaConcepto;
+	}
+
+	public void setIdLiquidaConcepto(Long idLiquidaConcepto) {
+		this.idLiquidaConcepto = idLiquidaConcepto;
+	}
+
+	public String getTipoLiquid() {
+		return tipoLiquid;
+	}
+
+	public void setTipoLiquid(String tipoLiquid) {
+		this.tipoLiquid = tipoLiquid;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
+	public Double getMonto() {
+		return monto;
+	}
+
+	public void setMonto(Double monto) {
+		this.monto = monto;
+	}
+
+	public String getMes() {
+		return mes;
+	}
+
+	public void setMes(String mes) {
+		this.mes = mes;
+	}
+
+	public String getAnio() {
+		return anio;
+	}
+
+	public void setAnio(String anio) {
+		this.anio = anio;
+	}
+
+	public String getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(String empresa) {
+		this.empresa = empresa;
+	}
+
+	public String getConcepto() {
+		return concepto;
+	}
+
+	public void setConcepto(String concepto) {
+		this.concepto = concepto;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public String[] getPremios() {
+		return premios;
+	}
+
+	public void setPremios(String[] premios) {
+		this.premios = premios;
+	}
+
+	public Double getMontosinduplicados() {
+		return montosinduplicados;
+	}
+
+	public void setMontosinduplicados(Double montosinduplicados) {
+		this.montosinduplicados = montosinduplicados;
+	}
+
+	public Double getMontosennexus() {
+		return montosennexus;
+	}
+
+	public void setMontosennexus(Double montosennexus) {
+		this.montosennexus = montosennexus;
+	}
+
+
+}

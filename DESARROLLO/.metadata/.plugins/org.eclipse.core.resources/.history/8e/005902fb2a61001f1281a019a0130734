@@ -1,0 +1,16 @@
+
+
+select * from foc_lote
+where  
+nro_lote in (1055, 1057) and anio = 2009 
+
+
+--update foc_lote
+set
+proveedor = 1250, articulo = 100782 , remito = 'R-0002-00050741'
+where nro_lote = 1055 and anio = 2009 
+
+--update foc_lote
+set
+proveedor = 1125, articulo = 100223 , remito = 'R-0001-00017056'
+where nro_lote = 1057 and anio = 2009

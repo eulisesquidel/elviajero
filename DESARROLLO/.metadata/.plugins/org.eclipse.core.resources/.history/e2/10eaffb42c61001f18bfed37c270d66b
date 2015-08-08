@@ -1,0 +1,424 @@
+package com.fonseca.struts.action.juicios;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+
+import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
+
+import com.bdb.conexion.Conexion;
+import com.bdb.util.DateUtils;
+import com.fonseca.struts.action.FonsecaDispatchAction;
+import com.fonseca.struts.form.juicios.JuiciosForm;
+import com.fonseca.struts.form.reparaciones.ReparacionesForm;
+import com.fonseca.model.Empleado;
+import com.fonseca.model.juicios.*;
+import com.fonseca.model.reparaciones.ReparCabEnvio;
+import com.fonseca.model.reparaciones.ReparCabEnvioDAO;
+
+import fr.improve.struts.taglib.layout.util.FormUtils;
+
+public class JuiciosAction extends FonsecaDispatchAction {
+	private static final Logger log;
+
+	static  {
+		log = Logger.getLogger(com.fonseca.struts.action.reparaciones.ReparacionesAction.class);
+	}
+
+	public JuiciosAction() {}
+
+	public ActionForward create(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+		
+		log.debug("setting lookups");
+		super.create(mapping, form, request, response);
+		JuiciosForm currentForm = (JuiciosForm)form;
+		currentForm.reset(mapping, request);
+		currentForm.setEstado(JuLegJuicio.ESTADO_EN_PROCESO);
+		JuReclamosDAO reclamosDAO = (JuReclamosDAO) this.getBean(request,"JuReclamosDAO");
+        request.setAttribute("codigos_reclamos", reclamosDAO.findAll());
+        this.saveToken(request);
+        FormUtils.setFormDisplayMode(request, form, FormUtils.CREATE_MODE);
+		currentForm.setReqCode("create");
+		return mapping.findForward("success_alta");
+		
+		
+	}
+
+	public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.edit(mapping, form, request, response);
+		log.debug("edit++");
+		JuiciosForm currentForm = (JuiciosForm) form;
+		Long selectedId = getSelectedId(currentForm, null);
+		currentForm.reset(mapping, request);
+		currentForm.setIdjuiciolegajo( selectedId.toString());
+		storeLookups(request, currentForm);
+		// guardamos tokens para evitar envios duplicados 
+		this.saveToken(request);
+		currentForm.setReqCode("edit");
+		log.debug("edit--");
+		return mapping.findForward("success_edita");
+	}
+
+	public ActionForward saveProcess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean isNew) throws HibernateException {
+		
+		super.saveProcess(mapping, form, request, response, isNew);
+		log.debug("saveProcess++");
+		
+		// Validar el legajo
+		JuiciosForm currentForm = (JuiciosForm)form;
+		
+		// iniciamos la transaccion
+		this.beginTransactionSpring(request);
+		
+		JuLegJuicio object = null;
+		JuLegJuicioDAO unjuicioDAO = (JuLegJuicioDAO) this.getBean(request,"JuLegJuicioDAO");
+		JuLegJuicioReclamosDAO unreclamoDAO = (JuLegJuicioReclamosDAO) this.getBean(request,"JuLegJuicioReclamosDAO");
+		JuLegJuicioObsDAO unobservDAO = (JuLegJuicioObsDAO) this.getBean(request,"JuLegJuicioObsDAO");
+		
+		if(!isNew){
+			object = new  JuLegJuicio(); 
+			object.setLegajo(new Integer(currentForm.getLegajo()));
+			
+			Conexion conexion = obtenerConexionparaJDBC( "BD_NEXUS", request);
+			AdmJuicios admjuicios = new AdmJuicios();
+			admjuicios.setConexion(conexion);
+			admjuicios.setHibSession(getHibernateSession(request));
+			admjuicios.obtenerEmpleadosporLegajo(currentForm.getLegajo());
+			Empleado unempleado=(Empleado) admjuicios.getListaEmpleados().get(0);
+			object.setNombre(unempleado.getNombre());
+			object.setExpediente(currentForm.getExpediente());
+			object.setEstado(JuLegJuicio.ESTADO_EN_PROCESO) ;
+			object.setJuzgado(currentForm.getJuzgado());
+			object.setNroJuicio(currentForm.getNroJuicio());
+			object.setFecha(DateUtils.getFechaFormateada(currentForm.getFecha()));
+			
+			JuReclamosDAO codigo_reclamoDAO =(JuReclamosDAO)    this.getBean(request,"JuReclamosDAO");
+			JuReclamos codigo_reclamo = codigo_reclamoDAO.findById(currentForm.getReclamo_codigo_reclamo());
+			JuLegJuicioReclamos reclamo = new JuLegJuicioReclamos();
+			
+			reclamo.setJuReclamos(codigo_reclamo);
+			reclamo.setDescripReclamo(currentForm.getReclamo_descrip_reclamo());
+			reclamo.setItem(1);
+			reclamo.setFecha(DateUtils.getFechaFormateada(DateUtils.getFechaActual() ));
+			
+			if (currentForm.getReclamo_monto_reclamado()=="") currentForm.setReclamo_monto_reclamado("0") ;
+			if (currentForm.getReclamo_monto_pagado()=="") currentForm.setReclamo_monto_pagado("0") ;
+			if (currentForm.getReclamo_monto_aceptado()=="") currentForm.setReclamo_monto_aceptado("0") ;
+					
+			reclamo.setMontoReclamado(new Double(currentForm.getReclamo_monto_reclamado()));
+			reclamo.setMontoPagado(new Double(currentForm.getReclamo_monto_pagado()));
+			reclamo.setMontoAceptado(new Double(currentForm.getReclamo_monto_aceptado()));
+			reclamo.setObservaciones(currentForm.getReclamo_observaciones());
+			reclamo.setJuLegJuicio(object);
+			
+			HashSet col_reclamos = new HashSet();
+			col_reclamos.add(reclamo);
+			object.setJuLegJuicioReclamoses(col_reclamos);
+			
+			unjuicioDAO.save(object);
+			unreclamoDAO.save(reclamo);
+			
+			JuLegJuicioObs observacion=null;
+			if (currentForm.getObservacion_observ().trim()!="") {
+				observacion = new JuLegJuicioObs();
+				observacion.setObservaciones(currentForm.getObservacion_observ().trim());
+				observacion.setFecha(DateUtils.getFechaFormateada(DateUtils.getFechaActual()));
+				observacion.setItem(1);
+				HashSet col_observ = new HashSet();
+				col_observ.add(observacion);
+				observacion.setJuLegJuicio(object);
+				object.setJuLegJuicioObses(col_observ);
+				unobservDAO.save(observacion);	
+			}
+			
+		} else {
+			unjuicioDAO.findById(currentForm.getSelectedId().intValue());
+		}
+
+		System.out.print( object.getIdjuiciolegajo());
+		
+		this.commitTransactionSpring(request);
+		
+		// recuperamos el id asignado
+		currentForm.reset(mapping, request);
+		currentForm.setSelectedId(new Long(object.getIdjuiciolegajo()));
+		
+		log.debug("saveProcess--");
+		return findData(mapping, form, request, response);
+		
+	}
+
+
+	public ActionForward inspect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.inspect(mapping, form, request, response);
+		log.debug("Procesando inspect action");
+		JuiciosForm currentForm = (JuiciosForm)form;
+		Long selectedId = getSelectedId(currentForm,null);
+		currentForm.reset(mapping, request);
+		currentForm.setIdjuiciolegajo(selectedId.toString());
+		storeLookups(request, currentForm);
+		// guardamos tokens para evitar envios duplicados 
+		this.saveToken(request);		
+		/* seteamos el modo del formulario */ 
+		FormUtils.setFormDisplayMode(request, form, FormUtils.INSPECT_MODE);
+		currentForm.setReqCode("inspect");
+		return mapping.findForward("success_inspect");
+	}
+
+	public ActionForward find(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		
+		log.debug("Procesando find action");
+		JuiciosForm currentForm = (JuiciosForm)form;
+		currentForm.reset(mapping, request);
+		log.debug("Seteando en modo EDIT");
+		currentForm.setReqCode("find");
+		FormUtils.setFormDisplayMode(request, form,   FormUtils.EDIT_MODE);
+		return findData(mapping, form, request, response);
+		
+	}
+
+	@SuppressWarnings("unchecked")
+	public ActionForward findData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		log.debug("findData++");
+		
+		JuiciosForm currentForm = (JuiciosForm)form;
+		JuLegJuicio object = null;
+
+		JuLegJuicioDAO unjuicioDAO = (JuLegJuicioDAO) this.getBean(request,"JuLegJuicioDAO");
+		object = new  JuLegJuicio(); 
+		if  (!(currentForm.getLegajo().trim().compareTo("")==0))
+			object.setLegajo(new Integer(currentForm.getLegajo()));
+		object.setExpediente(currentForm.getExpediente());
+		object.setEstado(currentForm.getEstado()) ;
+		object.setJuzgado(currentForm.getJuzgado());
+		object.setNroJuicio(currentForm.getNroJuicio());
+		object.setFecha(DateUtils.getFechaFormateada(currentForm.getFecha()));
+		//object.setFecha(currentForm.getFecha().);
+		List resultado = unjuicioDAO.findByGUIPosibilities(object); 
+		
+		
+		request.setAttribute("foundResults",resultado);
+		FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+		log.debug("findData--");
+		return mapping.findForward("findPage");
+		
+	}
+
+	public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		log.debug("delete++");
+		if (!this.isTokenValid(request)) return inspect(mapping, form, request, response);
+		JuiciosForm currentForm = (JuiciosForm)form;
+		
+		this.beginTransactionSpring(request);
+			
+		JuLegJuicioDAO unJuLegJuicioDAO =(JuLegJuicioDAO) this.getBean(request,"JuLegJuicioDAO");
+		JuLegJuicio object = null;
+		object = unJuLegJuicioDAO.findById(new Integer(currentForm.getIdjuiciolegajo()));
+		
+		JuLegJuicioReclamosDAO unreclamoDAO = (JuLegJuicioReclamosDAO) this.getBean(request,"JuLegJuicioReclamosDAO");
+		JuLegJuicioObsDAO unobservDAO = (JuLegJuicioObsDAO) this.getBean(request,"JuLegJuicioObsDAO");
+		
+        for (Iterator iterator =object.getJuLegJuicioObses().iterator(); iterator.hasNext();) {
+        	JuLegJuicioObs unobserv = (JuLegJuicioObs) iterator.next();
+        	unobservDAO.delete(unobserv);
+		}
+        
+        for (Iterator iterator =   object.getJuLegJuicioReclamoses().iterator(); iterator.hasNext();) {
+        	JuLegJuicioReclamos unreclamo = (JuLegJuicioReclamos) iterator.next();
+        	unreclamoDAO.delete(unreclamo);	
+		}
+        
+		unJuLegJuicioDAO.delete(object);
+		this.commitTransactionSpring(request);
+		
+		ActionMessages mensajes = new ActionMessages();
+		ActionMessage unMensaje=  new ActionMessage("JuiciosForm.mensaje.delete.ok");
+		mensajes.add("mensaje",unMensaje);
+		request.setAttribute(ActionMessages.GLOBAL_MESSAGE ,mensajes);
+		log.debug("delete--");
+		return find(mapping, form, request, response);
+		
+	}
+
+	private void storeLookups(HttpServletRequest request,JuiciosForm currentForm ) {
+		log.debug("storeLookups++");
+		request.setAttribute("Idjuiciolegajo", currentForm.getIdjuiciolegajo());
+		JuLegJuicioDAO  unJuLegJuicioDAO =(JuLegJuicioDAO) this.getBean(request,"JuLegJuicioDAO");
+		JuLegJuicio object = null;
+		object = unJuLegJuicioDAO.findById(new Integer(currentForm.getIdjuiciolegajo()));
+		currentForm.setLegajo(object.getLegajo().toString());
+		currentForm.setNombre(object.getNombre());
+		currentForm.setExpediente(object.getExpediente());
+		currentForm.setJuzgado(object.getJuzgado());
+		currentForm.setFecha(DateUtils.getFechaFormateada(object.getFecha()));
+		currentForm.setNroJuicio(object.getNroJuicio());
+		currentForm.setEstado(object.getEstado());
+
+		
+		JuLegJuicioReclamosDAO unreclamoDAO = (JuLegJuicioReclamosDAO) this.getBean(request,"JuLegJuicioReclamosDAO");
+		JuLegJuicioObsDAO unobservDAO = (JuLegJuicioObsDAO) this.getBean(request,"JuLegJuicioObsDAO");
+		
+		List<JuLegJuicioObs> observaciones= unobservDAO.findByProperty("juLegJuicio.idjuiciolegajo", object.getIdjuiciolegajo());
+		if (observaciones.size()>0)  request.setAttribute("observaciones",observaciones);
+		List<JuLegJuicioReclamos> reclamos =unreclamoDAO.findByProperty("juLegJuicio.idjuiciolegajo", object.getIdjuiciolegajo());
+		if (observaciones.size()>0)  request.setAttribute("reclamos", reclamos );
+		
+		log.debug("storeLookups--");
+		
+		
+	}
+	
+	public ActionForward agregarObservacion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.edit(mapping, form, request, response);
+		log.debug("agregarObservacion++");		
+		// guardamos tokens para evitar envios duplicados 
+		this.saveToken(request);
+		FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+		log.debug("agregarObservacion--");
+		return mapping.findForward("success_alta_observ");
+		
+	}
+	
+	
+	public ActionForward guardarObservacion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.edit(mapping, form, request, response);
+		log.debug("guardarObservacion++");
+		
+		if (!this.isTokenValid(request)) return inspect(mapping, form, request, response);
+		
+		JuiciosForm currentForm = (JuiciosForm) form;
+		
+		this.beginTransactionSpring(request); 
+		
+		//Long selectedId = getSelectedId(currentForm, new Long(currentForm.getIdjuiciolegajo()));
+		JuLegJuicioDAO unJuLegJuicioDAO =(JuLegJuicioDAO) this.getBean(request,"JuLegJuicioDAO");
+		JuLegJuicio object = null;
+		object = unJuLegJuicioDAO.findById(new Integer(currentForm.getIdjuiciolegajo()));
+		
+		JuLegJuicioObsDAO unobservDAO = (JuLegJuicioObsDAO) this.getBean(request,"JuLegJuicioObsDAO");
+		List<JuLegJuicioObs> observaciones= unobservDAO.findByProperty("juLegJuicio.idjuiciolegajo", object.getIdjuiciolegajo());
+		
+		JuLegJuicioObs unaobserv =new JuLegJuicioObs();	
+		unaobserv.setFecha(DateUtils.getFechaFormateada(DateUtils.getFechaActual() ));
+		unaobserv.setObservaciones(currentForm.getObservacion_observ());		
+		unaobserv.setItem(observaciones.size()+1);
+		unaobserv.setJuLegJuicio(object);
+		unobservDAO.save(unaobserv);
+		this.commitTransactionSpring(request);
+		
+		currentForm.setSelectedId(new Long(object.getIdjuiciolegajo()));
+		FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+		log.debug("guardarObservacion--");
+		//return mapping.findForward("success");
+		return edit(mapping, form, request, response);
+
+	}
+	
+	
+	public ActionForward editarJucio(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.edit(mapping, form, request, response);
+		log.debug("editarJuicio++");
+		log.debug("editarJuicio--");
+		return mapping.findForward("success_edita");
+		
+	}
+
+
+	public ActionForward agregarReclamo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.edit(mapping, form, request, response);
+		log.debug("agregarReclamo++");
+		// guardamos tokens para evitar envios duplicados 
+		this.saveToken(request);
+		JuReclamosDAO reclamosDAO = (JuReclamosDAO) this.getBean(request,"JuReclamosDAO");
+        request.setAttribute("codigos_reclamos", reclamosDAO.findAll());
+		FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+		log.debug("agregarReclamo--");
+		return mapping.findForward("success_alta_reclamo");	
+		
+	}
+	
+	
+	
+	public ActionForward guardarReclamo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.edit(mapping, form, request, response);
+		log.debug("guardarReclamo++");
+		if (!this.isTokenValid(request)) return inspect(mapping, form, request, response);
+		
+		JuiciosForm currentForm = (JuiciosForm) form;
+	
+     	this.beginTransactionSpring(request); 
+		
+		//Long selectedId = getSelectedId(currentForm, new Long(currentForm.getIdjuiciolegajo()));
+		JuLegJuicioDAO unJuLegJuicioDAO =(JuLegJuicioDAO) this.getBean(request,"JuLegJuicioDAO");
+		JuLegJuicio object = null;
+		object = unJuLegJuicioDAO.findById(new Integer(currentForm.getIdjuiciolegajo()));
+		
+		JuLegJuicioReclamosDAO unreclamoDAO = (JuLegJuicioReclamosDAO) this.getBean(request,"JuLegJuicioReclamosDAO");
+		List<JuLegJuicioReclamos> reclamos =unreclamoDAO.findByProperty("juLegJuicio.idjuiciolegajo", object.getIdjuiciolegajo());
+		
+		JuReclamosDAO codigo_reclamoDAO =(JuReclamosDAO)    this.getBean(request,"JuReclamosDAO");
+		JuReclamos codigo_reclamo = codigo_reclamoDAO.findById(currentForm.getReclamo_codigo_reclamo());
+		JuLegJuicioReclamos reclamo = new JuLegJuicioReclamos();
+		
+		reclamo.setJuReclamos(codigo_reclamo);
+		reclamo.setDescripReclamo(currentForm.getReclamo_descrip_reclamo());
+		reclamo.setItem(reclamos.size()+1);
+		reclamo.setFecha(DateUtils.getFechaFormateada(DateUtils.getFechaActual() ));
+		
+		if (currentForm.getReclamo_monto_reclamado()=="") currentForm.setReclamo_monto_reclamado("0") ;
+		if (currentForm.getReclamo_monto_pagado()=="") currentForm.setReclamo_monto_pagado("0") ;
+		if (currentForm.getReclamo_monto_aceptado()=="") currentForm.setReclamo_monto_aceptado("0") ;
+				
+		reclamo.setMontoReclamado(new Double(currentForm.getReclamo_monto_reclamado()));
+		reclamo.setMontoPagado(new Double(currentForm.getReclamo_monto_pagado()));
+		reclamo.setMontoAceptado(new Double(currentForm.getReclamo_monto_aceptado()));
+		reclamo.setObservaciones(currentForm.getReclamo_observaciones());
+		reclamo.setJuLegJuicio(object);
+		
+		unreclamoDAO.save(reclamo);
+		this.commitTransactionSpring(request);
+		
+		currentForm.setSelectedId(new Long(object.getIdjuiciolegajo()));
+		FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+		
+		log.debug("guardarReclamo--");
+		return edit(mapping, form, request, response);
+		
+	}
+
+	
+	public ActionForward cerrarJucio(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		log.debug("cerrarJucio++");
+		if (!this.isTokenValid(request)) return inspect(mapping, form, request, response);
+		JuiciosForm currentForm = (JuiciosForm)form;
+		
+		this.beginTransactionSpring(request);
+			
+		JuLegJuicioDAO unJuLegJuicioDAO =(JuLegJuicioDAO) this.getBean(request,"JuLegJuicioDAO");
+		JuLegJuicio object  = unJuLegJuicioDAO.findById(new Integer(currentForm.getIdjuiciolegajo()));
+		object.setEstado(JuLegJuicio.ESTADO_CERRADO);
+		unJuLegJuicioDAO.save(object);
+		this.commitTransactionSpring(request);
+		
+		ActionMessages mensajes = new ActionMessages();
+		ActionMessage unMensaje=  new ActionMessage("JuiciosForm.mensaje.cerrarjucio.ok");
+		mensajes.add("mensaje",unMensaje);
+		request.setAttribute(ActionMessages.GLOBAL_MESSAGE ,mensajes);
+		log.debug("cerrarJucio--");
+		return find(mapping, form, request, response);
+		
+	}
+}

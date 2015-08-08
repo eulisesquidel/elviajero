@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/juicios
+END
+JuLegJuicioReclamos.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/juicios/JuLegJuicioReclamos.java
+END
+JuLegJuicioObs.hbm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/juicios/JuLegJuicioObs.hbm.xml
+END
+JuLegJuicioObsDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/juicios/JuLegJuicioObsDAO.java
+END
+JuLegJuicioReclamos.hbm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/juicios/JuLegJuicioReclamos.hbm.xml
+END
+JuLegJuicioReclamosDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/juicios/JuLegJuicioReclamosDAO.java
+END
+JuReclamos.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/juicios/JuReclamos.java
+END
+AdmJuicios.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/juicios/AdmJuicios.java
+END
+JuReclamos.hbm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/juicios/JuReclamos.hbm.xml
+END
+JuReclamosDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/juicios/JuReclamosDAO.java
+END
+JuLegJuicio.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/juicios/JuLegJuicio.java
+END
+JuLegJuicio.hbm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/juicios/JuLegJuicio.hbm.xml
+END
+JuLegJuicioDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/juicios/JuLegJuicioDAO.java
+END
+JuLegJuicioObs.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/129/trunk/DESARROLLO/slort_gestion/src/com/slort/model/juicios/JuLegJuicioObs.java
+END

@@ -1,0 +1,95 @@
+Error: [2009/02/26 15:12:05][lista_mails] No se pudo conectar a la base de datos
+Error: [2009/02/26 15:12:05][lista_mails] Error: error - Por favor informar del problema a Sistemas<br>ERROR 1017<br/>ORA-01017: invalid username/password; logon denied
+
+Error: [2009/02/26 15:12:05][lista_mails] Error: parametros - 
+Error: [2009/02/26 15:12:05][lista_mails] Error: query - BEGIN MAILS_GETAll (:record ); END;
+Error: [2009/02/27 14:41:02][lista_mails] Error: error - Por favor informar del problema a Sistemas<br>ERROR 6550<br/>ORA-06550: line 1, column 7:
+PLS-00201: identifier 'MAILS33_GETBYID' must be declared
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored
+
+Error: [2009/02/27 14:41:02][lista_mails] Error: parametros - Array 
+ Array 
+ Array
+Error: [2009/02/27 14:41:02][lista_mails] Error: query - BEGIN MAILS33_GETbyID (:id_mails , :record ); END;
+Error: [2009/02/27 14:41:02][lista_mails] Error: error - Por favor informar del problema a Sistemas<br>ERROR 6550<br/>ORA-06550: line 1, column 7:
+PLS-00201: identifier 'MAILS33_INSERT' must be declared
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored
+
+Error: [2009/02/27 14:41:02][lista_mails] Error: parametros - Array 
+ Array 
+ Array
+Error: [2009/02/27 14:41:02][lista_mails] Error: query - BEGIN MAILS33_INSERT (:id_mails , :mail , :seccion , :record ); END;
+Error: [2009/02/27 14:41:10][lista_mails] Error: error - Por favor informar del problema a Sistemas<br>ERROR 6550<br/>ORA-06550: line 1, column 7:
+PLS-00201: identifier 'MAILS33_GETBYID' must be declared
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored
+
+Error: [2009/02/27 14:41:10][lista_mails] Error: parametros - Array 
+ Array 
+ Array
+Error: [2009/02/27 14:41:10][lista_mails] Error: query - BEGIN MAILS33_GETbyID (:id_mails , :record ); END;
+Error: [2009/02/27 14:41:10][lista_mails] Error: error - Por favor informar del problema a Sistemas<br>ERROR 6550<br/>ORA-06550: line 1, column 7:
+PLS-00201: identifier 'MAILS33_INSERT' must be declared
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored
+
+Error: [2009/02/27 14:41:10][lista_mails] Error: parametros - Array 
+ Array 
+ Array
+Error: [2009/02/27 14:41:10][lista_mails] Error: query - BEGIN MAILS33_INSERT (:id_mails , :mail , :seccion , :record ); END;
+Error: [2009/02/27 14:54:29][lista_mails] Error: error - Por favor informar del problema a Sistemas<br>ERROR 6550<br/>ORA-06550: line 1, column 7:
+PLS-00201: identifier 'MAILS22_GETBYID' must be declared
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored
+
+Error: [2009/02/27 14:54:29][lista_mails] Error: parametros - Array 
+ Array 
+ Array
+Error: [2009/02/27 14:54:29][lista_mails] Error: query - BEGIN MAILS22_GETbyID (:id_mails , :record ); END;
+Error: [2009/02/27 14:54:29][lista_mails] Error: error - Por favor informar del problema a Sistemas<br>ERROR 6550<br/>ORA-06550: line 1, column 7:
+PLS-00201: identifier 'MAILS22_INSERT' must be declared
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored
+
+Error: [2009/02/27 14:54:29][lista_mails] Error: parametros - Array 
+ Array 
+ Array
+Error: [2009/02/27 14:54:29][lista_mails] Error: query - BEGIN MAILS22_INSERT (:id_mails , :mail , :seccion , :record ); END;
+Error: [2009/03/12 16:56:58][select] Error: error - Por favor informar del problema a Sistemas<br>ERROR 6550<br/>ORA-06550: line 1, column 7:
+PLS-00201: identifier 'MENU_SSA_GETALL' must be declared
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored
+Error: [2009/03/12 16:56:58][select] Error: parametros - 
+Error: [2009/03/12 16:56:58][select] Error: query - BEGIN MENU_SSA_GETAll (:record ); END;
+Error: [2009/03/12 16:56:58][select] Error: error - Por favor informar del problema a Sistemas<br>ERROR 6550<br/>ORA-06550: line 1, column 7:
+PLS-00201: identifier 'MENU1_GETALL' must be declared
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored
+Error: [2009/03/12 16:56:58][select] Error: parametros - 
+Error: [2009/03/12 16:56:58][select] Error: query - BEGIN MENU1_GETAll (:record ); END;
+Error: [2009/03/12 16:57:00][select] Error: error - Por favor informar del problema a Sistemas<br>ERROR 6550<br/>ORA-06550: line 1, column 7:
+PLS-00201: identifier 'MENU2_GETALL' must be declared
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored
+Error: [2009/03/12 16:57:00][select] Error: parametros - 
+Error: [2009/03/12 16:57:00][select] Error: query - BEGIN MENU2_GETAll (:record ); END;
+Error: [2009/03/12 17:14:10][select] Error: error - Por favor informar del problema a Sistemas<br>ERROR 6550<br/>ORA-06550: line 1, column 7:
+PLS-00201: identifier 'MENU_SSA_GETALL' must be declared
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored
+Error: [2009/03/12 17:14:10][select] Error: parametros - 
+Error: [2009/03/12 17:14:10][select] Error: query - BEGIN MENU_SSA_GETAll (:record ); END;
+Error: [2009/03/12 17:14:10][select] Error: error - Por favor informar del problema a Sistemas<br>ERROR 6550<br/>ORA-06550: line 1, column 7:
+PLS-00201: identifier 'MENU1_GETALL' must be declared
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored
+Error: [2009/03/12 17:14:10][select] Error: parametros - 
+Error: [2009/03/12 17:14:10][select] Error: query - BEGIN MENU1_GETAll (:record ); END;
+Error: [2009/03/12 17:14:11][select] Error: error - Por favor informar del problema a Sistemas<br>ERROR 6550<br/>ORA-06550: line 1, column 7:
+PLS-00201: identifier 'MENU2_GETALL' must be declared
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored
+Error: [2009/03/12 17:14:11][select] Error: parametros - 
+Error: [2009/03/12 17:14:11][select] Error: query - BEGIN MENU2_GETAll (:record ); END;

@@ -1,0 +1,70 @@
+package com.slort.struts.action.rrhh;
+
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
+
+import com.bdb.conexion.ConnectRRHH;
+import com.bdb.model.hibernate.helper.FindDataObjectSet;
+import com.bdb.model.hibernate.helper.HibernateHelper;
+import com.slort.model.rrhh.Dotacion;
+import com.slort.struts.action.SlortDispatchAction;
+import com.slort.struts.form.rrhh.DotacionForm;
+
+import fr.improve.struts.taglib.layout.util.FormUtils;
+
+public class DotacionAction extends SlortDispatchAction {
+    private static final Logger log;
+
+    static  {
+        log = Logger.getLogger(com.slort.struts.action.rrhh.DotacionAction.class);
+    }
+	
+    public DotacionAction() {
+    }
+    
+    
+    public ActionForward inspect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+        super.inspect(mapping, form, request, response);
+        log.debug("Procesando inspect action");
+        DotacionForm currentForm = (DotacionForm)form;
+        currentForm.reset(mapping, request);
+        storeLookups(request);
+        FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+        return mapping.findForward("success");
+    }
+
+    private void storeLookups(HttpServletRequest request) {
+		if (request.equals(new String("A"))) {}
+        log.debug("storeLookups++");
+        log.debug("storeLookups--");
+    }
+    
+    public ActionForward executeProcess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+    	super.edit(mapping, form, request, response);
+        log.debug("executeProcess++");
+        DotacionForm currentForm = (DotacionForm)form;        
+        Dotacion dotacion=new Dotacion();
+        dotacion.setAnio(currentForm.getAnio());
+        dotacion.setMes(currentForm.getMes());
+        dotacion.setConexion(obtenerConexionparaJDBC("BD_NEXUS",request));
+        dotacion.generarDotacion();        
+        ActionMessages mensajes = new ActionMessages();
+        ActionMessage unMensaje= new ActionMessage("DotacionForm.msg.proceso.ok");
+        mensajes.add("mensaje",unMensaje);
+        request.setAttribute(ActionMessages.GLOBAL_MESSAGE ,mensajes);
+        log.debug("executeProcess--");
+        FormUtils.setFormDisplayMode(request, form, FormUtils.INSPECT_MODE);
+        return mapping.findForward("resultado");
+    }
+    
+}

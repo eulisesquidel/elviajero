@@ -1,0 +1,82 @@
+package com.fonseca.struts.action.trazabilidad;
+
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.hibernate.HibernateException;
+import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
+
+import com.fonseca.model.trazabilidad.AdmTrazabilidad;
+import com.fonseca.struts.action.FonsecaDispatchAction;
+import com.fonseca.struts.form.trazabilidad.TrazabilidadForm;
+
+import fr.improve.struts.taglib.layout.util.FormUtils;
+
+public class TrazabilidadAction extends FonsecaDispatchAction {
+    private static final Logger log;
+
+    static  {
+        log = Logger.getLogger(com.fonseca.struts.action.rrhh.DotacionAction.class);
+    }
+	
+    public TrazabilidadAction() {}
+    
+    
+    public ActionForward inspect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+        super.inspect(mapping, form, request, response);
+        log.debug("Procesando inspect TrazabilidadForm");
+        TrazabilidadForm currentForm = (TrazabilidadForm)form;
+        currentForm.reset(mapping, request);
+        
+        storeLookups(request);
+        FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+        return mapping.findForward("success");
+    }
+
+    private void storeLookups(HttpServletRequest request) {
+        log.debug("storeLookups++");
+        log.debug("storeLookups--");
+    }
+    
+    public ActionForward obtenerTrazabilidad(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+    	super.edit(mapping, form, request, response);
+        log.debug("obtenerTrazabilidad++");
+        TrazabilidadForm currentForm = (TrazabilidadForm)form;
+        AdmTrazabilidad admTrazabilidad=new AdmTrazabilidad();
+        admTrazabilidad.setLote(currentForm.getLote());
+        admTrazabilidad.setNiveldecorte(new Integer(currentForm.getNiveldecorte()));
+        admTrazabilidad.setConexion(obtenerConexionparaJDBC("BD_TRAZABILIDAD",request));
+        
+        admTrazabilidad.setUsuario(this.getUsuario(request).getUsuario());
+        if (!(admTrazabilidad.obtenerTrazabilidad())){
+        	ActionErrors errores = new ActionErrors();
+			errores.add(ActionErrors.GLOBAL_ERROR,new ActionError(admTrazabilidad.getError()));
+			request.setAttribute(ActionErrors.GLOBAL_ERROR,errores ); 
+			return mapping.findForward("failure");
+        }
+        
+        
+        if (!(admTrazabilidad.getListaTrazabilidadNivelesExplotados().isEmpty())) {
+        	request.setAttribute("listaTrazabilidadNivelesExplotados",admTrazabilidad.getListaTrazabilidadNivelesExplotados());
+        	request.setAttribute("listaTrazabilidadProveedores",admTrazabilidad.getListaTrazabilidadProveedores());
+        }
+        else{
+        	ActionMessages mensajes = new ActionMessages();
+            ActionMessage unMensaje= new ActionMessage(admTrazabilidad.getError());
+            mensajes.add("mensaje",unMensaje);
+            request.setAttribute(ActionMessages.GLOBAL_MESSAGE ,mensajes);	
+            return mapping.findForward("resultado");    
+        }
+        log.debug("obtenerTrazabilidad--");
+        FormUtils.setFormDisplayMode(request, form, FormUtils.INSPECT_MODE);
+        return mapping.findForward("resultado");
+    }
+    
+}

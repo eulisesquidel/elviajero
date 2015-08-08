@@ -1,0 +1,13 @@
+http://www.intelogistica.com/Blue/graphic/content_bg.gif	content_bg.gif.html
+http://www.intelogistica.com/es/	es.html
+http://www.intelogistica.com/es/graphic/bg.gif	bg.gif.html
+http://www.intelogistica.com/es/graphic/sub1h.gif	sub1h.gif.html
+http://www.intelogistica.com/es/graphic/sub2h.gif	sub2h.gif.html
+http://www.intelogistica.com/es/graphic/sub3h.gif	sub3h.gif.html
+http://www.intelogistica.com/es/slider/js/images/01.jpg	01.jpg.html
+http://www.intelogistica.com/es/slider/js/images/02.jpg	02.jpg.html
+http://www.intelogistica.com/es/slider/js/images/03.jpg	03.jpg.html
+http://www.intelogistica.com/es/slider/js/images/04.jpg	04.jpg.html
+http://www.intelogistica.com/es/slider/js/images/05.jpg	05.jpg.html
+http://www.intelogistica.com/es/slimbox/css/slimbox.css	slimbox.css.html
+http://www.intelogistica.com/graphic/cuadro.png	cuadro.png.html

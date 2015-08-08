@@ -1,0 +1,238 @@
+package com.slort.struts.action.reparaciones;
+
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+
+
+import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
+
+
+import com.bdb.conexion.Conexion;
+import com.bdb.util.DateUtils;
+import com.slort.struts.action.slortDispatchAction;
+import com.slort.struts.form.reparaciones.ReparacionesProductosForm;
+import com.slort.model.reparaciones.*;
+
+import fr.improve.struts.taglib.layout.util.FormUtils;
+
+public class ReparacionesProductosAction extends slortDispatchAction {
+	private static final Logger log;
+
+	static  {
+		log = Logger.getLogger(com.slort.struts.action.reparaciones.ReparacionesAction.class);
+	}
+
+	public ReparacionesProductosAction() {}
+
+	public ActionForward create(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+		log.debug("setting lookups");
+		super.create(mapping, form, request, response);
+		ReparacionesProductosForm currentForm = (ReparacionesProductosForm)form;
+		currentForm.reset(mapping, request);
+		currentForm.setJsp_vista(ReparacionesProductosForm.JSP_VISTA_ALTA);
+		FormUtils.setFormDisplayMode(request, form, FormUtils.CREATE_MODE);
+		currentForm.setReqCode("create");
+		return mapping.findForward("edit");
+		
+	}
+
+	public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.edit(mapping, form, request, response);
+		log.debug("edit++");
+		ReparacionesProductosForm currentForm = (ReparacionesProductosForm) form;
+		String selectedId = currentForm.getIdproducto();
+		currentForm.reset(mapping, request);
+		currentForm.setIdproducto(selectedId.toString()); 
+		storeLookups(request, currentForm);
+		// guardamos tokens para evitar envios duplicados 
+		this.saveToken(request);
+		currentForm.setJsp_vista(ReparacionesProductosForm.JSP_VISTA_MODIFICACION);
+		FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+		currentForm.setReqCode("edit");
+		log.debug("edit--");
+		return mapping.findForward("edit");
+	}
+
+	public ActionForward saveProcess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean isNew) throws HibernateException {
+		
+		super.saveProcess(mapping, form, request, response, isNew);
+		log.debug("saveProcess++");
+	
+		ReparacionesProductosForm currentForm = (ReparacionesProductosForm)form;
+		ActionErrors errors = getActionErrors(request);
+		if(!errors.isEmpty()) {
+			request.setAttribute(ActionErrors.GLOBAL_ERROR,errors);
+			return  mapping.findForward("failure");
+		}
+		
+		Session hibSession = this.getHibernateSession(request);
+		Conexion conexion = obtenerConexionparaJDBC( "BD_MPX", request);
+		AdmReparaciones admreparaciones = new AdmReparaciones();
+		admreparaciones.setConexionMPX(conexion);
+		admreparaciones.setHibSession(hibSession);
+		
+		if (!admreparaciones.esFamiliadeProductoValida(currentForm.getFamilia()) ){
+			ActionErrors errores = new ActionErrors();
+			errores.add(ActionErrors.GLOBAL_ERROR,new ActionError(admreparaciones.getError()));
+			request.setAttribute(ActionErrors.GLOBAL_ERROR,errores );
+			log.debug("saveProcess--");
+			return mapping.findForward("failure");	
+		}
+		
+		if(isNew){ 
+			//Validamos que existe el producto
+			if (admreparaciones.buscarArticuloporCodigoenTodosLosMaestros(currentForm.getFamilia()+"-"+currentForm.getSufijo())!=null){
+					ActionErrors errores = new ActionErrors();
+					errores.add(ActionErrors.GLOBAL_ERROR,new ActionError("ReparacionesProductosForm.mensajes.error.codigoexistente.famila.sufijo"));
+					request.setAttribute(ActionErrors.GLOBAL_ERROR,errores );
+					// storeLookups(request,currentForm);
+					log.debug("saveProcess--");
+					return mapping.findForward("failure");
+			}
+		}
+		// iniciamos la transaccion
+		this.beginTransactionSpring(request);
+		
+		String selectedId = currentForm.getIdproducto();
+		ReparProducto object = null;
+		ReparProductoDAO reparproductoDAO =(ReparProductoDAO) this.getBean(request,"ReparProductoDAO");
+		
+		if(isNew){ 
+		    	object = new ReparProducto();
+				object.setEstado(ReparProducto.ESTADO_ACTIVO);
+		}
+		else {	object = reparproductoDAO.findById(selectedId);}
+		object.setDescripcion(currentForm.getDescripcion());
+		// guardamos el usuario de la session
+		
+		object.setIdproducto(currentForm.getFamilia()+"-"+currentForm.getSufijo());
+		object.setFamilia(currentForm.getFamilia());
+		object.setSufijo(currentForm.getSufijo()); 
+		object.setUsuario(getUsuario(request).getUsuario());
+		object.setFechaActualiz(DateUtils.getFechaFormateada(DateUtils.getFechaActual()));
+		reparproductoDAO.save(object);
+		
+		// Finalizamos la transaccion	
+		this.commitTransactionSpring(request);		
+		
+		log.debug("saveProcess--");
+		return find(mapping, form, request, response); 
+		
+	}
+
+
+	public ActionForward inspect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.inspect(mapping, form, request, response);
+		log.debug("Procesando inspect action");
+		ReparacionesProductosForm currentForm = (ReparacionesProductosForm)form;
+		String  selectedId = currentForm.getIdproducto();
+		currentForm.reset(mapping, request);
+		currentForm.setIdproducto(selectedId.toString());
+		storeLookups(request, currentForm);
+		// guardamos tokens para evitar envios duplicados 
+		this.saveToken(request);
+		currentForm.setJsp_vista(ReparacionesProductosForm.JSP_VISTA_ELIMINACION);
+		/* seteamos el modo del formulario */ 
+		FormUtils.setFormDisplayMode(request, form, FormUtils.INSPECT_MODE);
+		currentForm.setReqCode("inspect");
+		return mapping.findForward("edit");
+	}
+
+	public ActionForward find(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		
+		log.debug("Procesando find action");
+		ReparacionesProductosForm currentForm = (ReparacionesProductosForm)form;
+		currentForm.reset(mapping, request);
+		log.debug("Seteando en modo EDIT");
+		currentForm.setReqCode("find");
+		FormUtils.setFormDisplayMode(request, form,   FormUtils.EDIT_MODE);
+		return findData(mapping, form, request, response);
+		
+	}
+
+	@SuppressWarnings("unchecked")
+	public ActionForward findData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		
+		log.debug("findData++");
+		ReparacionesProductosForm currentForm = (ReparacionesProductosForm)form;
+		Session hibSession = null;
+		hibSession = getHibernateSession(request);
+		hibSession.clear(); // Limpiamos la session Hibernate
+		
+		ReparProducto producto_buscado = new ReparProducto(); 
+		producto_buscado.setDescripcion (currentForm.getDescripcion());
+		producto_buscado.setIdproducto(currentForm.getIdproducto());
+		ReparProductoDAO reparproductoDAO =(ReparProductoDAO) this.getBean(request,"ReparProductoDAO");
+		reparproductoDAO.setHibSession(hibSession); 
+		java.util.List results =  reparproductoDAO.findByGuiPosibilities(producto_buscado);
+		
+		if (results.size()>0)
+			request.setAttribute("foundResults",results);
+		else
+			request.setAttribute("foundResults",null);
+		
+		FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+		log.debug("findData--");
+		return mapping.findForward("findPage");
+		
+	}
+
+	public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		log.debug("delete++");
+		if (!this.isTokenValid(request)) return inspect(mapping, form, request, response);
+		
+		ReparacionesProductosForm currentForm = (ReparacionesProductosForm)form;
+		
+		
+		Session hibSession = this.getHibernateSession(request);
+		Conexion conexion = obtenerConexionparaJDBC( "BD_MPX", request);
+		AdmReparaciones admreparaciones = new AdmReparaciones();
+		admreparaciones.setConexionMPX(conexion);
+		admreparaciones.setHibSession(hibSession);
+		
+		if (!admreparaciones.esEliminacionValida(currentForm.getIdproducto()) ){
+			ActionErrors errores = new ActionErrors();
+			errores.add(ActionErrors.GLOBAL_ERROR,new ActionError(admreparaciones.getError()));
+			request.setAttribute(ActionErrors.GLOBAL_ERROR,errores );
+			log.debug("saveProcess--");
+			return mapping.findForward("failure");	
+		}
+			
+		ReparProductoDAO reparproductoDAO =(ReparProductoDAO) this.getBean(request,"ReparProductoDAO");
+		ReparProducto object = reparproductoDAO.findById(currentForm.getIdproducto());		
+		reparproductoDAO.delete(object); 
+		ActionMessages mensajes = new ActionMessages();
+		ActionMessage unMensaje=  new ActionMessage("ReparacionesProductosForm.mensaje.delete.ok");
+		mensajes.add("mensaje",unMensaje);
+		request.setAttribute(ActionMessages.GLOBAL_MESSAGE ,mensajes);
+		log.debug("delete--");
+		return find(mapping, form, request, response);
+	}
+
+	private void storeLookups(HttpServletRequest request,ReparacionesProductosForm currentForm ) {
+		log.debug("storeLookups++");
+		request.setAttribute("idenvio", currentForm.getIdproducto());
+		ReparProductoDAO reparproductoDAO =(ReparProductoDAO) this.getBean(request,"ReparProductoDAO");
+		ReparProducto object = null;
+		object = reparproductoDAO.findById(currentForm.getIdproducto().toString());
+		currentForm.setIdproducto(object.getIdproducto());
+		currentForm.setFamilia(object.getFamilia());
+		currentForm.setSufijo(object.getSufijo());
+		currentForm.setDescripcion (object.getDescripcion());
+		currentForm.setEstado(object.getEstado());
+		currentForm.setFecha_actualiz(object.getFechaActualiz().toString()) ;
+		log.debug("storeLookups--");
+		
+	}
+
+}

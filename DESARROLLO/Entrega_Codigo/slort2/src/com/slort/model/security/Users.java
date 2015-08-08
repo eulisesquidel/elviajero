@@ -1,0 +1,131 @@
+package com.slort.model.security;
+
+// Application imports
+
+// Java imports
+import java.util.Iterator;
+import java.util.Set;
+import java.util.Hashtable;
+
+import org.apache.struts.action.ActionError;
+
+import com.bdb.model.security.User;
+import com.slort.model.security.Grupo;
+import com.slort.model.security.Users;
+import com.slort.model.EntityBase;
+
+
+public class Users extends EntityBase
+    implements User {
+	
+	public final static String PASSWORD_DEFECTO="1234";  
+
+    public Users() {
+    }
+
+    public Users(Long id) {
+        setIdUser(id);
+    }
+
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setIdUser(Long i) {
+        idUser = i;
+    }
+
+    public void setNombre(String string) {
+        nombre = string;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setApellido(String string) {
+        apellido = string;
+    }
+
+    public void setEmail(String string) {
+        email = string;
+    }
+
+    public void setPwd(String string) {
+        pwd = string;
+    }
+
+    public void setTelefono(String string) {
+        telefono = string;
+    }
+
+    public void setUsuario(String string) {
+        usuario = string;
+    }
+
+
+     
+    /* 
+    public Hashtable getGrupos() {
+        return grupos;
+    }
+
+    public void setGrupos(Hashtable hashtable) {
+        grupos = hashtable;
+    }
+
+    public boolean hasGrupo(String shortDesc) {
+        try {
+            return grupos.get(shortDesc) != null;
+        }
+        catch(Exception e) {
+            return false;
+        }
+    }
+    */
+
+    private Long idUser;
+    private String usuario;
+    private String pwd;
+    private String nombre;
+    private String apellido;
+    private String email;
+    private String telefono;
+   
+    //private Hashtable grupos;
+    private Grupo grupo;
+    
+	public Grupo getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(Grupo grupo) {
+		this.grupo = grupo;
+	}
+	
+	public boolean esPasswordDefecto(){
+		return this.pwd.compareTo(Users.PASSWORD_DEFECTO)==0;
+		 
+	}
+	
+}

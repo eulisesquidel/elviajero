@@ -1,0 +1,13 @@
+
+<bean:message key="button.back"/>
+
+
+
+		<layout:text key="ReparacionesProductosForm.familia"
+						 property="familia" 
+						 styleClass="LABEL"
+						 mode="E,I,I"
+						 size="8"
+						 maxlength="8"
+						 onkeyup="ajax_showOptions_2						 (this,'getFamiliadeProductoByLetters',event,550,0)" 
+						 />

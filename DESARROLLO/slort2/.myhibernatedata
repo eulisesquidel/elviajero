@@ -1,0 +1,22 @@
+#
+#Sat Jun 05 20:09:50 ART 2010
+genBasicCompId=false
+sessionFactoryName=com.bdb.model.hibernate.HibernateSessionFactory1
+profile=
+daoSFId=sessionFactoryHibernate
+version=3.0
+jndiPath=
+detectM2M=false
+reStrategyClass=
+springDaoFile=src/applicationContext.xml
+useJavaTypes=true
+keyGenerator=
+libInstallFolder=<no jars/zips in selected libraries>
+addLibs2Project=true
+genVersionTag=false
+sessionFactoryId=sessionFactoryHibernate
+basePersistenceClass=
+reSettingsFile=/slort/hibernate.reveng.xml
+configFile=/slort/src/applicationContext.xml
+createConfigFile=false
+addLibs2Classpath=true

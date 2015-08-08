@@ -1,0 +1,503 @@
+<%@ page language="java" %>
+
+<%
+String preN1 			= "· ";
+String preN2 			= "&nbsp;&nbsp;&nbsp;|-";
+String preN3 			= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/i.p.folder.drafts.gif' border='0'>";
+String preN4Title = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+String preN4 			= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/i.p.folder.drafts.gif' border='0'>";
+
+%>
+
+<style>
+#foldheader{cursor:hand; font-weight:bold;}
+#foldinglist{font-weight:bold;}
+</style>
+
+<script language="JavaScript1.2">
+
+function change(){
+   if(!document.all) {
+      return;
+    }
+   if (event.srcElement.id=="foldheader") {
+      var srcIndex = event.srcElement.sourceIndex;
+      var nested = document.all[srcIndex+1];
+      if (nested.style.display=="none") {
+         nested.style.display='';
+      }
+      else {
+         nested.style.display="none";
+      }
+   }
+}
+
+document.onclick=change;
+
+
+</script>
+
+
+
+
+<table border=0 cellpadding=0 cellspacing=0 width=200  style="PADDING-LEFT:5px;PADDING-RIGHT:5px;PADDING-TOP:2px;PADDING-BOTTOM:1px;">
+	<tr height=10>
+		<td align=right>
+		</td>
+	</tr>
+	<tr>
+		<td>
+<!-- INICIO MENU -->
+
+
+<!-- NIVEL 1: Secretaria Academica -->
+<div id="foldheader" class="BB"><%=preN1%>Departamentos</div>
+<div id="foldinglist" style="display:none" style=&{head};>
+
+	 <!-- NIVEL 2: Plan de Estudio
+   <div id="foldheader" class="azul-bd-1"><%=preN2%>Plan de Estudios</div>
+   <div id="foldinglist" style="display:none" style=&{head};>
+   
+   		<!-- NIVEL 3 -->
+			<%=preN3%>
+			<a href="materia.do?reqCode=find"><font class="azul-nor-1">Materia</font></a><br>
+			<%=preN3%>
+			<a href="especializacion.do?reqCode=find"><font class="azul-nor-1">Asignar Orientaciones</font></a><br>
+			<%=preN3%>
+			<a href="correlativa.do?reqCode=find"><font class="azul-nor-1">Correlativas</font></a><br>
+			<%=preN3%>
+			<a href="carrera.do?reqCode=find"><font class="azul-nor-1">Carreras</font></a><br>
+			<%=preN3%>
+			<a href="carreraEspec.do?reqCode=find"><font class="azul-nor-1">Coordinador de Orientacion</font></a><br>
+			<%=preN3%>
+			<a href="planEstudio.do?reqCode=find"><font class="azul-nor-1">Plan De Estudios</font></a><br>
+			<%=preN3%>
+			<a href="moduloMateria.do?reqCode=find"><font class="azul-nor-1">Módulos de Materias</font></a><br>
+			
+		   <div id="foldheader" class="azul-bd-1"><%=preN4Title%>Listados</div>
+		   <div id="foldinglist" style="display:none" style=&{head};>
+		   		<!-- NIVEL 4 -->
+					<%=preN4%>
+					<a href="listadoPlanEstudio.do?reqCode=find"><font class="azul-nor-1">Plan de Estudio por Carrera y Orientación</font></a><br>
+					<%=preN4%>
+					<a href="listadoCorrelativa.do?reqCode=find"><font class="azul-nor-1">Sistema de Correlatividades</font></a><br>
+					<!-- NIVEL 4 - FIN -->
+		   </div>
+		
+	 </div>
+	 <!-- NIVEL 2: Plan de Estudio:fin -->
+
+
+	 <!-- NIVEL 2: Entrevista -->
+   <div id="foldheader" class="azul-bd-1"><%=preN2%>Entrevista</div>
+   <div id="foldinglist" style="display:none" style=&{head};>
+   
+   		<!-- NIVEL 3 -->
+			<%=preN3%>
+			<a href="persona.do?reqCode=find"><font class="azul-nor-1">Postulantes</font></a><br>
+			<%=preN3%>
+			<a href="entrevista.do?reqCode=find"><font class="azul-nor-1">Entrevista</font></a><br>
+			<%=preN3%>
+			<a href="alumnoCarrera.do?reqCode=find"><font class="azul-nor-1">Inscripción a Carrera</font></a><br>	
+
+		   <div id="foldheader" class="azul-bd-1"><%=preN4Title%>Listados</div>
+		   <div id="foldinglist" style="display:none" style=&{head};>
+		   		<!-- NIVEL 4 -->
+					<%=preN4%>
+					<a href="underConst.do"><font class="azul-nor-1">Listado 1 <!-- (EC) --></font></a><br>
+					<!-- NIVEL 4 - FIN -->
+		   </div>
+		
+	 </div>
+	 <!-- NIVEL 2: Entrevista:fin -->
+
+
+
+
+
+
+
+	 <!-- NIVEL 2: Carrera Docente -->
+   <div id="foldheader" class="azul-bd-1"><%=preN2%>Carrera Docente</div>
+   <div id="foldinglist" style="display:none" style=&{head};>
+   
+   		<!-- NIVEL 3 -->
+			<%=preN3%>
+			<a href="profesor.do?reqCode=find"><font class="azul-nor-1">Profesor</font></a><br>
+			<%=preN3%>			
+			<a href="profesorCategoria.do?reqCode=find"><font class="azul-nor-1">Historia Docente</font></a><br>
+			<%=preN3%>			
+			<a href="histAcademica.do?reqCode=find"><font class="azul-nor-1">Historia Académica</font></a><br>
+		   <div id="foldheader" class="azul-bd-1"><%=preN4Title%>Listados</div>
+		   <div id="foldinglist" style="display:none" style=&{head};>
+		   		<!-- NIVEL 4 -->
+					<%=preN4%>
+					<a href="underConst.do"><font class="azul-nor-1">Listado 1 <!-- (EC) --></font></a><br>
+					<!-- NIVEL 4 - FIN -->
+		   </div>
+		
+	 </div>
+	 <!-- NIVEL 2: Carrera Docente:fin -->
+
+
+
+
+
+
+
+	 <!-- NIVEL 2: Armado de Comisiones -->
+   <div id="foldheader" class="azul-bd-1"><%=preN2%>Armado de Comisiones</div>
+   <div id="foldinglist" style="display:none" style=&{head};>
+   
+   		<!-- NIVEL 3 -->
+			<%=preN3%>
+			<a href="comision.do?reqCode=find"><font class="azul-nor-1">Comisiones</font></a><br>
+			<%=preN3%>
+			<a href="seminario.do?reqCode=find"><font class="azul-nor-1">Seminarios</font></a><br>
+			<%=preN3%>
+			<a href="correlativaSeminario.do?reqCode=find"><font class="azul-nor-1">Seminarios Correlativas</font></a><br>
+			
+		   <div id="foldheader" class="azul-bd-1"><%=preN4Title%>Listados</div>
+		   <div id="foldinglist" style="display:none" style=&{head};>
+		   		<!-- NIVEL 4 -->
+					<%=preN4%>
+					<a href="listadoAprobadosPorComision.do?reqCode=find"><font class="azul-nor-1">Alumnos Aprob Cuat Ant.</font></a><br>
+					<%=preN4%>
+					<a href="listadoComisionesSinProfesor.do?reqCode=find"><font class="azul-nor-1">Comisiones para postulación de Profesor</font></a><br>
+					<%=preN4%>
+					<a href="listadoComisionesProfesor.do?reqCode=find"><font class="azul-nor-1">Comisiones con Profesor</font></a><br>
+					<!-- NIVEL 4 - FIN -->
+		   </div>
+		
+	 </div>
+	 <!-- NIVEL 2: Armado de Comisiones :fin -->
+
+
+
+
+
+
+
+	 <!-- NIVEL 2: Inscripciones -->
+   <div id="foldheader" class="azul-bd-1"><%=preN2%>Inscripciones</div>
+   <div id="foldinglist" style="display:none" style=&{head};>
+   
+   		<!-- NIVEL 3 -->
+			<%=preN3%>
+			<a href="inscripcion.do?reqCode=find"><font class="azul-nor-1">Inscripción</font></a><br>
+
+		   <div id="foldheader" class="azul-bd-1"><%=preN4Title%>Listados</div>
+		   <div id="foldinglist" style="display:none" style=&{head};>
+		   		<!-- NIVEL 4 -->
+					<%=preN4%>
+					<a href="listadoAlumnosPorComision.do?reqCode=find"><font class="azul-nor-1">Alumnos por Comisión</font></a><br>
+					<!-- NIVEL 4 - FIN -->
+		   </div>
+		
+	 </div>
+	 <!-- NIVEL 2: Inscripciones :fin -->
+
+
+
+
+
+
+
+
+	 <!-- NIVEL 2: Actividad Académica -->
+   <div id="foldheader" class="azul-bd-1"><%=preN2%>Actividad Académica</div>
+   <div id="foldinglist" style="display:none" style=&{head};>
+   
+   		<!-- NIVEL 3 -->
+			<%=preN3%>
+			<a href="historiaAcademica.do?reqCode=find"><font class="azul-nor-1">Historia Académica</font></a><br>
+			<%=preN3%>
+<%--			
+			<a href="presentismo.do?reqCode=find"><font class="azul-nor-1">Presentismo</font></a><br>
+			<%=preN3%>
+--%>
+			<a href="asistencia.do?reqCode=find"><font class="azul-nor-1">Asistencia</font></a><br>
+			<%=preN3%>
+
+			<a href="notas.do?reqCode=find"><font class="azul-nor-1">Notas</font></a><br>
+			<%=preN3%>
+			<a href="tesis.do?reqCode=find"><font class="azul-nor-1">Adm. de Tesis</font></a><br>
+			<%=preN3%>
+			<a href="underConst.do?reqCode=find"><font class="azul-nor-1">Cambio de Carrera</font></a><br>
+			
+		   <div id="foldheader" class="azul-bd-1"><%=preN4Title%>Listados</div>
+		   <div id="foldinglist" style="display:none" style=&{head};>
+		   		<!-- NIVEL 4 -->
+					<%=preN4%>
+					<a href="listadoAsistenciaDiaria.do?reqCode=find"><font class="azul-nor-1">Asistencia Diaria por Comisión</font></a><br>
+					<%=preN4%>
+					<a href="listadoAsistenciaMensual.do?reqCode=find"><font class="azul-nor-1">Asistencia Mensual por Comisión</font></a><br>
+					<%=preN4%>
+					<a href="listadoAlumnosNota.do?reqCode=find"><font class="azul-nor-1">Notas por Cuatrimestre por Comisión</font></a><br>
+					<%=preN4%>
+					<a href="underConst.do"><font class="azul-nor-1">Tesis <!-- (EC) --></font></a><br>
+					<%=preN4%>
+					<a href="listadoMateriasMatanza.do?reqCode=find"><font class="azul-nor-1">Materias por Cuatrimestre para envío a la Matanza</font></a><br>
+					<%=preN4%>
+					<a href="listadoComisionesProfesorTitular.do?reqCode=find"><font class="azul-nor-1">Profesores asignados a distintas Comisiones</font></a><br>
+					<%=preN4%>
+					<a href="listadoIngresantes.do?reqCode=find"><font class="azul-nor-1">Ingresantes por Cuatrimestre</font></a><br>
+					<%=preN4%>
+					<a href="listadoAlumnosPorCarrera.do?reqCode=find"><font class="azul-nor-1">Alumnos por Carrera</font></a><br>
+					<%=preN4%>
+					<a href="listadoHistoriaAcademica.do?reqCode=find"><font class="azul-nor-1">Historia académica del Alumno</font></a><br>
+					<%=preN4%>
+					<a href="listadoRecibidos.do?reqCode=find"><font class="azul-nor-1">Egresados por Año</font></a><br>
+					<%=preN4%>
+					<a href="underConst.do"><font class="azul-nor-1">Roster <!-- (EC) --></font></a><br>
+					<%=preN4%>
+					<a href="underConst.do"><font class="azul-nor-1">Estadísticas <!-- (EC) --></font></a><br>
+					<!-- NIVEL 4 - FIN -->
+		   </div>
+		
+	 </div>
+	 <!-- NIVEL 2: Actividad Académica :fin -->
+
+
+
+
+
+
+
+
+
+
+</div>
+<!-- NIVEL 1 -->
+
+
+
+
+
+
+
+
+
+
+<!-- NIVEL 1: Secretaria Científica -->
+<div id="foldheader" class="BB"><%=preN1%>Secretaria Científica</div>
+<div id="foldinglist" style="display:none" style=&{head};>
+	 <!-- NIVEL 2: Admin. Socios -->
+   <div id="foldheader" class="azul-bd-1"><%=preN2%>Admin. Socios</div>
+   <div id="foldinglist" style="display:none" style=&{head};>
+   
+   		<!-- NIVEL 3 -->
+			<%=preN3%>
+			<a href="socio.do?reqCode=find"><font class="azul-nor-1">Socios</font></a><br>
+			<%=preN3%>
+			<a href="histSocio.do?reqCode=find"><font class="azul-nor-1">Historia Socios</font></a><br>
+			<%=preN3%>
+			<a href="actSocio.do?reqCode=find"><font class="azul-nor-1">Actividades del Socio</font></a><br>
+		   <div id="foldheader" class="azul-bd-1"><%=preN4Title%>Listados</div>
+		   <div id="foldinglist" style="display:none" style=&{head};>
+		   		<!-- NIVEL 4 -->
+					<%=preN4%>
+					<a href="listadoSocios1.do?reqCode=find"><font class="azul-nor-1">Listados de socios por categoría</font></a><br>
+					<%=preN4%>
+					<a href="listadoSocios2.do?reqCode=find"><font class="azul-nor-1">Listados de socios por categoría (sumarizado)</font></a><br>
+					<!-- NIVEL 4 - FIN -->
+		   </div>
+
+	</div>
+	 <!-- NIVEL 2: Admin. Areas -->
+   <div id="foldheader" class="azul-bd-1"><%=preN2%>Admin. Areas</div>
+   <div id="foldinglist" style="display:none" style=&{head};>
+   
+   		<!-- NIVEL 3 -->
+			<%=preN3%>
+			<a href="areasComisiones.do?reqCode=find"><font class="azul-nor-1">Areas/Comisiones</font></a><br>
+			<%=preN3%>
+			<a href="areasIntegrantes.do?reqCode=find"><font class="azul-nor-1">Integrantes</font></a><br>
+		   <div id="foldheader" class="azul-bd-1"><%=preN4Title%>Listados</div>
+		   <div id="foldinglist" style="display:none" style=&{head};>
+		   		<!-- NIVEL 4 -->
+					<%=preN4%>
+					<a href="listadoIntegrAreas.do?reqCode=find"><font class="azul-nor-1">Integrantes de Áreas</font></a><br>
+			</div>
+	</div>
+	 <!-- NIVEL 2: Admin. Actividades -->
+   <div id="foldheader" class="azul-bd-1"><%=preN2%>Admin. Actividades</div>
+   <div id="foldinglist" style="display:none" style=&{head};>
+   
+   		<!-- NIVEL 3 -->
+			<%=preN3%>
+			<a href="actividad.do?reqCode=find"><font class="azul-nor-1">Actividades</font></a><br>
+			<%=preN3%>
+			<a href="actividadParticipante.do?reqCode=find"><font class="azul-nor-1">Participantes</font></a><br>
+			<%=preN3%>
+			<a href="trabajoPractico.do?reqCode=find"><font class="azul-nor-1">Trabajos Prácticos</font></a><br>
+		   <div id="foldheader" class="azul-bd-1"><%=preN4Title%>Listados</div>
+		   <div id="foldinglist" style="display:none" style=&{head};>
+		   		<!-- NIVEL 4 -->
+					<%=preN4%>
+					<a href="listadoParticAct.do?reqCode=find"><font class="azul-nor-1">Participantes de actividades</font></a><br>
+			</div>
+	</div>
+</div>
+<!-- NIVEL 1:Secretaria Científica:fin -->
+
+<!-- NIVEL 1: Tesoreria -->
+<div id="foldheader" class="BB"><%=preN1%>Tesoreria</div>
+<div id="foldinglist" style="display:none" style=&{head};>
+	<!-- NIVEL 2: Movimientos de caja -->
+	<div id="foldheader" class="azul-bd-1"><%=preN2%>Movimientos de caja</div>
+	<div id="foldinglist" style="display:none" style=&{head};>
+			<!-- NIVEL 3 -->
+			<%=preN3%>
+			<a href="ingreso.do?reqCode=find"><font class="azul-nor-1">Ingresos</font></a><br>
+			<%=preN3%>
+			<a href="egreso.do?reqCode=find"><font class="azul-nor-1">Egresos</font></a><br>
+			<%=preN3%>
+			<a href="underConst.do"><font class="azul-nor-1">Resumen Diario</font></a><br>
+		   <div id="foldheader" class="azul-bd-1"><%=preN4Title%>Listados</div>
+		   <div id="foldinglist" style="display:none" style=&{head};>
+		   		<!-- NIVEL 4 -->
+					<%=preN4%>
+					<a href="listadoResumenIngresos.do?reqCode=find"><font class="azul-nor-1">Resumen  de Ingresos</font></a><br>
+					<%=preN4%>
+					<a href="listadoResumenEgresos.do?reqCode=find"><font class="azul-nor-1">Resumen de Egresos</font></a><br>
+					<%=preN4%>
+					<a href="listadoDetalleIngresos.do?reqCode=find"><font class="azul-nor-1">Detalle de Ingresos</font></a><br>
+					<%=preN4%>
+					<a href="listadoDetalleEgresos.do?reqCode=find"><font class="azul-nor-1">Detalle de Egresos</font></a><br>
+					<%=preN4%>
+					<a href="listadoResumenDiario.do?reqCode=find"><font class="azul-nor-1">Resumen Diario</font></a><br>
+			</div>
+	</div>
+	<!-- NIVEL 2: Plan de Cuentas -->
+	<div id="foldheader" class="azul-bd-1"><%=preN2%>Plan de Cuentas</div>
+	<div id="foldinglist" style="display:none" style=&{head};>
+			<!-- NIVEL 3 -->
+			<%=preN3%>
+			<a href="cuenta.do?reqCode=find"><font class="azul-nor-1">Cuentas</font></a><br>
+			<%=preN3%>
+			<a href="conceptoCobro.do?reqCode=find"><font class="azul-nor-1">Conceptos de Cobro</font></a><br>
+			<%=preN3%>
+			<a href="tipoGasto.do?reqCode=find"><font class="azul-nor-1">Tipo de Gastos</font></a><br>
+	</div>
+	<!-- NIVEL 2: Admin. Punitorios/Descuentos -->
+	<div id="foldheader" class="azul-bd-1"><%=preN2%>Admin. Punitorios/Descuentos</div>
+	<div id="foldinglist" style="display:none" style=&{head};>
+			<!-- NIVEL 3 -->
+			<%=preN3%>
+			<a href="punitorio.do?reqCode=find"><font class="azul-nor-1">Punitorios</font></a><br>
+			<%=preN3%>
+			<a href="descuento.do?reqCode=find"><font class="azul-nor-1">Descuentos</font></a><br>
+	</div>
+	<!-- NIVEL 2: Movimientos de Cheques -->
+	<div id="foldheader" class="azul-bd-1"><%=preN2%>Movimientos de Cheques</div>
+	<div id="foldinglist" style="display:none" style=&{head};>
+			<!-- NIVEL 3 -->
+			<%=preN3%>
+			<a href="cheque.do?reqCode=find"><font class="azul-nor-1">Administración de cheques</font></a><br>
+			<%=preN3%>
+			<a href="chequeMasivo.do?reqCode=find"><font class="azul-nor-1">Movimientos masivos</font></a><br>
+		   <div id="foldheader" class="azul-bd-1"><%=preN4Title%>Listados</div>
+		   <div id="foldinglist" style="display:none" style=&{head};>
+		   		<!-- NIVEL 4 -->
+					<%=preN4%>
+					<a href="listadoCheques.do?reqCode=find"><font class="azul-nor-1">Listado de Cheques</font></a><br>
+			</div>
+	</div>
+	<!-- NIVEL 2: Admin. Cuenta Corriente -->
+	<div id="foldheader" class="azul-bd-1"><%=preN2%>Admin. Cuenta Corriente</div>
+	<div id="foldinglist" style="display:none" style=&{head};>
+			<!-- NIVEL 3 -->
+			<%=preN3%>
+			<a href="conceptoPersona.do?reqCode=find"><font class="azul-nor-1">Generación Puntual</font></a><br>
+			<%=preN3%>
+			<a href="generacionMasiva.do?reqCode=find"><font class="azul-nor-1">Generación Masiva</font></a><br>
+			<%=preN3%>
+			<a href="cuentaCorriente.do?reqCode=find"><font class="azul-nor-1">Seguimiento de Cuenta</font></a><br>
+		   <div id="foldheader" class="azul-bd-1"><%=preN4Title%>Listados</div>
+		   <div id="foldinglist" style="display:none" style=&{head};>
+		   		<!-- NIVEL 4 -->
+					<%=preN4%>
+					<a href="listadoMorososConceptoCobro.do?reqCode=find"><font class="azul-nor-1">Morosos por Concepto de Cobro</font></a><br>
+					<%=preN4%>
+					<a href="listadoMorososSocio.do?reqCode=find"><font class="azul-nor-1">Morosos por Categoría de Socio</font></a><br>
+			</div>
+	</div>
+	<!-- NIVEL 2: Régimen de Cobro -->
+	<div id="foldheader" class="azul-bd-1"><%=preN2%>Régimen de Cobro</div>
+	<div id="foldinglist" style="display:none" style=&{head};>
+			<!-- NIVEL 3 -->
+			<%=preN3%>
+			<a href="formaCobro.do?reqCode=find"><font class="azul-nor-1">Formas de Cobro</font></a><br>
+			<%=preN3%>
+			<a href="regimenCobro.do?reqCode=find"><font class="azul-nor-1">Régimen de Cobro</font></a><br>
+	</div>
+	<!-- NIVEL 2: Recibos -->
+	<div id="foldheader" class="azul-bd-1"><%=preN2%><a href="recibo.do?reqCode=find"><font class="azul-nor-1">Recibos</font></a></div>
+	<div id="foldinglist" style="display:none" style=&{head};>
+	</div>
+	<!-- NIVEL 2: Proveedores -->
+	<div id="foldheader" class="azul-bd-1"><%=preN2%><a href="proveedor.do?reqCode=find"><font class="azul-nor-1">Proveedores</font></a></div>
+	<div id="foldinglist" style="display:none" style=&{head};>
+	</div>
+	
+</div>
+<!-- NIVEL 1:Tesoreria:fin -->
+
+<!-- NIVEL 1: Adm de Tablas -->
+<div id="foldheader" class="BB"><%=preN1%>Adm. de Tablas</div>
+<div id="foldinglist" style="display:none" style=&{head};>
+
+   		<!-- NIVEL 3 -->
+			<%=preN3%>
+			<a href="pais.do?reqCode=find"><font class="azul-nor-1">Países</font></a><br>
+			<%=preN3%>
+			<a href="motivoBaja.do?reqCode=find"><font class="azul-nor-1">Motivo Baja</font></a><br>
+<!-- Se cambio por constantes
+			<a href="estadoProf.do?reqCode=find"><font class="azul-nor-1">Estado Profesor</font></a><br>
+-->
+			<%=preN3%>
+			<a href="estadoCivil.do?reqCode=find"><font class="azul-nor-1">Estado Civil</font></a><br>
+			<%=preN3%>
+			<a href="tipoEspec.do?reqCode=find"><font class="azul-nor-1">Tipo de Orientaciones</font></a><br>
+			<%=preN3%>
+			<a href="cargoDesempeniado.do?reqCode=find"><font class="azul-nor-1">Cargo Desempeñado</font></a><br>
+			<%=preN3%>
+			<a href="estadoSocio.do?reqCode=find"><font class="azul-nor-1">Estado Socio</font></a><br>
+			<%=preN3%>
+			<a href="tipoActividad.do?reqCode=find"><font class="azul-nor-1">Tipo de Actividad</font></a><br>
+			<%=preN3%>
+			<a href="tipoParticipacion.do?reqCode=find"><font class="azul-nor-1">Tipo de Participación</font></a><br>
+			<%=preN3%>
+			<a href="banco.do?reqCode=find"><font class="azul-nor-1">Bancos</font></a><br>
+			<%=preN3%>
+			<a href="estadoCheque.do?reqCode=find"><font class="azul-nor-1">Estado del cheque</font></a><br>
+			<%=preN3%>
+			<a href="tarjeta.do?reqCode=find"><font class="azul-nor-1">Tarjetas</font></a><br>
+			<%=preN3%>
+			<a href="moneda.do?reqCode=find"><font class="azul-nor-1">Monedas</font></a><br>
+			<%=preN3%>
+			<a href="formaPago.do?reqCode=find"><font class="azul-nor-1">Formas de Pago</font></a><br>
+<!-- Se cambio por constantes.
+			<a href="categoria.do?reqCode=find"><font class="azul-nor-1">Categoria Docente</font></a><br>
+-->
+<!-- Se cambio por constantes.
+			<a href="estadoAlumno.do?reqCode=find"><font class="azul-nor-1">Estado-Alumno</font></a><br>
+-->
+<!-- Se cambio por constantes.
+			<a href="estadoInscripcion.do?reqCode=find"><font class="azul-nor-1">Estado-Inscripcion</font></a><br>
+-->
+
+</div>
+<!-- NIVEL 1 -->
+
+
+
+
+
+
+
+<!-- FIN MENU -->
+		</td>
+	</tr>
+</table>

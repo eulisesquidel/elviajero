@@ -1,0 +1,26 @@
+
+
+package com.fonseca.model.interfaces;
+
+public class InterfaceVTA {
+	
+	private String venta_fonseca;
+	private String venta_fonseca_mfg;
+
+	public String getVenta_fonseca() {
+		return venta_fonseca;
+	}
+
+	public void setVenta_fonseca(String venta_fonseca) {
+		this.venta_fonseca = venta_fonseca;
+	}
+
+	public String getVenta_fonseca_mfg() {
+		return venta_fonseca_mfg;
+	}
+
+	public void setVenta_fonseca_mfg(String venta_fonseca_mfg) {
+		this.venta_fonseca_mfg = venta_fonseca_mfg;
+	}
+	
+}

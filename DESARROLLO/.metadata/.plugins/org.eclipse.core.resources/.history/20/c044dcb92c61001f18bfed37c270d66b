@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tomcatProjectProperties>
+    <rootDir>fonseca</rootDir>
+    <exportSource>true</exportSource>
+    <reloadable>true</reloadable>
+    <redirectLogger>false</redirectLogger>
+    <updateXml>true</updateXml>
+    <warLocation>C:\Eulises\Fonseca\fonseca_gestion\Versiones\version1.5\fonseca_gestion_v1_5</warLocation>
+    <extraInfo></extraInfo>
+    <webPath>/fonseca_gestion</webPath>
+</tomcatProjectProperties>

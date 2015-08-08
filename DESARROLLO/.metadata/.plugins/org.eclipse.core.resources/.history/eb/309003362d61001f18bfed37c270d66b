@@ -1,0 +1,638 @@
+package com.slort.struts.action.reparaciones;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+
+
+import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
+
+
+import com.bdb.util.DateUtils;
+import com.slort.struts.action.slortDispatchAction;
+import com.slort.struts.form.reparaciones.ReparacionesForm;
+import com.slort.model.Empleado;
+import com.slort.model.reparaciones.*;
+
+import fr.improve.struts.taglib.layout.util.FormUtils;
+
+public class ReparacionesAction extends slortDispatchAction {
+	private static final Logger log;
+
+	static  {
+		log = Logger.getLogger(com.slort.struts.action.reparaciones.ReparacionesAction.class);
+	}
+
+	public ReparacionesAction() {}
+
+	public ActionForward create(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+		log.debug("setting lookups");
+		super.create(mapping, form, request, response);
+		ReparacionesForm currentForm = (ReparacionesForm)form;
+		currentForm.reset(mapping, request);
+		
+		ReparDetEnvio unanuevaReparacion = new ReparDetEnvio();
+		unanuevaReparacion.setCantidad(Short.parseShort("1"));
+		unanuevaReparacion.setCantidadRecibida(new Integer("0"));
+		unanuevaReparacion.setEstado(ReparDetEnvio.ESTADO_ENVIADO);
+		ArrayList<ReparDetEnvio> agregaritemproducto= new ArrayList<ReparDetEnvio>();
+		agregaritemproducto.add(unanuevaReparacion); 
+		request.setAttribute("agregaritemproducto",agregaritemproducto);		
+		currentForm.setItem_cantidad(unanuevaReparacion.getCantidad().toString());
+		currentForm.setItem_cantidadRecibida(unanuevaReparacion.getCantidadRecibida().toString());
+		currentForm.setItem_estado(unanuevaReparacion.getEstado().toString());
+		currentForm.setJsp_vista(ReparacionesForm.JSP_VISTA_ALTA_ENVIO);
+		FormUtils.setFormDisplayMode(request, form, FormUtils.CREATE_MODE);
+		currentForm.setReqCode("create");
+		return mapping.findForward("success_alta");
+		
+	}
+
+	public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.edit(mapping, form, request, response);
+		log.debug("edit++");
+		ReparacionesForm currentForm = (ReparacionesForm) form;
+		Long selectedId = getSelectedId(currentForm, null);
+		currentForm.reset(mapping, request);
+		currentForm.setIdenvio(selectedId.intValue()); 
+		storeLookups(request, currentForm);
+				
+		// guardamos tokens para evitar envios duplicados 
+		this.saveToken(request);
+		FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+		currentForm.setJsp_vista(ReparacionesForm.JSP_VISTA_EDITANDO_ENVIO); 
+		currentForm.setReqCode("edit");
+		log.debug("edit--");
+		return mapping.findForward("success_edita");
+	}
+
+	public ActionForward saveProcess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean isNew) throws HibernateException {
+		
+		super.saveProcess(mapping, form, request, response, isNew);
+		log.debug("saveProcess++");
+		
+		AdmReparaciones admreparaciones = new AdmReparaciones();
+		
+		// seteamos las conexiones 
+		Session hibSession = this.getHibernateSession(request);
+		admreparaciones.setHibSession(hibSession);
+		admreparaciones.setConexionMPX(obtenerConexionparaJDBC("BD_MPX", request));
+		admreparaciones.setConexionOYG(obtenerConexionparaJDBC("BD_OYG", request));
+		
+		ReparacionesForm currentForm = (ReparacionesForm)form;
+		ActionErrors errors = getActionErrors(request);
+		
+		if(!errors.isEmpty()) {
+			request.setAttribute(ActionErrors.GLOBAL_ERROR,errors);
+			return  mapping.findForward("failure_alta");
+		}
+		
+		//Validamos que existe el producto
+		if (admreparaciones.buscarArticuloporCodigoenTodosLosMaestros(currentForm.getItem_idproducto())==null){
+				ActionErrors errores = new ActionErrors();
+				errores.add(ActionErrors.GLOBAL_ERROR,new ActionError(admreparaciones.getError()));
+				request.setAttribute(ActionErrors.GLOBAL_ERROR,errores );
+				// storeLookups(request,currentForm);
+				log.debug("guardarRecepcion--");
+				return mapping.findForward("failure_alta");
+		}
+		
+		// iniciamos la transaccio
+		this.beginTransactionSpring(request);
+		
+		Long selectedId = getSelectedId(currentForm, currentForm.getIdenvio().longValue());
+		ReparCabEnvio object = null;
+		ReparCabEnvioDAO reparcabenvioDAO =(ReparCabEnvioDAO) this.getBean(request,"ReparCabEnvioDAO");
+		
+		if(!isNew){
+			object = new ReparCabEnvio();
+			Proveedor unProveedor=admreparaciones.obtenerProveedor(currentForm.getIdproveedor());
+			Empleado unRemitente=admreparaciones.obtenerEmpleado(currentForm.getIdremitente());
+			Empleado unAutorizador=admreparaciones.obtenerEmpleado(currentForm.getIdautorizador());
+			object.setIdproveedor(currentForm.getIdproveedor());
+			object.setProveedor(unProveedor.getNombre());
+			object.setIdremitente(currentForm.getIdremitente());
+			object.setRemitente(unRemitente.getNombre());
+			object.setIdautorizador(currentForm.getIdautorizador());
+			object.setAutorizador(unAutorizador.getNombre());
+			object.setRemitoSalida(currentForm.getRemitoSalida()); 
+			object.setEstado(ReparCabEnvio.ESTADO_PENDIENTE);
+			object.setFecha(DateUtils.getFechaFormateada(DateUtils.getFechaActual()));
+		}else{	
+			object = reparcabenvioDAO.findById(selectedId.intValue());
+		}
+		
+		object.setFechaActualiza(DateUtils.getFechaFormateada(DateUtils.getFechaActual()));
+		
+		//object.setFechaActualiza
+		reparcabenvioDAO.save(object);
+		
+		currentForm.setSelectedId(new Long(object.getIdenvio())); 
+		// Damos de alto el item 
+		ReparDetEnvio unItemReparacion = new ReparDetEnvio();
+		unItemReparacion.setReparCabEnvio(object);
+		unItemReparacion.setItem(reparcabenvioDAO.obtenerProximoNroItem(object)); 
+		unItemReparacion.setEstado(currentForm.getItem_estado());
+		unItemReparacion.setCantidad(Short.parseShort(currentForm.getItem_cantidad()));
+		unItemReparacion.setPresMoneda(currentForm.getItem_presMoneda());
+		//unItemReparacion.setCantidadRecibida(Short.parseShort(currentForm.getItem_cantidadRecibida()));
+		unItemReparacion.setFechaEstimadaEntrega(DateUtils.getFechaFormateada(currentForm.getItem_fechaEstimadaEntrega()));
+		unItemReparacion.setPresImporte(new Double(currentForm.getItem_presImporte()));
+		unItemReparacion.setPresNumero(currentForm.getItem_presNumero());
+		unItemReparacion.setProducto(currentForm.getItem_producto()); 
+		unItemReparacion.setObservaciones(currentForm.getItem_observaciones());
+		unItemReparacion.setIdproducto(currentForm.getItem_idproducto());
+		
+		currentForm.setJsp_vista(ReparacionesForm.JSP_VISTA_EDITANDO_ENVIO);
+	
+		ReparDetEnvioDAO unItemReparacionDAO =(ReparDetEnvioDAO) this.getBean(request,"ReparDetEnvioDAO");
+		unItemReparacionDAO.save(unItemReparacion);
+		
+		// Finalizamos la transaccion	
+		this.commitTransactionSpring(request);		
+		
+		log.debug("saveProcess--");
+		return edit(mapping, form, request, response);
+		
+	}
+
+
+	public ActionForward inspect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.inspect(mapping, form, request, response);
+		log.debug("Procesando inspect action");
+		ReparacionesForm currentForm = (ReparacionesForm)form;
+		Long selectedId = getSelectedId(currentForm,null);
+		currentForm.reset(mapping, request);
+		currentForm.setIdenvio( selectedId.intValue());
+		storeLookups(request, currentForm);
+		// guardamos tokens para evitar envios duplicados 
+		this.saveToken(request);		
+		/* seteamos el modo del formulario */ 
+		FormUtils.setFormDisplayMode(request, form, FormUtils.INSPECT_MODE);
+		currentForm.setReqCode("inspect");
+		return mapping.findForward("success_edita");
+	}
+
+	public ActionForward find(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		
+		log.debug("Procesando find action");
+		ReparacionesForm currentForm = (ReparacionesForm)form;
+		currentForm.reset(mapping, request);
+		log.debug("Seteando en modo EDIT");
+		currentForm.setReqCode("find");
+		FormUtils.setFormDisplayMode(request, form,   FormUtils.EDIT_MODE);
+		return findData(mapping, form, request, response);
+		
+	}
+
+	@SuppressWarnings("unchecked")
+	public ActionForward findData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		
+		log.debug("findData++");
+		ReparacionesForm currentForm = (ReparacionesForm)form;
+		Session hibSession = null;
+		hibSession = getHibernateSession(request);
+		ReparCabEnvio reparacion_buscada = new ReparCabEnvio(); 
+		reparacion_buscada.setAutorizador(currentForm.getAutorizador());
+		reparacion_buscada.setProveedor(currentForm.getProveedor());
+		reparacion_buscada.setRemitente(currentForm.getRemitente());
+		reparacion_buscada.setRemitoSalida(currentForm.getRemitoSalida());
+		
+		
+		
+		ReparCabEnvioDAO reparcabenvioDAO =(ReparCabEnvioDAO) this.getBean(request,"ReparCabEnvioDAO");
+		reparcabenvioDAO.setHibSession(hibSession); 
+		
+		if (currentForm.getEstado().compareTo( "")==0)
+			currentForm.setEstado(ReparCabEnvio.ESTADO_PENDIENTE);
+			
+		if (currentForm.getFechadesde().compareTo( "")==0) 
+			currentForm.setFechadesde(DateUtils.sumarRestarfechaActual(-30)); 
+		
+		if (currentForm.getFechahasta().compareTo("")==0) 
+			currentForm.setFechahasta(DateUtils.getFechaActual()); 
+		
+		reparacion_buscada.setEstado(currentForm.getEstado()); 
+		
+		
+		
+		
+		java.util.List results = reparcabenvioDAO.findByGUIPosibilities(reparacion_buscada,
+													DateUtils.getFechaFormateada(currentForm.getFechadesde()),
+													DateUtils.getFechaFormateada(currentForm.getFechahasta()),
+													currentForm.getProducto(),
+													currentForm.getFechaReclamo(),
+													currentForm.getFechaRecepcion());						
+				
+		
+		
+		request.setAttribute("foundResults",results);
+		FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+		log.debug("findData--");
+		return mapping.findForward("findPage");
+		
+	}
+
+	public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		log.debug("delete++");
+		if (!this.isTokenValid(request)) return inspect(mapping, form, request, response);
+		ReparacionesForm currentForm = (ReparacionesForm)form;
+
+		Session hibSession = null;
+		hibSession = getHibernateSession(request);
+		hibSession.clear(); // Limpiamos la session Hibernate
+		ReparCabEnvioDAO reparcabenvioDAO =(ReparCabEnvioDAO) this.getBean(request,"ReparCabEnvioDAO");
+		ReparCabEnvio object = null;
+		object = reparcabenvioDAO.findById(currentForm.getIdenvio());
+		reparcabenvioDAO.setHibSession(hibSession);
+		reparcabenvioDAO.elimninarEnvioReparacion(object); 
+		ActionMessages mensajes = new ActionMessages();
+		ActionMessage unMensaje=  new ActionMessage("ReparacionesForm.mensaje.delete.ok");
+		mensajes.add("mensaje",unMensaje);
+		request.setAttribute(ActionMessages.GLOBAL_MESSAGE ,mensajes);
+		log.debug("delete--");
+		return find(mapping, form, request, response);
+	}
+
+	private void storeLookups(HttpServletRequest request,ReparacionesForm currentForm ) {
+		log.debug("storeLookups++");
+		request.setAttribute("idenvio", currentForm.getIdenvio());
+		ReparCabEnvioDAO reparcabenvioDAO =(ReparCabEnvioDAO) this.getBean(request,"ReparCabEnvioDAO");
+		ReparCabEnvio object = null;
+		object = reparcabenvioDAO.findById(currentForm.getIdenvio());
+		currentForm.setIdenvio(object.getIdenvio());
+		currentForm.setAutorizador(object.getAutorizador());
+		currentForm.setRemitente(object.getRemitente());
+		currentForm.setFecha(object.getFecha());
+		currentForm.setEstado(object.getEstado());
+		currentForm.setIdproveedor(object.getIdproveedor());
+		currentForm.setProveedor(object.getProveedor());
+		currentForm.setRemitoSalida(object.getRemitoSalida());
+		
+		List<ReparDetEnvio> reparacionesenviositems=reparcabenvioDAO.findEnvioItems(object);
+		if (reparacionesenviositems.size()>0)
+			request.setAttribute("reparacionesenviositems", reparacionesenviositems);
+	
+		if (object.getReparReclamos().size()>0)
+			request.setAttribute("reparacionesenviosreclamos",  object.getReparReclamos());
+		
+		ReparDetRececepcionesDAO unarecepcionDAO =(ReparDetRececepcionesDAO) this.getBean(request,"ReparDetRececepcionesDAO");
+		
+		if (currentForm.getRecepcion_idrecepcion()!=null) {
+			ReparDetRececepciones unarecepcion = unarecepcionDAO.findById(currentForm.getRecepcion_idrecepcion());
+			currentForm.setRecepcion_cantidad(unarecepcion.getCantidad().toString());
+			currentForm.setRecepcion_fecha(DateUtils.getFechaFormateada(unarecepcion.getFecha()));
+			currentForm.setRecepcion_nroRecepcion(unarecepcion.getNroRecepcion().toString());
+			currentForm.setRecepcion_estado(unarecepcion.getEstado()); 
+			if (unarecepcion.getNumeroIre()!=null)
+				currentForm.setRecepcion_numeroIre(unarecepcion.getNumeroIre().toString());
+			currentForm.setRecepcion_remitoProveedor(unarecepcion.getRemitoProveedor());
+		}
+		log.debug("storeLookups--");
+	}
+	
+	public ActionForward agregarItemProducto(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.edit(mapping, form, request, response);
+		log.debug("agregarItemProducto++");
+		
+		ReparacionesForm currentForm = (ReparacionesForm) form;
+		Long selectedId = getSelectedId(currentForm, new Long(currentForm.getIdenvio()));
+		ReparDetEnvio unanuevaReparacion = new ReparDetEnvio();
+		unanuevaReparacion.setCantidad(Short.parseShort("1"));
+		unanuevaReparacion.setCantidadRecibida(new Integer("0"));
+		unanuevaReparacion.setEstado(ReparDetEnvio.ESTADO_ENVIADO);
+		ArrayList<ReparDetEnvio> agregaritemproducto= new ArrayList<ReparDetEnvio>();
+		agregaritemproducto.add(unanuevaReparacion); 
+		request.setAttribute("agregaritemproducto",agregaritemproducto);		
+		currentForm.setItem_cantidad(unanuevaReparacion.getCantidad().toString());
+		currentForm.setItem_cantidadRecibida(unanuevaReparacion.getCantidadRecibida().toString());
+		currentForm.setItem_estado(unanuevaReparacion.getEstado().toString());
+		currentForm.setJsp_vista(ReparacionesForm.JSP_VISTA_AGREGANDO_ITEM); 
+
+		// guardamos tokens para evitar envios duplicados 
+		this.saveToken(request);
+		FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+		log.debug("agregarItemProducto--");
+		return mapping.findForward("success_alta_item");
+		
+	}
+	
+	
+	public ActionForward guardarNuevoItemProducto(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.edit(mapping, form, request, response);
+		log.debug("guardarNuevoItemProducto++");
+		ReparacionesForm currentForm = (ReparacionesForm) form;
+		
+
+		AdmReparaciones admreparaciones = new AdmReparaciones();
+		// seteamos las conexiones 
+		Session hibSession = this.getHibernateSession(request);
+		admreparaciones.setHibSession(hibSession);
+		admreparaciones.setConexionMPX(obtenerConexionparaJDBC("BD_MPX", request));
+		admreparaciones.setConexionOYG(obtenerConexionparaJDBC("BD_OYG", request));
+		//Validamos que existe el producto
+		if (admreparaciones.buscarArticuloporCodigoenTodosLosMaestros(currentForm.getItem_idproducto())==null){
+				ActionErrors errores = new ActionErrors();
+				errores.add(ActionErrors.GLOBAL_ERROR,new ActionError(admreparaciones.getError()));
+				request.setAttribute(ActionErrors.GLOBAL_ERROR,errores );
+				// storeLookups(request,currentForm);
+				log.debug("guardarNuevoItemProducto--");
+				return mapping.findForward("success_alta_item");
+		}
+		
+		
+		this.beginTransactionSpring(request); 
+		
+		Long selectedId = getSelectedId(currentForm, new Long(currentForm.getIdenvio()));
+		
+		ReparCabEnvioDAO reparcabenvioDAO =(ReparCabEnvioDAO) this.getBean(request,"ReparCabEnvioDAO");
+		ReparCabEnvio unenvioReparacion = reparcabenvioDAO.findById(new Integer(selectedId.toString()));
+		
+		ReparDetEnvio unItemReparacion = new ReparDetEnvio();
+		unItemReparacion.setReparCabEnvio(unenvioReparacion);
+		
+		ReparDetEnvioDAO unItemReparacionDAO =(ReparDetEnvioDAO) this.getBean(request,"ReparDetEnvioDAO");
+		
+		if ((currentForm.getItem_idenvioItem()==null)||(currentForm.getItem_idenvioItem()==0)){
+			unItemReparacion.setItem(reparcabenvioDAO.obtenerProximoNroItem(unenvioReparacion)); 
+		}else{
+			unItemReparacion = unItemReparacionDAO.findById(currentForm.getItem_idenvioItem());
+		}
+			
+		unItemReparacion.setEstado(currentForm.getItem_estado());
+		unItemReparacion.setCantidad(Short.parseShort(currentForm.getItem_cantidad()));
+		unItemReparacion.setFechaEstimadaEntrega(DateUtils.getFechaFormateada(currentForm.getItem_fechaEstimadaEntrega()));
+		unItemReparacion.setPresMoneda(currentForm.getItem_presMoneda());
+		unItemReparacion.setPresImporte(new Double(currentForm.getItem_presImporte()));
+		unItemReparacion.setPresNumero(currentForm.getItem_presNumero());
+		unItemReparacion.setObservaciones(currentForm.getItem_observaciones());
+		unItemReparacion.setProducto(currentForm.getItem_producto());
+		unItemReparacion.setIdproducto(currentForm.getItem_idproducto());
+		
+		currentForm.setJsp_vista(ReparacionesForm.JSP_VISTA_EDITANDO_ENVIO);
+		unItemReparacionDAO.save(unItemReparacion);
+		
+		this.commitTransactionSpring(request); 
+	
+		FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+		log.debug("guardarNuevoItemProducto--");
+		//return mapping.findForward("success");
+		currentForm.setSelectedId(selectedId);
+		return edit(mapping, form, request, response);
+
+	}
+	
+	
+	public ActionForward editarItemEnvio(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.edit(mapping, form, request, response);
+		
+		log.debug("editarItemEnvio++");
+		ReparacionesForm currentForm = (ReparacionesForm) form;
+		Integer idenvioItem = currentForm.getItem_idenvioItem(); 
+		Long selectedId = getSelectedId(currentForm, new Long(currentForm.getIdenvio()));
+		storeLookups(request, currentForm);
+		ReparDetEnvioDAO unItemReparacionDAO =(ReparDetEnvioDAO) this.getBean(request,"ReparDetEnvioDAO");
+		
+		ReparDetEnvio unItemReparacion = unItemReparacionDAO.findById(idenvioItem); 
+		currentForm.setItem_idenvioItem(unItemReparacion.getIdenvioItem());
+		currentForm.setItem_cantidad(unItemReparacion.getCantidad().toString());
+		currentForm.setItem_estado(unItemReparacion.getEstado()); 
+		currentForm.setItem_fechaEstimadaEntrega( DateUtils.getFechaFormateada( unItemReparacion.getFechaEstimadaEntrega())  );
+		currentForm.setItem_presMoneda(unItemReparacion.getPresMoneda());
+		currentForm.setItem_presImporte(unItemReparacion.getPresImporte().toString());
+		currentForm.setItem_presNumero(unItemReparacion.getPresNumero()); 
+		currentForm.setItem_producto(unItemReparacion.getProducto());
+		currentForm.setItem_idproducto(unItemReparacion.getIdproducto()); 
+		currentForm.setItem_observaciones(unItemReparacion.getObservaciones());
+		currentForm.setJsp_vista(ReparacionesForm.JSP_VISTA_EDITANDO_ITEM);
+			
+		if (unItemReparacion.getEstado().compareToIgnoreCase(ReparDetEnvio.ESTADO_RECIBIDO)==0)
+			FormUtils.setFormDisplayMode(request, form, FormUtils.INSPECT_MODE);
+		else	
+			FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+		
+		log.debug("editarItemEnvio--");
+		return mapping.findForward("success_alta_item");
+		
+	}
+
+	
+	
+	
+	public ActionForward agregarReclamo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.edit(mapping, form, request, response);
+		log.debug("agregarReclamo++");
+		ReparacionesForm currentForm = (ReparacionesForm) form;
+		
+		Long selectedId = getSelectedId(currentForm, new Long(currentForm.getIdenvio()));
+		
+		currentForm.setIdenvio(selectedId.intValue()); 
+		storeLookups(request,currentForm); 
+		
+		currentForm.setReclamo_realizadoPor(""); 
+		currentForm.setReclamo_cargo("");
+		currentForm.setReclamo_personaContactada(""); 
+		currentForm.setReclamo_fechaProximoReclamo("");
+		currentForm.setReclamo_texto("");
+		 
+		currentForm.setJsp_vista(ReparacionesForm.JSP_VISTA_AGREGANDO_ITEM); 
+	
+		// guardamos tokens para evitar envios duplicados 
+		this.saveToken(request);
+		FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+		log.debug("agregarReclamo--");
+		return mapping.findForward("success_alta_reclamo");	
+		
+	}
+	
+	
+	
+	public ActionForward guardarReclamo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.edit(mapping, form, request, response);
+		log.debug("guardarReclamo++");
+		ReparacionesForm currentForm = (ReparacionesForm) form;
+		
+		Long selectedId = getSelectedId(currentForm, new Long(currentForm.getIdenvio()));
+		ReparCabEnvioDAO reparcabenvioDAO =(ReparCabEnvioDAO) this.getBean(request,"ReparCabEnvioDAO");
+		ReparCabEnvio unenvioReparacion = reparcabenvioDAO.findById(new Integer(selectedId.toString()));
+		ReparReclamos unnuevoReclamo = new ReparReclamos();
+		ReparReclamosDAO unnuevoReclamoDAO =(ReparReclamosDAO) this.getBean(request,"ReparReclamosDAO");
+		unnuevoReclamoDAO.setHibSession(getHibernateSession(request));
+		unnuevoReclamo.setNroReclamo(unnuevoReclamoDAO.obtenerProximoNroItem(unenvioReparacion)); 
+		unnuevoReclamo.setIdenvio(selectedId.intValue());
+		unnuevoReclamo.setRealizadoPor(currentForm.getReclamo_realizadoPor());
+		unnuevoReclamo.setPersonaContactada(currentForm.getReclamo_personaContactada());
+		unnuevoReclamo.setCargo(currentForm.getReclamo_cargo());
+		unnuevoReclamo.setFechaProximoReclamo(DateUtils.getFechaFormateada(currentForm.getReclamo_fechaProximoReclamo()));
+		unnuevoReclamo.setFecha(DateUtils.getFechaActualasDate());
+		unnuevoReclamo.setTexto(currentForm.getReclamo_texto());
+		unnuevoReclamoDAO.save(unnuevoReclamo); 
+		currentForm.setJsp_vista(ReparacionesForm.JSP_VISTA_EDITANDO_ENVIO); 
+		// guardamos tokens para evitar envios duplicados 
+		this.saveToken(request);
+		FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+		currentForm.setSelectedId(selectedId);
+		log.debug("guardarReclamo--");
+		return edit(mapping, form, request, response);
+		
+	}
+	
+	
+	public ActionForward verRecepcion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.edit(mapping, form, request, response);
+		log.debug("agregarReclamo++");
+		ReparacionesForm currentForm = (ReparacionesForm) form;
+		Long selectedId = getSelectedId(currentForm, new Long(currentForm.getIdenvio()));
+		storeLookups(request,currentForm); 
+		currentForm.setJsp_vista(ReparacionesForm.JSP_VISTA_CONSULTANDO_ITEMS); 
+		// guardamos tokens para evitar envios duplicados 
+		this.saveToken(request);
+		FormUtils.setFormDisplayMode(request, form, FormUtils.INSPECT_MODE);
+		log.debug("agregarReclamo--");
+		return mapping.findForward("success_consulta_recepcion");	
+		
+	}
+	
+	public ActionForward agregarRecepcion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.edit(mapping, form, request, response);
+		log.debug("agregarRecepcion++");
+		ReparacionesForm currentForm = (ReparacionesForm) form;
+		
+		Long selectedId = getSelectedId(currentForm, null);
+		ReparDetEnvioDAO reparacionEnvioItemDAO = (ReparDetEnvioDAO) this.getBean(request,"ReparDetEnvioDAO");
+		ReparDetEnvio reparacionEnvioItem = reparacionEnvioItemDAO.findById(selectedId.intValue());
+		currentForm.setIdenvio(reparacionEnvioItem.getReparCabEnvio().getIdenvio()); 
+		storeLookups(request,currentForm);
+		currentForm.setRecepcion_idenvioItem(reparacionEnvioItem.getIdenvioItem()); 
+		currentForm.setRecepcion_remitoProveedor(""); 
+		currentForm.setRecepcion_cantidad("");
+		currentForm.setRecepcion_fecha( DateUtils.getFechaActual());
+		currentForm.setRecepcion_numeroIre("");
+		currentForm.setRecepcion_nroRecepcion("");
+		currentForm.setJsp_vista(ReparacionesForm.JSP_VISTA_AGREGANDO_ITEM); 
+		// guardamos tokens para evitar envios duplicados 
+		this.saveToken(request);
+		FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+		log.debug("agregarRecepcion--");
+		return mapping.findForward("success_alta_recepecion");	
+		
+	}
+	
+	
+	public ActionForward guardarRecepcion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.edit(mapping, form, request, response);
+		log.debug("guardarRecepcion++");
+		
+		//inicamos la transacciones
+		this.beginTransactionSpring(request);
+		
+		ReparacionesForm currentForm = (ReparacionesForm) form;
+		Long selectedId = getSelectedId(currentForm, new Long(currentForm.getIdenvio()));
+		currentForm.setIdenvio(selectedId.intValue());
+		ReparDetEnvioDAO reparacionItemDAO =  (ReparDetEnvioDAO) this.getBean(request,"ReparDetEnvioDAO");
+		ReparDetEnvio reparacionItem =  reparacionItemDAO.findById(currentForm.getRecepcion_idenvioItem());
+
+		AdmReparaciones admrepar = new AdmReparaciones();
+		
+		// verificamos la la cantidad recibida es valida
+		if (admrepar.esCantidadRecibidaNoValida(new Integer(currentForm.getRecepcion_cantidad()))) {
+			// deshacemos los cambios
+			this.rollbackTransactionSpring(request);
+			ActionErrors errores = new ActionErrors();
+			errores.add(ActionErrors.GLOBAL_ERROR,new ActionError(admrepar.getError()));
+			request.setAttribute(ActionErrors.GLOBAL_ERROR,errores );
+			storeLookups(request,currentForm);
+			log.debug("guardarRecepcion--");
+			return mapping.findForward("success_alta_recepecion");
+		}
+		
+		if (admrepar.esCantidadRecibidaMayoraCantidadEnviada( reparacionItem, new Integer(currentForm.getRecepcion_cantidad()))){
+			// deshacemos los cambios
+			this.rollbackTransactionSpring(request);
+			ActionErrors errores = new ActionErrors();
+			errores.add(ActionErrors.GLOBAL_ERROR,new ActionError(admrepar.getError()));
+			request.setAttribute(ActionErrors.GLOBAL_ERROR,errores );
+			storeLookups(request,currentForm);
+			log.debug("guardarRecepcion--");
+			return mapping.findForward("success_alta_recepecion");
+		}
+		
+		// verificamos si la fecha de recibida es  menor a la fecha de enviado
+		if (admrepar.esFechaRecibidaMenorFechaEnvio(reparacionItem, DateUtils.getFechaFormateada(currentForm.getRecepcion_fecha()))){
+			// deshacemos los cambios
+			this.rollbackTransactionSpring(request);
+			ActionErrors errores = new ActionErrors();
+			errores.add(ActionErrors.GLOBAL_ERROR,new ActionError(admrepar.getError()));
+			request.setAttribute(ActionErrors.GLOBAL_ERROR,errores );
+			storeLookups(request,currentForm);
+			log.debug("guardarRecepcion--");
+			return mapping.findForward("success_alta_recepecion");
+		}
+		
+	
+		ReparDetRececepcionesDAO unareparacionDetRecepcionDAO = (ReparDetRececepcionesDAO) this.getBean(request,"ReparDetRececepcionesDAO");
+		ReparDetRececepciones unareparacionDetRecepcion = new ReparDetRececepciones();
+		unareparacionDetRecepcionDAO.setHibSession(getHibernateSession(request)); 
+		unareparacionDetRecepcion.setNroRecepcion( unareparacionDetRecepcionDAO.obtenerProximoNroItem(reparacionItem));
+		unareparacionDetRecepcion.setRemitoProveedor(currentForm.getRecepcion_remitoProveedor());
+		unareparacionDetRecepcion.setCantidad(new Integer(currentForm.getRecepcion_cantidad()));
+		unareparacionDetRecepcion.setFecha( DateUtils.getFechaFormateada(currentForm.getRecepcion_fecha()));
+		unareparacionDetRecepcion.setEnvio(currentForm.getIdenvio());
+		unareparacionDetRecepcion.setEstado(currentForm.getRecepcion_estado()); 
+		unareparacionDetRecepcion.setIdenvioItem(currentForm.getRecepcion_idenvioItem());
+		if (currentForm.getRecepcion_numeroIre()!="") 
+			unareparacionDetRecepcion.setNumeroIre(new Integer (currentForm.getRecepcion_numeroIre()));
+		
+		
+		if (admrepar.esCantidadRecibidaIgualaCantidadEnviada(reparacionItem, new Integer(currentForm.getRecepcion_cantidad())))
+			// Cambiar el estado de la 		reparacionItem
+			reparacionItem.setEstado(ReparDetEnvio.ESTADO_RECIBIDO);
+		else
+			reparacionItem.setEstado(ReparDetEnvio.ESTADO_RECIBIDO_PARCIALMENTE);
+		
+		Integer  cantidad_recepcionada=new Integer(currentForm.getRecepcion_cantidad());
+		Integer nuevacantidadRecibida=0; 
+		if (reparacionItem.getCantidadRecibida()==null)
+			nuevacantidadRecibida = cantidad_recepcionada;
+		else
+			nuevacantidadRecibida = reparacionItem.getCantidadRecibida() + cantidad_recepcionada;
+
+		reparacionItem.setCantidadRecibida(nuevacantidadRecibida ); 
+		reparacionItem.setFechaEntrega(DateUtils.getFechaFormateada(currentForm.getRecepcion_fecha()));
+		reparacionItemDAO.save(reparacionItem);
+		unareparacionDetRecepcionDAO.save(unareparacionDetRecepcion);		
+		
+		ReparCabEnvioDAO unareparacionDAO =  (ReparCabEnvioDAO) this.getBean(request,"ReparCabEnvioDAO");
+		ReparCabEnvio unareparacion = unareparacionDAO.findById(currentForm.getIdenvio());
+		
+		if (admrepar.esEnviofinalizado(unareparacion)){
+			unareparacion.setEstado(ReparCabEnvio.ESTADO_FINALIZADA);
+			unareparacionDAO.save(unareparacion); 
+		}
+
+		// finalizamos la transacciones
+		this.commitTransactionSpring(request);
+		
+		currentForm.setJsp_vista(ReparacionesForm.JSP_VISTA_CONSULTANDO_ITEMS); 
+		// guardamos tokens para evitar envios duplicados 
+		this.saveToken(request);
+		FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+		currentForm.setSelectedId(selectedId);
+		log.debug("guardarRecepcion--");
+		return edit(mapping, form, request, response);	
+		
+	}
+	
+	
+}

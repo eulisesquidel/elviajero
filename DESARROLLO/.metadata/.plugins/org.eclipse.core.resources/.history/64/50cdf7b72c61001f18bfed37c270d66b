@@ -1,0 +1,56 @@
+<%@ page language="java" %>
+<%@ page import="java.util.Vector"%>
+<%@ page import="com.bdb.util.HttpUtils"%>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-layout.tld" prefix="layout" %>
+<%@ taglib uri='/WEB-INF/struts-template.tld' prefix='template' %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
+<%@ taglib uri='/WEB-INF/struts-bean.tld' prefix='bean' %>
+
+<head>
+<html:javascript formName="DotacionForm"  />
+</head>
+
+<app:CheckSimpleLogon />
+
+<template:insert template='templates/default.jsp'>
+
+  <%-- Valor del title del IE se concatena al texto 'Fonseca'. Valor no requerido --%>
+  <template:put name='titlePage' content=' ' direct='true' />
+  
+  <%-- Titulo del la pantalla actual. Valor no requerido --%>
+  <template:put name='title' direct="true">
+  	<bean:message key="DotacionForm.window.titulo" /> 
+  </template:put>
+  
+  <%-- Contenido a incluir en la pantalla --%>
+  <template:put name='content'>
+
+	<%-- CONTENT.INICIO ----------------------------------------------------------------------------- --%>
+	<layout:form action="/dotacion.do" styleClass="Body" reqCode="" onsubmit="return validateDotacionForm(this);">
+	
+			<layout:text key="DotacionForm.mes" 
+									 property="mes" 
+									 styleClass="LABEL"
+									 mode="E,E,E"
+									 size="2"
+									 maxlength="2"/>
+									 
+			<layout:text key="DotacionForm.anio" 
+								 property="anio" 
+								 styleClass="LABEL" 
+								 mode="E,E,E"
+								 size="4"
+								 maxlength="4"/>
+ 
+		<layout:space/>
+	  
+		  <layout:formActions>
+				<layout:submit mode="N,D,N" reqCode="executeProcess" styleClass="button">
+					<bean:message key="button.procesar"/></layout:submit>
+		  </layout:formActions>
+	</layout:form>
+	
+	<%-- CONTENT.FIN ----------------------------------------------------------------------------- --%>
+	</template:put>
+</template:insert>

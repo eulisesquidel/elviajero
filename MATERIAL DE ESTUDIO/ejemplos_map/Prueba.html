@@ -1,0 +1,57 @@
+
+<!DOCTYPE html "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Ejemplo del API JavaScript de Google Maps - ubica puntos en mapa en forma aleatoria</title>
+	<!-- inclusión de la api de google   -->
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=abcdefg"
+            type="text/javascript"></script>
+    <script type="text/javascript">
+
+	var aqui=false;
+	
+function initialize() {
+   // creo el mapa y lo asigna a la variable map , pasa como parametro el elemento map_canvas que es donde se va a dibujar el mapa en la pagina html
+   var map = new GMap2(document.getElementById("map_canvas"));
+    // centra el mapa
+	map.setCenter(new GLatLng(37.4419, -122.1419), 13);
+	
+	// creamos un funcion que corre cada 2 seg , parametro 2000
+	window.setInterval (function() {
+		if 	(aqui){
+			map.panTo(new GLatLng(37.4569, -122.1569));
+			marcar(map);
+			aqui=false;
+		} else{
+			map.panTo(new GLatLng(37.4419, -122.1569));
+			aqui=true;
+		}
+	}, 2000);
+	alert("paso por aqui");
+	
+}
+
+function marcar(map){
+  // Add 10 markers to the map at random locations
+  var bounds = map.getBounds();
+  var southWest = bounds.getSouthWest();
+  var northEast = bounds.getNorthEast();
+  var lngSpan = northEast.lng() - southWest.lng();
+  var latSpan = northEast.lat() - southWest.lat();
+  for (var i = 0; i < 10; i++) {
+    var point = new GLatLng(southWest.lat() + latSpan * Math.random(),
+        southWest.lng() + lngSpan * Math.random());
+	// dibuja el icono rojo sobre el mapa	
+    map.addOverlay(new GMarker(point));
+  }
+}
+
+
+    </script>
+  </head>
+  <body onload="initialize()" onunload="GUnload()">
+    <div id="map_canvas" style="width: 800px; height: 600px"></div>
+  </body>
+</html>

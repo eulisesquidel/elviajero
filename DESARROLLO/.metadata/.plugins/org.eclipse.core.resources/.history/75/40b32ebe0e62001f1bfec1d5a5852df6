@@ -1,0 +1,105 @@
+<%@ page language="java" %>
+<%@ page import="java.util.Vector"%>
+<%@ page import="com.bdb.util.HttpUtils"%>
+<%@ page import="com.slort.model.trazabilidad.TrazabilidadNivelesExplotados"%>
+<%@ page import="com.slort.model.trazabilidad.TrazabilidadProveedores"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Iterator"%>
+
+ 
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-layout.tld" prefix="layout" %>
+<%@ taglib uri='/WEB-INF/struts-template.tld' prefix='template' %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
+<%@ taglib uri='/WEB-INF/struts-bean.tld' prefix='bean' %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+
+<app:CheckSimpleLogon />
+
+<template:insert template='templates/default.jsp'>
+
+	<%-- Valor del title del IE se concatena al texto 'slort'. Valor no requerido --%>
+	<template:put name='titlePage' content=' ' direct='true' />
+
+	<%-- Titulo del la pantalla actual. Valor no requerido --%>
+    <template:put name='title' direct="true">
+  	<bean:message key="TrazabilidadForm.window.titulo" /> 
+    </template:put>
+	
+	<%-- Contenido a incluir en la pantalla --%>
+	<template:put name='content' >
+	
+		<%-- CONTENT.INICIO ----------------------------------------------------------------------------- --%>
+		<layout:form action="/trazabilidad.do" styleClass="Body" reqCode="" align="left">
+	
+				 
+ 		<layout:space/>
+ 				<logic:present name="listaTrazabilidadNivelesExplotados" scope="request">
+ 						
+ 		
+						<template:put name='title' direct="true"  >
+											
+							<p align="left"><b>Resultado<b><br>
+							</p>
+							<input type="button" value="Volver" onclick="javascript:history.go(-1);" class="button">
+							<p align="left"><b>Trazabilidad hacia atras - Explotada por Niveles<b><br></p>
+											
+							<table width="1500" border="0" height="40" style="height: 82px;" cellspacing="0" cellpadding="0">
+							<%
+							ArrayList<TrazabilidadNivelesExplotados> listaTrazabilidadNivelesExplotados = (ArrayList<TrazabilidadNivelesExplotados>) request.getAttribute("listaTrazabilidadNivelesExplotados");
+							for (Iterator iterator = listaTrazabilidadNivelesExplotados.iterator(); iterator.hasNext();) {
+								TrazabilidadNivelesExplotados nivel = (TrazabilidadNivelesExplotados) iterator.next();
+								out.write( nivel.getLinea());
+							}
+							%>
+ 							</table>
+ 							<br>
+ 							<p align="left"><b>Porcentajes Suministrados - Proveedores<b><br></p>
+			 				<logic:present name="listaTrazabilidadProveedores" scope="request">
+			 						<layout:collection name="listaTrazabilidadProveedores" id="objeto" styleClass="FORM" align="left" sortAction="client" >														 
+											<layout:collectionItem  title="TrazabilidadForm.TrazabilidadProveedores.nivel" name="objeto"  property="nivel" styleClass="negro-nor-2"/>
+											<layout:collectionItem  title="TrazabilidadForm.TrazabilidadProveedores.lote" name="objeto"  property="lote" styleClass="negro-nor-2" />
+											<layout:collectionItem  title="TrazabilidadForm.TrazabilidadProveedores.proveedor" name="objeto"  property="proveedor" styleClass="negro-nor-2" />
+											<layout:collectionItem  title="TrazabilidadForm.TrazabilidadProveedores.porcentaje" name="objeto"  property="porcentaje" styleClass="negro-nor-2" />
+											<layout:collectionItem  title="TrazabilidadForm.TrazabilidadProveedores.cantidad_cueros" name="objeto"  property="cantidad_cueros" styleClass="negro-nor-2" />
+											<layout:collectionItem  title="TrazabilidadForm.TrazabilidadProveedores.producto" name="objeto"  property="producto" styleClass="negro-nor-2" />
+											<layout:collectionItem  title="TrazabilidadForm.TrazabilidadProveedores.tipo_producto" name="objeto"  property="tipo_producto" styleClass="negro-nor-2" />
+											<layout:collectionItem  title="TrazabilidadForm.TrazabilidadProveedores.kilogramos" name="objeto"  property="kilogramos" styleClass="negro-nor-2" />
+											<layout:collectionItem  title="TrazabilidadForm.TrazabilidadProveedores.pies" name="objeto"  property="pies" styleClass="negro-nor-2" />
+											<layout:collectionItem  title="TrazabilidadForm.TrazabilidadProveedores.porcentaje" name="objeto"  property="porcentaje" styleClass="negro-nor-2" />
+											<layout:collectionItem  title="TrazabilidadForm.TrazabilidadProveedores.recepcion" name="objeto"  property="recepcion" styleClass="negro-nor-2" />
+											<layout:collectionItem  title="TrazabilidadForm.TrazabilidadProveedores.ultimaHoja" name="objeto"  property="ultimaHoja" styleClass="negro-nor-2" />
+			 						</layout:collection>
+			 				</logic:present> 
+						</template:put> 						
+ 				</logic:present>
+ 				
+ 			<table width="1500" border="0" height="40" style="height: 82px;" cellspacing="0" cellpadding="0">
+ 			<tr>
+ 			<td>	 
+			<p align="left">
+			<layout:formActions align="left">		
+				<layout:button mode="D,D,D" reqCode="<%=HttpUtils.STRUTS_ACTION_FIND%>" onclick="javascript:history.go(-1);" styleClass="button" >
+					<bean:message key="button.back"/>
+				</layout:button>
+		  	</layout:formActions>
+		  	</p>
+		  	</td>
+		  	</tr>
+		  	<tr>
+		  	<td>
+			<p align="right">
+			<layout:formActions align="right">		
+				<layout:button mode="D,D,D" reqCode="<%=HttpUtils.STRUTS_ACTION_FIND%>" onclick="javascript:history.go(-1);" styleClass="button" >
+					<bean:message key="button.back"/>
+				</layout:button>
+		  	</layout:formActions>
+		  	</p>		  	
+		  	</td>
+		  	</tr>
+		  	</table>	
+		</layout:form>
+	<%-- CONTENT.FIN ----------------------------------------------------------------------------- --%>
+	
+	</template:put>
+</template:insert>

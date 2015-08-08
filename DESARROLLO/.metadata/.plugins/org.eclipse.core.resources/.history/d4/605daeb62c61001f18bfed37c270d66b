@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src
+END
+applicationContext.xml
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/applicationContext.xml
+END
+Struts-Layout.properties
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/Struts-Layout.properties
+END
+log4j.properties
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/log4j.properties
+END
+hibernate.cfg.xml
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/hibernate.cfg.xml
+END

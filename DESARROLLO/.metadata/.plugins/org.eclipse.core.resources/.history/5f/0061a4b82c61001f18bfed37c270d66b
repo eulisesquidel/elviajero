@@ -1,0 +1,10 @@
+package com.fonseca.test;
+
+import com.bdb.conexion.ConnectRRHH;
+
+import junit.framework.TestCase;
+
+public class testConexionesBD extends TestCase {
+	
+
+}

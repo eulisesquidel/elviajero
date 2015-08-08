@@ -1,0 +1,139 @@
+<%@ page language="java" %>
+<%@ page import="com.bdb.util.HttpUtils"%>
+<%@ page import="com.slort.util.slortUtils"%>
+ 
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-layout.tld" prefix="layout" %>
+<%@ taglib uri='/WEB-INF/struts-template.tld' prefix='template' %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
+<%@ taglib uri='/WEB-INF/struts-bean.tld' prefix='bean' %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+
+
+<head>
+	<html:javascript formName="JuiciosObservacionForm"  />				
+</head>
+
+<app:CheckSimpleLogon />
+<template:insert template='templates/default.jsp'>
+
+	<%-- Valor del title del IE se concatena al texto 'slort'. Valor no requerido --%>
+	<template:put name='titlePage' content=' ' direct='true' />
+
+	<%-- Titulo del la pantalla actual. Valor no requerido --%>
+	<template:put name='title' direct="true">
+		<bean:message key="JuiciosForm.window.titulo" /> 
+	</template:put>
+	  
+	<%-- Contenido a incluir en la pantalla --%>
+	<template:put name='content'>
+		
+		<%-- CONTENT.INICIO ----------------------------------------------------------------------------- --%>
+		<layout:form action="/juicios.do" styleClass="Body" reqCode=""
+		onsubmit="return validateJuiciosObservacionForm(this);" >
+
+		<layout:text key="JuiciosForm.idjuiciolegajo" 
+										 property="idjuiciolegajo" 
+										 styleClass="LABEL"
+										 mode="H,H,H"
+										 size="8"
+										 maxlength="8"/>
+								 
+
+		<layout:text key="JuiciosForm.legajo" 
+								 property="legajo" 
+								 styleClass="LABEL"
+								 mode="E,I,I"
+								 size="20"
+								 maxlength="20"
+								 onkeyup="ajax_showOptions_2(this,'getEmpleadosporporNombreLetras',event,200,0)"/>
+		
+		 <input type="hidden" id="legajo_hidden" name="idlegajo">
+		
+		  <layout:text key="JuiciosForm.nroJuicio" 
+							 property="nroJuicio" 
+							 styleClass="LABEL" 
+							 mode="E,I,I"
+							 size="50"
+							 maxlength="50"
+							 />
+
+		<layout:text key="JuiciosForm.juzgado" 
+							 property="juzgado" 
+							 styleClass="LABEL" 
+							 mode="E,I,I"
+							 size="60"
+							 maxlength="60"
+							 onkeyup="ajax_showOptions(this,'getEmpleadoAutorizadorByLetters',event)"
+							 />						 
+		
+
+		<layout:text key="JuiciosForm.expediente" 
+								 property="expediente" 
+								 styleClass="LABEL" 
+								 mode="E,I,I"
+								 size="1000"
+								 maxlength="1000"
+								 onkeyup="ajax_showOptions(this,'getEmpleadoByLetters',event)"
+								 />
+	
+	<layout:date key="JuiciosForm.fecha" 
+				property="fecha"
+				styleClass="LABEL" 
+				mode="E,I,I"
+				size="12"
+				maxlength="10"
+				startYear="1920"
+				endYear="<%=slortUtils.getMaxAnio()%>"
+				patternKey="app.pattern.date"
+				onfocus="CheckFechaNoFocus('idjuciolegajo');"
+		/>
+						
+						
+		<layout:text key="JuiciosForm.estado" 
+								 property="estado" 
+								 styleClass="LABEL" 
+								 mode="H,I,I"
+								 size="15"
+								 maxlength="15"
+								 onkeyup="ajax_showOptions(this,'getProductoByLetters',event)" />
+		  <layout:space/>
+							 
+		  <layout:formActions>
+		  		<layout:submit mode="D,D,N" reqCode="guardarObservacion" styleClass="button">
+				<bean:message  key="button.save"/></layout:submit>
+			    <layout:submit mode="N,N,D" reqCode="<%=HttpUtils.STRUTS_ACTION_DELETE%>" styleClass="button" 
+							   onclick="return confirm('Realmente desea borrar estos datos ?');" >
+					<bean:message key="button.delete"/>
+				</layout:submit>
+				<layout:button mode="D,D,D" reqCode="<%=HttpUtils.STRUTS_ACTION_FIND%>" onclick="javascript:history.go(-1);" styleClass="button">
+					<bean:message key="button.back"/>
+				</layout:button>						
+		  </layout:formActions>
+		  <layout:space/>
+
+		  <layout:textarea key="JuiciosForm.observacion_observ" 
+								 property="observacion_observ" 
+								 styleClass="LABEL" 
+								 mode="E,E,I"
+								 size="80"
+								 maxlength="1000"/>
+								 			
+		  <layout:space/>
+		  <layout:formActions>
+		  		<layout:submit mode="D,D,N" reqCode="guardarObservacion" styleClass="button">
+				<bean:message key="button.save"/></layout:submit>
+			    <layout:submit mode="N,N,D" reqCode="<%=HttpUtils.STRUTS_ACTION_DELETE%>" styleClass="button" 
+											 onclick="return confirm('Realmente desea borrar estos datos ?');" >
+					<bean:message key="button.delete"/>
+				</layout:submit>
+				<layout:button mode="D,D,D" reqCode="<%=HttpUtils.STRUTS_ACTION_FIND%>" onclick="javascript:history.go(-1);" styleClass="button">
+					<bean:message key="button.back"/>
+				</layout:button>						
+		  </layout:formActions>
+		  <layout:space/>
+		  
+	<%-- CONTENT.FIN ----------------------------------------------------------------------------- --%>
+	</layout:form>
+	</template:put>
+</template:insert>

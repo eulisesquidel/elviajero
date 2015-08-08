@@ -1,0 +1,29 @@
+package com.fonseca.model;
+
+public class Producto {
+	
+	private String codigo;
+	private String descripcion;
+	private String sistemaOrigen;
+	
+	public String getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+	public String getSistemaOrigen() {
+		return sistemaOrigen;
+	}
+	public void setSistemaOrigen(String sistemaOrigen) {
+		this.sistemaOrigen = sistemaOrigen;
+	}
+	
+	
+}

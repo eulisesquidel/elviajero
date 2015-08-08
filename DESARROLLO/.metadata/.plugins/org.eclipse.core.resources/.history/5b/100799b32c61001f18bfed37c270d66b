@@ -1,0 +1,109 @@
+package com.fonseca.struts.action.conceptos;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
+import java.io.*;
+import java.util.ArrayList;
+import com.fonseca.struts.form.StrutsUploadAndSaveForm;
+import com.fonseca.util.JExcel;
+import com.fonseca.model.*; 
+
+/**
+ * @Author Eulises Quidel
+ * @Web http://www.fonseca.com.ar
+ * @Email quidele@fonseca.com.ar
+ */
+
+/**
+ * Struts File Upload Action Form.
+ *
+ */
+public class LiquidaConceptoParticularesCargaArchivoAction extends Action
+{
+	public ActionForward execute(
+			ActionMapping mapping,
+			ActionForm form,
+			HttpServletRequest request,
+			HttpServletResponse response) throws Exception{
+		
+		StrutsUploadAndSaveForm myForm = (StrutsUploadAndSaveForm)form;
+
+		// Process the FormFile
+		FormFile myFile =    myForm.getTheFile();
+		String contentType = myFile.getContentType();
+		String fileName    = myFile.getFileName();
+		int fileSize       = myFile.getFileSize();
+		/* byte[] fileData    = myFile.getFileData();*/
+
+		//Get the servers upload directory real path name
+		String filePath = getServlet().getServletContext().getRealPath("/") +"upload";
+		
+		/* Save file on the server */
+		if(fileName.equals("")){
+			// error al leer el archivo: el formato no es válido
+			return mapping.findForward("failure");
+		}  
+		
+		System.out.println("Server path:" +filePath);
+		//Create file
+		File fileToCreate = new File(filePath, fileName);
+		
+		FileOutputStream fileOutStream = new FileOutputStream(fileToCreate);
+		fileOutStream.write(myFile.getFileData());
+		fileOutStream.flush();
+		fileOutStream.close();
+
+		// grabamos en memoria el contenido del archivo
+		ArrayList<Empleado> legajosimportes = new ArrayList<Empleado>();
+		
+		JExcel myXLS= new JExcel();
+		
+		if (!(myXLS.leerArchivo(filePath +"\\"+fileName ))) {
+			// error al leer el archivo: el formato no es válido
+			return mapping.findForward("failure");
+		}
+		
+		while (myXLS.proximaFila()){
+			Empleado unEmpleado=new Empleado();
+			
+			if (myXLS.proximaColumna()){ // leyendo el legajo
+				System.out.print(" LEGAJO: " + myXLS.getValor());
+				unEmpleado.setLegajo( myXLS.getValor());	
+			} else{
+					// error al leer la fila y columna
+				   	return mapping.findForward("failure");	
+				   }
+			
+			if (myXLS.proximaColumna()){ // leyendo el importe
+				System.out.println(" IMPORTE: " + myXLS.getValor());
+				unEmpleado.setImporte(myXLS.getValor());
+			}else {
+				 // error al leer la fila y columna
+				  	return mapping.findForward("failure");	
+			      }
+			legajosimportes.add(unEmpleado);
+		}
+		
+		if (legajosimportes.size() ==0){
+			// el archivo no posee información 
+			return mapping.findForward("failure");
+		}
+			
+		// grabamos los datos en memoria
+		request.getSession().setAttribute("legajosimportes",legajosimportes);
+		
+		//Set file name to the request object
+		//request.setAttribute("fileName",fileName);
+		
+		System.out.println("contentType: " + contentType);
+		System.out.println("File Name: " + fileName);
+		System.out.println("File Size: " + fileSize);
+
+		return mapping.findForward("success");
+	}
+}

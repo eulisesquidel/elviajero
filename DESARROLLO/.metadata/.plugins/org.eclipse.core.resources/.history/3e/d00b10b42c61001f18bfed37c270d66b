@@ -1,0 +1,58 @@
+package com.fonseca.model.interfaces;
+
+public class InterfaceIRE {
+	
+	private String cantidad_sin_lote_oyg;
+	private String cantidad_con_lote_oyg;
+	private String cantidad_MFG;
+	private String fec_incio;
+	private String fec_fin;
+	private String totalizador;
+	
+	/*
+	 *  fec_incio
+		fec_fin
+		totalizador
+	 */
+
+	public String getCantidad_sin_lote_oyg() {
+		return cantidad_sin_lote_oyg;
+	}
+	public void setCantidad_sin_lote_oyg(String cantidad_sin_lote_oyg) {
+		this.cantidad_sin_lote_oyg = cantidad_sin_lote_oyg;
+	}
+	public String getCantidad_con_lote_oyg() {
+		return cantidad_con_lote_oyg;
+	}
+	public void setCantidad_con_lote_oyg(String cantidad_con_lote_oyg) {
+		this.cantidad_con_lote_oyg = cantidad_con_lote_oyg;
+	}
+	public String getCantidad_MFG() {
+		return cantidad_MFG;
+	}
+	public void setCantidad_MFG(String cantidad_MFG) {
+		this.cantidad_MFG = cantidad_MFG;
+	}
+	
+	public String getfec_incio() {
+		return fec_incio;
+	}
+	public void setfec_incio(String fec_incio) {
+		this.fec_incio = fec_incio;
+	}
+	
+	public String getfec_fin() {
+		return fec_fin;
+	}
+	public void setfec_fin(String fec_fin) {
+		this.fec_fin = fec_fin;
+	}
+	
+	public String gettotalizador() {
+		return totalizador;
+	}
+	public void settotalizador(String totalizador) {
+		this.totalizador = totalizador;
+	}
+	
+}

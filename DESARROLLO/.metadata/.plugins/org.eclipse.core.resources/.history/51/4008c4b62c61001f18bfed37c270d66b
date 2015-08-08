@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/util
+END
+HttpUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/util/HttpUtils.java
+END
+SQLUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/util/SQLUtils.java
+END
+ConvertirNumero.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/util/ConvertirNumero.java
+END
+LinkedDropDown.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/util/LinkedDropDown.java
+END
+Format_Num.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/util/Format_Num.java
+END
+BDBUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/util/BDBUtils.java
+END
+NumberUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/util/NumberUtils.java
+END
+Constants.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/util/Constants.java
+END
+DateUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/util/DateUtils.java
+END

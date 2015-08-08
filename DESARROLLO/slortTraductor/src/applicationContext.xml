@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="datasource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/dbslort2">
+		</property>
+		<property name="username" value="root"></property>
+		<property name="password" value="sonrisa14"></property>
+	</bean>
+	
+	<bean id="sessionFactoryHibernate"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="datasource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+				org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.show_sql">
+					true
+				</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+			<value>com/slort/model/Usuario.hbm.xml</value>
+			<value>com/slort/model/Opcionmenu.hbm.xml</value>
+			<value>com/slort/model/OpcionmenuPerfil.hbm.xml</value>
+			<value>com/slort/model/Perfil.hbm.xml</value>
+			<value>com/slort/model/Flota.hbm.xml</value>	
+			<value>com/slort/model/Cliente.hbm.xml</value>
+			<value>com/slort/model/Ubicacionreal.hbm.xml</value> 
+			</list>		
+			<!-- 
+			<value>com/slort/model/Reserva.hbm.xml</value>
+			<value>com/slort/model/Historicoubicaciondetalle.hbm.xml</value>
+			<value>com/slort/model/Calculoubicacion.hbm.xml</value>
+			<value>com/slort/model/Hotel.hbm.xml</value>
+			<value>com/slort/model/Parametro.hbm.xml</value>
+			<value>com/slort/model/Conexion.hbm.xml</value>
+
+
+
+
+			 
+			 -->
+			 
+		</property></bean> 	
+	
+	<bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	  <property name="sessionFactory" ref="sessionFactoryHibernate" />
+	</bean>
+	
+
+
+	
+	<bean id="ReservaDAO" class="com.slort.model.ReservaDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="UbicacionrealDAO"
+		class="com.slort.model.UbicacionrealDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="CalculoubicacionDAO"
+		class="com.slort.model.CalculoubicacionDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="UsuarioDAO" class="com.slort.model.UsuarioDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="HistoricoubicaciondetalleDAO"
+		class="com.slort.model.HistoricoubicaciondetalleDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="HotelDAO" class="com.slort.model.HotelDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="ClienteDAO" class="com.slort.model.ClienteDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="ConexionDAO" class="com.slort.model.ConexionDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="FlotaDAO" class="com.slort.model.FlotaDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="OpcionmenuDAO" class="com.slort.model.OpcionmenuDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="ParametroDAO" class="com.slort.model.ParametroDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="OpcionmenuPerfilDAO"
+		class="com.slort.model.OpcionmenuPerfilDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean>
+	<bean id="PerfilDAO" class="com.slort.model.PerfilDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactoryHibernate" />
+		</property>
+	</bean></beans>

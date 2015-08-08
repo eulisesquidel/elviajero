@@ -1,0 +1,223 @@
+<%@ page language="java" %>
+<%@ page import="java.util.Vector"%>
+<%@ page import="com.bdb.util.HttpUtils"%>
+<%@page import="org.apache.struts.action.Action;"%>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-layout.tld" prefix="layout" %>
+<%@ taglib uri='/WEB-INF/struts-template.tld' prefix='template' %>
+<%@ taglib uri="/WEB-INF/app.tld" prefix="app" %>
+<%@ taglib uri='/WEB-INF/struts-bean.tld' prefix='bean' %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+
+<head>
+	<html:javascript formName="LiquidaConceptoForm"  />
+</head>
+
+<app:CheckSimpleLogon />
+
+<template:insert template='templates/default.jsp'>
+
+  <%-- Valor del title del IE se concatena al texto 'Fonseca'. Valor no requerido --%>
+  <template:put name='titlePage' content=' ' direct='true' />
+  
+  <%-- Titulo del la pantalla actual. Valor no requerido --%>
+  <template:put name='title' direct="true">
+  	<bean:message key="LiquidaConceptoForm.window.titulo" /> 
+  	<app:ActionLabelTag  parameter="reqCode" />
+  </template:put>
+  
+  <!-- 
+  <template:put name='OnLoad'>
+  		tipoLiquid.focus();
+  </template:put>
+  !-->
+  
+  <%-- Contenido a incluir en la pantalla --%>
+  <template:put name='content'>
+
+	<%-- CONTENT.INICIO ----------------------------------------------------------------------------- --%>
+	<layout:form action="/liquidaconceptopremios.do" styleClass="Body" reqCode="" onsubmit="return validateLiquidaConceptoForm(this);" >
+	
+		<layout:text key="LiquidaConceptoForm.idLiquidaConcepto" 
+								 property="idLiquidaConcepto" 
+								 styleClass="LABEL"
+								 mode="H,I,I"
+								 size="6"
+								 maxlength="6"/>
+								 
+	   <layout:select	key="LiquidaConceptoForm.tipoLiquid" 
+									property="tipoLiquid"
+									styleClass="LABEL" tabindex="0" mode="E,I,I">
+			<layout:option value="QUI1" key="QUI1" />
+			<layout:option value="QUI2" key="QUI2" />
+	   </layout:select>
+	
+	   <layout:select	key="LiquidaConceptoForm.mes" 
+									property="mes" 
+									styleClass="LABEL"
+									mode="E,I,I">
+			<layout:option value="1" key="01"/>
+			<layout:option value="2" key="02"/>
+			<layout:option value="3" key="03"/>
+			<layout:option value="4" key="04"/>
+			<layout:option value="5" key="05"/>
+			<layout:option value="6" key="06"/>
+			<layout:option value="7" key="07"/>
+			<layout:option value="8" key="08"/>
+			<layout:option value="9" key="09"/>
+			<layout:option value="10" key="10"/>
+			<layout:option value="11" key="11"/>
+			<layout:option value="12" key="12"/>
+	 </layout:select>
+		   	
+								 	
+		 <layout:text key="LiquidaConceptoForm.anio" 
+								 property="anio" 
+								 styleClass="LABEL" 
+								 mode="E,I,I"
+								 size="4"
+								 maxlength="4"/>						 
+		
+		<layout:text key="LiquidaConceptoForm.concepto" 
+								 property="concepto" 
+								 styleClass="LABEL" 
+								 mode="I,I,I"
+								 size="4"
+								 maxlength="4"/>
+								 						 				 						 							 
+	    <layout:select	key="LiquidaConceptoForm.empresa" 
+										property="empresa" 
+										styleClass="LABEL"
+										mode="E,I,I">
+				<layout:option value="Fonseca" key="Fonseca"/>
+				<layout:option value="Ottawa" key="Ottawa"/>
+		</layout:select>
+		   		 						 							 
+		<layout:text key="LiquidaConceptoForm.estado" 
+								 property="estado" 
+								 styleClass="LABEL" 
+								 mode="I,I,I"
+								 size="20"
+								 maxlength="20"/>
+		
+		<layout:text key="LiquidaConceptoForm.monto" 
+								 property="monto" 
+								 styleClass="LABEL" 
+								 mode="H,I,I"
+								 size="20"
+								 maxlength="20"/>
+		
+		<layout:text key="LiquidaConceptoForm.montosinduplicados" 
+								 property="montosinduplicados" 
+								 styleClass="LABEL" 
+								 mode="H,I,I"
+								 size="20"
+								 maxlength="20"/>
+								 						 
+		<layout:text key="LiquidaConceptoForm.montosennexus" 
+								 property="montosennexus" 
+								 styleClass="LABEL" 
+								 mode="H,I,I"
+								 size="20"
+								 maxlength="20"/>
+		
+		<layout:text key="LiquidaConceptoForm.usuario" 
+								 property="usuario" 
+								 styleClass="LABEL" 
+								 mode="H,I,I"
+								 size="30"
+								 maxlength="30"/>
+		
+
+		<layout:text key="LiquidaConceptoForm.fecha" 
+								 property="fecha" 
+								 styleClass="LABEL" 
+								 mode="H,I,I"
+								 size="30"
+								 maxlength="30"/>								 
+		<layout:space/>
+		
+	  
+		  <layout:formActions>
+				<layout:submit mode="N,D,N" reqCode="<%=HttpUtils.STRUTS_ACTION_SAVE%>" styleClass="button">
+					<bean:message key="button.save"/></layout:submit>
+				<layout:submit mode="D,N,N" reqCode="<%=HttpUtils.STRUTS_ACTION_SAVE_NEW%>" styleClass="button">
+					<bean:message key="LiquidaConceptoForm.button.traerinfotaw"/></layout:submit>
+				<layout:submit mode="D,D,D" reqCode="<%=HttpUtils.STRUTS_ACTION_FIND%>" styleClass="button">
+					<bean:message key="button.back"/></layout:submit>
+				<logic:notEqual name="liquidaconceptoform" property="estado" value="Liquidada">	
+				<layout:submit mode="N,N,D" reqCode="<%=HttpUtils.STRUTS_ACTION_DELETE%>" styleClass="button" 
+											 onclick="return confirm('Realmente desea borrar estos datos ?');" >
+					<bean:message key="button.delete"/></layout:submit>
+				</logic:notEqual>	
+			   <layout:submit mode="N,D,N" reqCode="agregaraNexus" styleClass="button">
+					<bean:message key="LiquidaConceptoForm.button.agregaranexus"/></layout:submit>
+				<layout:submit mode="N,D,N" reqCode="eliminarTodoslosLegajosDuplicados" styleClass="button">
+				<bean:message key="LiquidaConceptoForm.button.eliminarTodoslosLegajosDuplicados"/></layout:submit>	 					
+		  </layout:formActions>
+	
+				
+
+    <logic:present name="legajospremios" scope="request">
+	
+		<logic:iterate id="objeto"  name="legajospremios">
+			<input type="hidden" name="legajos" value="<bean:write name="objeto" property="id.nroLeg" />" >  
+		</logic:iterate>
+		
+		<!-- para realizar el ordeneciameito de la lista 
+			<logic:iterate id="objeto"  name="legajospremios">
+				<input type="hidden" name="premios" value="<bean:write name="objeto" property="premio" />" >  
+			</logic:iterate>
+		-->
+		
+		<layout:collection name="legajospremios" id="objeto" styleClass="FORM"
+															 align="center" sortAction="client" >														 
+								
+								<layout:collectionItem  title="LiquidaConceptoForm.legajo" name="objeto"  property="id.nroLeg" styleClass="negro-nor-2" />
+								
+								<layout:collectionInput formProperty="premios" property="premio"  name="objeto"  title="LiquidaConceptoForm.premio"  />
+								
+								<layout:collectionItem title="LiquidaConceptoForm.modificado"  > 
+									<logic:equal   name="objeto" property="modificado" value="1">
+										<img src="images/i.p.folder.drafts.gif" border="0" class="negro-nor-2" />
+									</logic:equal>
+								</layout:collectionItem>
+								
+								
+								<logic:notEqual name="liquidaconceptoform" property="estado" value="Liquidada">
+								
+								<layout:collectionItem title="LiquidaConceptoForm.duplicado"> 
+									<logic:equal   name="objeto" property="duplicado" value="1">
+												<img src="images/i.p.block.gif" border="0" class="negro-nor-2" />
+									</logic:equal>
+								</layout:collectionItem>	
+								
+								
+								<layout:collectionItem title="LiquidaConceptoForm.eliminarlegajo"> 
+											<A href="liquidaconceptopremios.do?reqCode=eliminarLegajoPremio&selectedId=<bean:write name="liquidaconceptoform" property="idLiquidaConcepto"/>&nroLeg=<bean:write name="objeto" property="id.nroLeg"/>&org.apache.struts.taglib.html.TOKEN=<%= session.getAttribute(Action.TRANSACTION_TOKEN_KEY) %>" >												    																					
+												<img src="images/i.p.junkmail.gif" border="0" class="negro-nor-2" />
+											</A>
+								</layout:collectionItem>
+								</logic:notEqual>
+								  
+		</layout:collection>
+	</logic:present>	
+	
+		  <layout:formActions>
+				<layout:submit mode="H,D,H" reqCode="<%=HttpUtils.STRUTS_ACTION_SAVE%>" styleClass="button" onclick="return ValidarCambiosPremios();" >
+					<bean:message key="button.save"/></layout:submit>
+				<layout:submit mode="H,N,H" reqCode="<%=HttpUtils.STRUTS_ACTION_SAVE_NEW%>" styleClass="button">
+					<bean:message key="LiquidaConceptoForm.button.traerinfotaw"/></layout:submit>
+				<layout:submit mode="H,D,H" reqCode="<%=HttpUtils.STRUTS_ACTION_FIND%>" styleClass="button">
+					<bean:message key="button.back"/></layout:submit>
+				<layout:submit mode="H,N,H" reqCode="<%=HttpUtils.STRUTS_ACTION_DELETE%>" styleClass="button" 
+											 onclick="return confirm('Realmente desea borrar estos datos ?');" >
+					<bean:message key="button.delete"/></layout:submit>
+					<layout:submit mode="N,D,N" reqCode="agregaraNexus" styleClass="button">
+					<bean:message key="LiquidaConceptoForm.button.agregaranexus"/></layout:submit>
+		  </layout:formActions>
+		  
+	</layout:form>
+	<%-- CONTENT.FIN ----------------------------------------------------------------------------- --%>
+	</template:put>
+</template:insert>

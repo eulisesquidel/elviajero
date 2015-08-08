@@ -1,0 +1,3 @@
+- Corregir las colecciones de multiples acciones
+- && en la generacion con dos o mas PK's
+

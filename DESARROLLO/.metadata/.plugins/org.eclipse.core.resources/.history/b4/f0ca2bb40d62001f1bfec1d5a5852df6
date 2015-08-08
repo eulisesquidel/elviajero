@@ -1,0 +1,69 @@
+// Decompiled by DJ v3.11.11.95 Copyright 2009 Atanas Neshkov  Date: 19/11/2009 03:31:47 
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   JubilacionAction.java
+
+package com.slort.struts.action.jubilaciones;
+
+import com.slort.model.jubilaciones.AdmJubilaciones;
+import com.slort.struts.action.slortDispatchAction;
+import com.slort.struts.action.rrhh.DotacionAction;
+import com.slort.struts.form.jubilaciones.JubilacionForm;
+import fr.improve.struts.taglib.layout.util.FormUtils;
+import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.hibernate.HibernateException;
+import org.apache.log4j.Logger;
+import org.apache.struts.action.*;
+
+public class JubilacionAction extends slortDispatchAction
+{  
+
+    public JubilacionAction()
+    {
+    }
+
+    public ActionForward inspect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws HibernateException
+    {
+        super.inspect(mapping, form, request, response);
+        log.debug("Procesando inspect jubilacion");
+        JubilacionForm currentForm = (JubilacionForm)form;
+        currentForm.reset(mapping, request);
+        storeLookups(request);
+        FormUtils.setFormDisplayMode(request, form, 1);
+        return mapping.findForward("success");
+    }
+
+    private void storeLookups(HttpServletRequest request)
+    {
+        log.debug("storeLookups++");
+        log.debug("storeLookups--");
+    }
+
+    public ActionForward executeProcess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws HibernateException
+    {
+        super.edit(mapping, form, request, response);
+        log.debug("executeProcess++");
+        JubilacionForm currentForm = (JubilacionForm)form;
+        AdmJubilaciones admJublilaciones = new AdmJubilaciones();
+        admJublilaciones.setAnio(currentForm.getAnio());
+        admJublilaciones.setMes(currentForm.getMes());
+        admJublilaciones.setConexion(obtenerConexionparaJDBC("BD_NEXUS", request));
+        admJublilaciones.controlarJubilaciones();
+        if(!admJublilaciones.getListaDiferenciaJubilacion().isEmpty())
+            request.setAttribute("listaDiferenciaJubilacion", admJublilaciones.getListaDiferenciaJubilacion());
+        ActionMessages mensajes = new ActionMessages();
+        ActionMessage unMensaje = new ActionMessage(admJublilaciones.getError());
+        mensajes.add("mensaje", unMensaje);
+        request.setAttribute("org.apache.struts.action.GLOBAL_MESSAGE", mensajes);
+        log.debug("executeProcess--");
+        FormUtils.setFormDisplayMode(request, form, 2);
+        return mapping.findForward("resultado");
+    }
+
+    private static final Logger log = Logger.getLogger(com.slort.struts.action.rrhh.DotacionAction.class );
+
+}

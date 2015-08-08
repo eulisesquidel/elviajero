@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/conexion
+END
+Conexion.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/conexion/Conexion.java
+END
+ConnectMFG.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/conexion/ConnectMFG.java
+END
+Conexion.hbm.xml
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/conexion/Conexion.hbm.xml
+END
+ConnectOYG.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/conexion/ConnectOYG.java
+END
+Connect.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/conexion/Connect.java
+END
+AdmConexiones.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/conexion/AdmConexiones.java
+END
+ClassicDriver.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/conexion/ClassicDriver.java
+END
+ConnectRRHH.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/conexion/ConnectRRHH.java
+END
+ConnectMPX.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/src/com/bdb/conexion/ConnectMPX.java
+END

@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+   "-//Hibernate/Hibernate Mapping DTD//EN"
+   "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.fonseca.model.security.Users" table="Users">
+
+        <id name="idUser" type="long" unsaved-value="null" >
+            <column	name="id_user"
+					sql-type="int"
+					not-null="true"/>
+            <generator class="increment"/>
+        </id>
+
+        <property
+        	name="usuario"
+        	type="string"
+        	length="15"
+			not-null="true"/>
+					
+        <property
+        	name="pwd"
+        	type="string"
+        	length="15"
+			not-null="true"/>
+					
+        <property
+        	name="nombre"
+        	type="string"
+        	length="40"
+			not-null="true"/>
+        
+        <property
+        	name="apellido"
+        	type="string"
+        	length="40"
+			not-null="true"/>
+        
+        <property
+        	name="email"
+        	type="string"
+        	length="50"/>
+        
+        <property
+        	name="telefono"
+        	type="string"
+        	length="20"/>
+        	
+		<many-to-one
+        	name="grupo"
+			column="id_grupo"
+			class="com.fonseca.model.security.Grupo"
+			not-null="false" />
+    </class>
+
+</hibernate-mapping>
+<!-- parsed in 0ms -->

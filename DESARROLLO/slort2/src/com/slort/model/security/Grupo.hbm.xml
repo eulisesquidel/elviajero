@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+   "-//Hibernate/Hibernate Mapping DTD//EN"
+   "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.slort.model.security.Grupo" table="Grupo">
+        <id name="idGrupo" type="long" unsaved-value="null" >
+            <column	name="id_grupo"
+					sql-type="int"
+					not-null="true"/>
+            <generator class="increment"/>
+        </id>
+
+        <property
+        	name="longDesc"
+        	column="long_descrip"
+        	type="string"
+        	length="40"
+			not-null="true"/>
+
+        <property
+        	name="shortDesc"
+        	column="short_descrip"
+        	type="string"
+        	length="15"
+			not-null="true"/>
+		
+		<set name="opcionesmenues" table="OpcionMenu_Grupo" lazy="false" order-by="orden">
+			<key>
+				<column name="id_grupo" not-null="true"/>
+			</key>
+			<many-to-many class="com.slort.model.security.OpcionMenu">
+				<column name="id_opcionmenu" not-null="true"/>
+			</many-to-many>
+			
+		</set>
+		
+    </class>
+
+</hibernate-mapping>
+<!-- parsed in 0ms -->

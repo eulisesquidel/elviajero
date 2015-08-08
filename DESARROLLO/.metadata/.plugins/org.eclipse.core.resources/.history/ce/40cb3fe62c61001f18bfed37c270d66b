@@ -1,0 +1,16 @@
+package com.slort.layout;
+
+import javax.servlet.jsp.PageContext;
+
+import fr.improve.struts.taglib.layout.formatter.AbstractFormatter;
+import fr.improve.struts.taglib.layout.formatter.FormatException;
+
+public class slortFormatter extends AbstractFormatter {
+
+    public slortFormatter() {
+    }
+
+    public String format(Object arg0, String arg1, PageContext arg2) throws FormatException {
+        return null;
+    }
+}

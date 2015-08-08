@@ -1,0 +1,141 @@
+package com.slort.model;
+
+import java.util.List;
+import java.util.Set;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.LockMode;
+import org.springframework.context.ApplicationContext;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+/**
+ * Data access object (DAO) for domain model class OpcionmenuPerfil.
+ * 
+ * @see com.slort.model.OpcionmenuPerfil
+ * @author MyEclipse Persistence Tools
+ */
+
+public class OpcionmenuPerfilDAO extends HibernateDaoSupport {
+	private static final Log log = LogFactory.getLog(OpcionmenuPerfilDAO.class);
+	// property constants
+	public static final String ORDEN = "orden";
+
+	protected void initDao() {
+		// do nothing
+	}
+
+	public void save(OpcionmenuPerfil transientInstance) {
+		log.debug("saving OpcionmenuPerfil instance");
+		try {
+			getHibernateTemplate().save(transientInstance);
+			log.debug("save successful");
+		} catch (RuntimeException re) {
+			log.error("save failed", re);
+			throw re;
+		}
+	}
+
+	public void delete(OpcionmenuPerfil persistentInstance) {
+		log.debug("deleting OpcionmenuPerfil instance");
+		try {
+			getHibernateTemplate().delete(persistentInstance);
+			log.debug("delete successful");
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			throw re;
+		}
+	}
+
+	public OpcionmenuPerfil findById(java.lang.Integer id) {
+		log.debug("getting OpcionmenuPerfil instance with id: " + id);
+		try {
+			OpcionmenuPerfil instance = (OpcionmenuPerfil) getHibernateTemplate()
+					.get("com.slort.model.OpcionmenuPerfil", id);
+			return instance;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		}
+	}
+
+	public List findByExample(OpcionmenuPerfil instance) {
+		log.debug("finding OpcionmenuPerfil instance by example");
+		try {
+			List results = getHibernateTemplate().findByExample(instance);
+			log.debug("find by example successful, result size: "
+					+ results.size());
+			return results;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
+		}
+	}
+
+	public List findByProperty(String propertyName, Object value) {
+		log.debug("finding OpcionmenuPerfil instance with property: "
+				+ propertyName + ", value: " + value);
+		try {
+			String queryString = "from OpcionmenuPerfil as model where model."
+					+ propertyName + "= ?";
+			return getHibernateTemplate().find(queryString, value);
+		} catch (RuntimeException re) {
+			log.error("find by property name failed", re);
+			throw re;
+		}
+	}
+
+	public List findByOrden(Object orden) {
+		return findByProperty(ORDEN, orden);
+	}
+
+	public List findAll() {
+		log.debug("finding all OpcionmenuPerfil instances");
+		try {
+			String queryString = "from OpcionmenuPerfil";
+			return getHibernateTemplate().find(queryString);
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+
+	public OpcionmenuPerfil merge(OpcionmenuPerfil detachedInstance) {
+		log.debug("merging OpcionmenuPerfil instance");
+		try {
+			OpcionmenuPerfil result = (OpcionmenuPerfil) getHibernateTemplate()
+					.merge(detachedInstance);
+			log.debug("merge successful");
+			return result;
+		} catch (RuntimeException re) {
+			log.error("merge failed", re);
+			throw re;
+		}
+	}
+
+	public void attachDirty(OpcionmenuPerfil instance) {
+		log.debug("attaching dirty OpcionmenuPerfil instance");
+		try {
+			getHibernateTemplate().saveOrUpdate(instance);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+
+	public void attachClean(OpcionmenuPerfil instance) {
+		log.debug("attaching clean OpcionmenuPerfil instance");
+		try {
+			getHibernateTemplate().lock(instance, LockMode.NONE);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+
+	public static OpcionmenuPerfilDAO getFromApplicationContext(
+			ApplicationContext ctx) {
+		return (OpcionmenuPerfilDAO) ctx.getBean("OpcionmenuPerfilDAO");
+	}
+}

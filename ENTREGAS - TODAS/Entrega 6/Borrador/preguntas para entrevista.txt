@@ -1,0 +1,30 @@
+
+
+¿que caracteristicas tiene el hardware y software actual de la compañia?
+La compañia actualmente cuenta con una computadora, que se adquirio hace 5 años aproximadamente, no muy actual.
+Pero posee acceso a internet, un sistema operativo windows XP y microsoft office 2003 instalado, donde las operadoras registran los viajes en el excel (Nombre del pasajero, horario reservado, destino, cantidad de maletas, cantidad de pasajeros, número de licencia y observaciones).
+
+¿Estan dispuestos hacer inversiones, para la actualizacion de los equipos, ya sea en el local, o en moviles si fuesen necesario?
+Si estamos dispuestos, a actualizar tanto el hardware, y a adquirir los equipos celulares para equipar los moviles, contamos con ese presupuesto. Haremos lo posible, para que la implementacion del nuevo sistema se realice con exito.
+
+¿Que datos precisos, se necesitan que queden registrados, en el sistema? 
+Los datos fundamentales para los registros son: 
+- numero de licencia del chofer asignado por el nuevo sistema
+- nombre de la operadora de turno
+- nombre del pasajero
+- horario reservado
+- destino
+- tarifa asignada
+
+¿De que forma quieren que aparezcan (estadisticas, planillas, etc)?
+Se puede guardar como registro la misma planilla que la operadora completa al recibir las llamadas.
+
+Los datos se tienen que mostrar, mensuales, anuales, cuatrimestrales?
+Se necesita que los registros puedan obtenerse por dia, por mes y por año. 
+Con los totales del dinero recaudado.
+
+
+
+
+
+

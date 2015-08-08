@@ -1,0 +1,97 @@
+<!DOCTYPE form-validation 
+PUBLIC "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0//EN"
+       "http://jakarta.apache.org/commons/dtds/validator_1_1_3.dtd">
+<form-validation>
+
+ <formset >
+ 
+  	<form name="UsuarioForm">
+ 		<field property="usuario" depends="required">
+ 		<arg0 key="UsuarioForm.usuario"/>
+ 		</field>
+ 		<field property="nombre" depends="required">
+ 		<arg0 key="UsuarioForm.nombre"/>
+ 		</field>
+ 		<field property="apellido" depends="required">
+ 		<arg0 key="UsuarioForm.apellido"/>
+ 		</field>
+ 	</form>
+ 
+   	<form name="PerfilForm">
+ 		<field property="descripcionCorta" depends="required">
+ 		<arg0 key="PerfilForm.descripcionCorta"/>
+ 		</field>
+ 		
+ 		<field property="descripcionLarga" depends="required">
+ 		<arg0 key="PerfilForm.descripcionLarga"/>
+ 		</field>
+ 		
+ 		<field property="opcionDefecto" depends="required">
+ 		<arg0 key="PerfilForm.opcionDefecto"/>
+ 		</field>
+ 		
+ 		
+ 	</form>
+ 
+   	<form name="FlotaForm">
+ 		<field property="licencia" depends="required,integer">
+ 		<arg0 key="FlotaForm.licencia"/>
+ 		</field>
+ 		<field property="nombre" depends="required">
+ 		<arg0 key="FlotaForm.nombre"/>
+ 		</field>
+ 		<field property="apellido" depends="required">
+ 		<arg0 key="FlotaForm.apellido"/>
+ 		</field>
+ 	</form>
+ 	
+ 	<form name="ClienteForm">
+ 		<field property="numDoc" depends="required,mask">
+ 		<arg0 key="ClienteForm.numDoc"/>
+ 		<var>
+            <var-name>mask</var-name>
+            <var-value>[0-9][0-9].[0-9][0-9][0-9].[0-9][0-9][0-9]</var-value>
+        </var>
+ 		</field>
+ 		<field property="nombre" depends="required">
+ 		<arg0 key="ClienteForm.nombre"/>
+ 		</field>
+ 		<field property="apellido" depends="required">
+ 		<arg0 key="ClienteForm.apellido"/>
+ 		</field>
+ 		<field property="domicilio" depends="required">
+ 		<arg0 key="ClienteForm.domicilio"/>
+ 		</field>
+ 		<field property="telefono" depends="required">
+ 		<arg0 key="ClienteForm.telefono"/>
+ 		</field>
+ 		<field property="localidad" depends="required">
+ 		<arg0 key="ClienteForm.localidad"/>
+ 		</field>
+ 	</form>
+ 
+  	<form name="ReservaForm">
+ 		<field property="cliente.clienteCompleto" depends="required">
+ 		<arg0 key="ReservaForm.cliente"/>
+ 		</field>
+ 		<field property="fecha" depends="required, date">
+ 		<arg0 key="ReservaForm.fecha"/>
+ 			    <var>
+	            <var-name>datePattern</var-name>
+	            <var-value>dd-MM-yyyy</var-value>
+	        </var>
+ 		</field>
+ 		<field property="hora" depends="required, hora">
+ 		<arg0 key="ReservaForm.hora"/>
+ 		</field>
+ 		<field property="direccion" depends="required">
+ 		<arg0 key="ReservaForm.direccion"/>
+ 		</field>
+ 		<field property="telefono" depends="required">
+ 		<arg0 key="ReservaForm.telefono"/>
+ 		</field>
+ 	</form>
+ 	
+  
+</formset> 
+</form-validation>

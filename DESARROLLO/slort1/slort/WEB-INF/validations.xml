@@ -1,0 +1,439 @@
+<!DOCTYPE form-validation 
+PUBLIC "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0//EN"
+       "http://jakarta.apache.org/commons/dtds/validator_1_1_3.dtd">
+<form-validation>
+
+ <formset >
+  <form name="datosRegistro">
+    <field property="nombre" depends="required,mask">
+      <arg0 key="error.registro.faltaNombre" />
+      <var><var-name>mask</var-name><var-value>^[a-zA-Z\ñ\Ñ]*$</var-value></var>
+    </field>
+    <field property="apellido1" depends="required,mask">
+      <arg0 key="error.registro.faltaApellido1" />
+      <var><var-name>mask</var-name><var-value>^[a-zA-Z\ñ\Ñ]*$</var-value></var>
+    </field>
+	<field property="apellido2" depends="mask">
+      <arg0 key="error.registro.faltaDireccion" />
+      <var><var-name>mask</var-name><var-value>^[a-zA-Z\ñ\Ñ]*$</var-value></var>
+    </field>
+     <field property="direccion" depends="required">
+      <arg0 key="error.registro.faltaDireccion" />
+    </field>
+     <field property="localidad" depends="required,mask">
+      <arg0 key="error.registro.faltaLocalidad" />
+      <var><var-name>mask</var-name><var-value>^[a-zA-Z\ñ\Ñ]*$</var-value></var>
+    </field>
+     <field property="cp" depends="required,mask">
+      <arg0 key="error.registro.faltaCP" />
+      <var><var-name>mask</var-name><var-value>^[0-9]{5}$</var-value></var>
+    </field>
+	<field property="provincia" depends="required">
+      <arg0 key="error.registro.faltaProvincia" />
+    </field>
+     <field property="pais" depends="required,mask">
+      <arg0 key="error.registro.faltaPais" />
+      <var><var-name>mask</var-name><var-value>^[a-zA-Z\ñ\Ñ]*$</var-value></var>
+    </field>
+     <field property="telefono" depends="required,mask">
+      <arg0 key="error.registro.faltaTelefono" />
+      <var><var-name>mask</var-name><var-value>^[1-9]([0-9]| |-)*$</var-value></var>
+    </field>
+     <field property="email" depends="required,email">
+      <arg0 key="error.registro.faltaEmail" />
+    </field>
+    <field property="usuario" depends="required,minlength,maxlength">
+      <arg0 key="error.registro.faltaUsuario" />
+      <arg1 name="minlength" key="${var:minlength}" resource="false"/>
+      <arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+        <var><var-name>minlength</var-name><var-value>5</var-value></var>
+        <var><var-name>maxlength</var-name><var-value>8</var-value></var>
+    </field>
+    
+    <field property="contrasena" depends="required">
+      <arg0 key="error.registro.faltaContraseña1" />
+    </field>
+    <field property="contrasena2" depends="required,compara">
+      <arg0 key="error.registro.faltaContraseña1"/>
+      <arg1 key="error.registro.faltaContraseña2"/>
+      <var><var-name>segundoCampo</var-name><var-value>contrasena</var-value></var>      
+    </field>
+   </form>
+    
+  <form name="datosPedido">
+    <field property="numTarjeta" depends="required,creditCard">
+      <arg0 key="error.pedido.faltaNumeroTarjeta" />
+    </field>
+     <field property="direccion" depends="required">
+      <arg0 key="error.pedido.faltaDireccion" />
+    </field>
+     <field property="localidad" depends="required,mask">
+      <arg0 key="error.pedido.faltaLocalidad" />
+      <var><var-name>mask</var-name><var-value>^[a-zA-Z\ñ\Ñ]*$</var-value></var>
+    </field>
+     <field property="cp" depends="required,mask">
+      <arg0 key="error.pedido.faltaCP" />
+      <var><var-name>mask</var-name><var-value>^[0-9]{5}$</var-value></var>
+    </field>
+	<field property="provincia" depends="required">
+      <arg0 key="error.pedido.faltaProvincia" />
+    </field>
+     <field property="pais" depends="required,mask">
+      <arg0 key="error.registro.faltaPais" />
+      <var><var-name>mask</var-name><var-value>^[a-zA-Z\ñ\Ñ]*$</var-value></var>
+    </field>
+     <field property="telefono" depends="required,mask">
+      <arg0 key="error.registro.faltaTelefono" />
+      <var><var-name>mask</var-name><var-value>^[1-9]([0-9]| |-)*$</var-value></var>
+    </field>
+  </form>
+  
+ 	<form name="PersonaForm">
+ 		<field property="nombre" depends="required">
+ 		<arg0 key="persona.nombre"/>
+ 		</field>
+ 		<field property="apellido" depends="required">
+ 		<arg0 key="persona.apellido"/>
+ 		</field>
+ 		<field property="fechaNacimiento" depends="required,date">
+ 		<arg0 key="persona.fechaNacimiento"/>
+	        <var>
+	            <var-name>datePattern</var-name>
+	            <var-value>dd/MM/yyyy</var-value>
+	        </var>
+ 		</field>
+ 	</form>
+ 	
+ 	<form name="PersonaBusquedaForm">
+ 		<field property="idPersona" depends="required,integer">
+ 		<arg0 key="personabusquedaform.validator.persona.idpersona"/>
+ 		</field>
+ 		<field property="nombre" depends="required">
+ 		<arg0 key="personabusquedaform.validator.persona.nombre"/>
+ 		</field>
+ 		<field property="apellido" depends="required">
+ 		<arg0 key="personabusquedaform.validator.persona.apellido"/>
+ 		</field>
+ 	</form>
+ 	
+ 	<form name="DotacionForm">
+ 		<field property="mes" depends="required,integer">
+ 		<arg0 key="DotacionForm.mes"/>
+ 		</field>
+ 		<field property="anio" depends="required,integer">
+ 		<arg0 key="DotacionForm.anio"/>
+ 		</field>
+ 	</form>
+ 	
+ 	
+ 	<form name="UsuarioForm">
+ 		<field property="pwd" depends="required">
+ 		<arg0 key="UsuarioForm.pwdNueva"/>
+ 		</field>
+ 		<field property="pwdConfirmacion" depends="required">
+ 		<arg0 key="UsuarioForm.pwdConfirmacion"/>
+ 		</field>
+ 	</form>
+ 	
+ 	<form name="LiquidaConceptoForm">
+ 		<field property="anio" depends="required,integer">
+ 		<arg0 key="LiquidaConceptoForm.anio"/>
+ 		</field>
+ 	</form>
+
+ 	
+ 	<form name="JubilacionForm">
+ 		<field property="mes" depends="required,integer">
+ 		<arg0 key="JubilacionForm.mes"/>
+ 		</field>
+ 		<field property="anio" depends="required,integer">
+ 		<arg0 key="JubilacionForm.anio"/>
+ 		</field>
+ 	</form>
+ 	
+ 	<form name="ReparacionesForm">
+ 		<field property="proveedor" depends="required">
+ 		<arg0 key="ReparacionesForm.proveedor"/>
+ 		</field>
+ 		<field property="remitoSalida" depends="required">
+ 		<arg0 key="ReparacionesForm.remitoSalida"/>
+ 		</field>
+ 		<field property="autorizador" depends="required">
+ 		<arg0 key="ReparacionesForm.autorizador"/>
+ 		</field>
+ 		<field property="remitente" depends="required">
+ 		<arg0 key="ReparacionesForm.remitente"/>
+ 		</field>
+ 		<field property="item_producto" depends="required">
+ 		<arg0 key="ReparacionesForm.item_producto"/>
+ 		</field>
+ 		<field property="item_cantidad" depends="required,integer">
+ 		<arg0 key="ReparacionesForm.item_cantidad"/>
+ 		</field>
+ 		<field property="item_presImporte" depends="required,float">
+ 		<arg0 key="ReparacionesForm.item_presImporte"/>
+ 		</field>
+ 		<field property="item_fechaEstimadaEntrega" depends="date">
+ 		<arg0 key="ReparacionesForm.item_fechaEstimadaEntrega"/>
+	        <var>
+	            <var-name>datePattern</var-name>
+	            <var-value>dd-MM-yyyy</var-value>
+	        </var>
+ 		</field>
+ 	</form>
+ 	
+	<form name="ReparacionesItemsForm">
+ 		<field property="item_producto" depends="required">
+ 		<arg0 key="ReparacionesForm.item_producto"/>
+ 		</field>
+ 		<field property="item_fechaEstimadaEntrega" depends="required,date">
+ 		<arg0 key="ReparacionesForm.item_fechaEstimadaEntrega"/>
+ 		    <var>
+	            <var-name>datePattern</var-name>
+	            <var-value>dd-MM-yyyy</var-value>
+	        </var>	
+ 		</field>
+ 		<field property="item_cantidad" depends="required,integer">
+ 		<arg0 key="ReparacionesForm.item_cantidad"/>
+ 		</field>
+ 		<field property="item_presImporte" depends="required,float">
+ 		<arg0 key="ReparacionesForm.item_presImporte"/>
+ 		</field> 		
+ 	</form>
+ 		
+ 	<form name="ReparacionesReclamoForm">
+ 		<field property="reclamo_realizadoPor" depends="required">
+ 		<arg0 key="ReparacionesForm.reclamo_realizadoPor"/>
+ 		</field>
+ 		<field property="reclamo_texto" depends="required">
+ 		<arg0 key="ReparacionesForm.reclamo_texto"/>
+ 		</field>
+ 		<field property="reclamo_personaContactada" depends="required">
+ 		<arg0 key="ReparacionesForm.reclamo_personaContactada"/>
+ 		</field>
+ 		<field property="reclamo_cargo" depends="required">
+ 		<arg0 key="ReparacionesForm.reclamo_cargo"/>
+ 		</field>
+ 		<field property="reclamo_fechaProximoReclamo" depends="required,date">
+ 		<arg0 key="ReparacionesForm.reclamo_fechaProximoReclamo"/>
+	        <var>
+	            <var-name>datePattern</var-name>
+	            <var-value>dd-MM-yyyy</var-value>
+	        </var>
+ 		</field>
+ 	</form>
+ 	
+ 	
+ 	<form name="ReparacionesRecepcionForm">
+ 		<field property="recepcion_idenvioItem" depends="required">
+ 		<arg0 key="ReparacionesForm.recepcion_idenvioItem"/>
+ 		</field>
+ 		<field property="recepcion_remitoProveedor" depends="required">
+ 		<arg0 key="ReparacionesForm.recepcion_remitoProveedor"/>
+ 		</field>
+ 		<field property="recepcion_fecha" depends="required,date">
+ 		<arg0 key="ReparacionesForm.recepcion_fecha"/>
+	        <var>
+	            <var-name>datePattern</var-name>
+	            <var-value>dd-MM-yyyy</var-value>
+	        </var>
+ 		</field>
+ 		<field property="recepcion_numeroIre" depends="integer">
+ 		<arg0 key="ReparacionesForm.recepcion_numeroIre"/>
+ 		</field>
+ 		<field property="recepcion_cantidad" depends="required,integer,intRange">
+ 		<arg0 key="ReparacionesForm.recepcion_cantidad"/>
+ 		<arg1 name="intRange" key="${var:min}" resource="false"/>
+        <arg2 name="intRange" key="${var:max}" resource="false"/>
+        <var><var-name>min</var-name><var-value>1</var-value></var>
+        <var><var-name>max</var-name><var-value>1000</var-value></var>
+ 		</field>
+ 	</form>
+ 	
+	<form name="ReparacionesProductosForm">
+		<field property="familia" depends="required">
+		<arg0 key="ReparacionesProductosForm.familia"/>
+		</field>
+		<field property="sufijo" depends="required">
+		<arg0 key="ReparacionesProductosForm.sufijo"/>
+		</field>
+		<field property="descripcion" depends="required">
+		<arg0 key="ReparacionesProductosForm.descripcion"/>
+		</field>
+	</form>
+
+	<form name="ReparacionesBusquedaForm">
+		<field property="fechaRecepcion" depends="date">
+		<arg0 key="ReparacionesForm.fecha.recepcion.estimada"/>
+			<var>
+	            <var-name>datePattern</var-name>
+	            <var-value>dd-MM-yyyy</var-value>
+	        </var>
+		</field>
+		<field property="fechaReclamo" depends="date">
+		<arg0 key="ReparacionesForm.fecha.reclamo.estimada"/>
+			<var>
+	            <var-name>datePattern</var-name>
+	            <var-value>dd-MM-yyyy</var-value>
+	        </var>
+		</field>
+		<field property="fechadesde" depends="date">
+		<arg0 key="ReparacionesForm.fechadesde"/>
+			<var>
+	            <var-name>datePattern</var-name>
+	            <var-value>dd-MM-yyyy</var-value>
+	        </var>
+		</field>
+		<field property="fechahasta" depends="date">
+		<arg0 key="ReparacionesForm.fechahasta"/>
+			<var>
+	            <var-name>datePattern</var-name>
+	            <var-value>dd-MM-yyyy</var-value>
+	        </var>
+		</field>
+	</form>
+
+ 	<form name="LiquidaConceptoParticularesForm">
+ 		<field property="anio" depends="required,integer">
+ 		<arg0 key="LiquidaConceptoParticularesForm.anio"/>
+ 		</field>
+ 		<field property="mes" depends="required,integer">
+ 		<arg0 key="LiquidaConceptoParticularesForm.mes"/>
+ 		</field>
+ 		<field property="tipoLiquid" depends="required">
+ 		<arg0 key="LiquidaConceptoParticularesForm.tipoLiquid"/>
+ 		</field>
+ 		<field property="concepto" depends="required">
+ 		<arg0 key="LiquidaConceptoParticularesForm.concepto"/>
+ 		</field>
+ 	</form>
+ 
+	<form name="LiquidaConceptoParticularesArchivoForm">
+ 		<field property="archivo" depends="required">
+ 		<arg0 key="LiquidaConceptoParticularesForm.archivo"/>
+ 		</field>
+ 	</form>
+ 	
+ 	
+ 	<form name="TrazabilidadForm">
+ 		<field property="lote" depends="required">
+ 		<arg0 key="TrazabilidadForm.lote"/>
+ 		</field>
+ 		<field property="niveldecorte" depends="required,integer">
+ 		<arg0 key="TrazabilidadForm.niveldecorte"/>
+ 		</field>
+ 	</form>
+ 	
+
+ 	<form name="JuiciosForm">
+ 		<field property="legajo" depends="required,integer">
+ 		<arg0 key="JuiciosForm.legajo"/>
+ 		</field>
+ 		<field property="nroJuicio" depends="required">
+ 		<arg0 key="JuiciosForm.nroJuicio"/>
+ 		</field>
+ 		<field property="juzgado" depends="required">
+ 		<arg0 key="JuiciosForm.juzgado"/>
+ 		</field>
+ 		<field property="expediente" depends="required">
+ 		<arg0 key="JuiciosForm.expediente"/>
+ 		</field>
+ 		<field property="fecha" depends="required">
+ 		<arg0 key="JuiciosForm.fecha"/>
+ 		</field>
+ 		<field property="estado" depends="required">
+ 		<arg0 key="JuiciosForm.estado"/>
+ 		</field>
+ 		
+ 		<field property="reclamo_codigo_reclamo" depends="required">
+ 		<arg0 key="JuiciosForm.reclamo_codigo_reclamo"/>
+ 		</field>
+
+ 		<field property="reclamo_monto_reclamado" depends="float,required">
+ 		<arg0 key="JuiciosForm.reclamo_monto_reclamado"/>
+ 		</field>
+ 		
+ 		<field property="reclamo_monto_pagado" depends="float">
+ 		<arg0 key="JuiciosForm.reclamo_monto_pagado" />
+ 		</field>
+ 		
+ 		<field property="reclamo_monto_aceptado" depends="float">
+ 		<arg0 key="JuiciosForm.reclamo_monto_aceptado" />
+ 		</field>
+ 		
+ 	</form>
+ 	
+ 	
+ 	<form name="JuiciosObservacionForm">
+ 		<field property="observacion_observ" depends="required">
+ 		<arg0 key="JuiciosForm.observacion_observ"/>
+ 		</field>
+ 	</form>
+
+	<form name="JuiciosBusquedaForm">
+ 		<field property="legajo" depends="integer">
+ 		<arg0 key="JuiciosForm.legajo"/>
+ 		</field>
+ 				<field property="fecha" depends="date">
+		<arg0 key="JuiciosForm.fecha"/>
+			<var>
+	            <var-name>datePattern</var-name>
+	            <var-value>dd-MM-yyyy</var-value>
+	        </var>
+		</field>
+ 	</form>
+
+ 	<form name="JuiciosReclamosForm">
+ 		<field property="legajo" depends="required,integer">
+ 		<arg0 key="JuiciosForm.legajo"/>
+ 		</field>
+ 		<field property="nroJuicio" depends="required">
+ 		<arg0 key="JuiciosForm.nroJuicio"/>
+ 		</field>
+ 		<field property="juzgado" depends="required">
+ 		<arg0 key="JuiciosForm.juzgado"/>
+ 		</field>
+ 		<field property="expediente" depends="required">
+ 		<arg0 key="JuiciosForm.expediente"/>
+ 		</field>
+ 		<field property="fecha" depends="required">
+ 		<arg0 key="JuiciosForm.fecha"/>
+ 		</field>
+ 		<field property="estado" depends="required">
+ 		<arg0 key="JuiciosForm.estado"/>
+ 		</field>
+ 		
+ 		<field property="reclamo_codigo_reclamo" depends="required">
+ 		<arg0 key="JuciosForm.reclamo_codigo_reclamo"/>
+ 		</field>
+
+		<field property="reclamo_descrip_reclamo" depends="required">
+ 		<arg0 key="JuiciosForm.reclamo_descrip_reclamo"/>
+ 		</field>
+ 		
+ 		<field property="reclamo_monto_reclamado" depends="float,required">
+ 		<arg0 key="JuiciosForm.reclamo_monto_reclamado"/>
+ 		</field>
+ 		
+ 		<field property="reclamo_monto_pagado" depends="float">
+ 		<arg0 key="JuiciosForm.reclamo_monto_pagado" />
+ 		</field>
+ 		
+ 		<field property="reclamo_monto_aceptado" depends="float">
+ 		<arg0 key="JuiciosForm.reclamo_monto_aceptado" />
+ 		</field>
+ 		
+ 	</form>
+ 	
+ 	<form name="CostosForm">
+ 		<field property="mes" depends="required,integer">
+ 		<arg0 key="CostosForm.mes"/>
+ 		</field>
+ 		<field property="anio" depends="required,integer">
+ 		<arg0 key="CostosForm.anio"/>
+ 		</field>
+ 	</form>
+ 	
+
+</formset> 
+</form-validation>

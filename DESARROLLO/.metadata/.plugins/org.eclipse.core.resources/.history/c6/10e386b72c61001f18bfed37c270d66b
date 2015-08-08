@@ -1,0 +1,63 @@
+package com.fonseca.model.jubilaciones;
+
+public class DiferenciaJubilacion {
+	
+	private String nro_leg;     
+	private String importe;
+	private String tipo;	                                
+	private String dif_480;                                 
+	private String dif_404;                                 
+	private String dif_481;                                
+	private String dif_A17;                                 
+	private String dif_A18;
+	
+	public String getNro_leg() {
+		return nro_leg;
+	}
+	public void setNro_leg(String nro_leg) {
+		this.nro_leg = nro_leg;
+	}
+	public String getImporte() {
+		return importe;
+	}
+	public void setImporte(String importe) {
+		this.importe = importe;
+	}
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	public String getDif_480() {
+		return dif_480;
+	}
+	public void setDif_480(String dif_480) {
+		this.dif_480 = dif_480;
+	}
+	public String getDif_404() {
+		return dif_404;
+	}
+	public void setDif_404(String dif_404) {
+		this.dif_404 = dif_404;
+	}
+	public String getDif_481() {
+		return dif_481;
+	}
+	public void setDif_481(String dif_481) {
+		this.dif_481 = dif_481;
+	}
+	public String getDif_A17() {
+		return dif_A17;
+	}
+	public void setDif_A17(String dif_A17) {
+		this.dif_A17 = dif_A17;
+	}
+	public String getDif_A18() {
+		return dif_A18;
+	}
+	public void setDif_A18(String dif_A18) {
+		this.dif_A18 = dif_A18;
+	}
+	
+}

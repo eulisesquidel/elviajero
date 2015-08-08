@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+   "-//Hibernate/Hibernate Mapping DTD//EN"
+   "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.slort.model.security.OpcionMenu" table="OpcionMenu">
+        <id name="IdOpcionMenu" type="long" unsaved-value="null" >
+            <column	name="id_opcionmenu"
+					sql-type="int"
+					not-null="true"/>
+            <generator class="increment"/>
+        </id>
+
+        <property
+        	name="longDesc"
+        	column="long_descrip"
+        	type="string"
+        	length="40"
+			not-null="true"/>
+
+        <property
+        	name="shortDesc"
+        	column="short_descrip"
+        	type="string"
+        	length="15"
+			not-null="true"/>
+
+        <property
+        	name="link"
+        	column="link"
+        	type="string"
+        	length="100"
+			not-null="true"/>
+
+
+
+    </class>
+
+</hibernate-mapping>
+<!-- parsed in 0ms -->

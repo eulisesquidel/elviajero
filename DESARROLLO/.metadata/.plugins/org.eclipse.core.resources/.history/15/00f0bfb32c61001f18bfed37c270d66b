@@ -1,0 +1,236 @@
+package com.fonseca.model.interfaces;
+
+import java.sql.CallableStatement;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import net.sf.hibernate.Session;
+import org.apache.log4j.Logger;
+import com.bdb.conexion.Conexion;
+import com.bdb.conexion.ConnectMFG;
+import com.bdb.conexion.ConnectMPX;
+import com.bdb.conexion.ConnectOYG;
+import com.bdb.conexion.ConnectRRHH;
+
+public class AdmInterfaces {
+	
+	private static final Logger log;
+
+	static  {
+		log = Logger.getLogger(com.fonseca.model.interfaces.AdmInterfaces.class);
+	}
+	  private Conexion     conexionMFG;
+	  private Conexion     conexionMPX;
+	  private Conexion 	   conexionOYG;
+	  private Session 	   hibSession;  
+	  private String 	   error=null;
+	  private InterfaceIRE interfaceIRE; 
+	  private InterfaceVTA interfaceVTA;
+	  private InterfaceMPX interfaceMPX;
+	  
+	
+	  
+	   public boolean ejecutarInterfaceIRE(){
+		   try {
+			    ConnectOYG conOYG=new ConnectOYG(conexionOYG); 
+			    CallableStatement call= conOYG.getConnection().prepareCall("{call sp_ctrl_ire_v1_2()}");
+			    //-call.execute(); 
+			    ResultSet rs = call.executeQuery();
+			    // si no obtenemos registros es que no se econtraron diferencias
+			    if (rs==null) return false; 
+			    aObjetoInterfaceIRE_OyG(rs);
+			    // correr MFG obtener datos de la tabla
+			    ConnectMFG conMFG=new ConnectMFG(conexionMFG) ;
+			    String sql = " select * from  PUB.ztar_resul where ztar_nombre ='IQ_v3_2'" +
+			    		     " and  ztar_tipo_ES = 'SALIDA' ";
+			    PreparedStatement pstmt= conMFG.getConnection().prepareStatement(sql);
+			    rs=pstmt.executeQuery(); 
+			    if (rs==null) return false; 
+			    aObjetoInterfaceIRE_MFG(rs);
+			    return true ;
+		   } catch (SQLException e) { log.error("Metodo: ejecutarInterfaceIRE ", e); error=e.getMessage() ; return false; }
+	   }
+		
+			     		 
+		private void aObjetoInterfaceIRE_OyG(ResultSet prs) throws SQLException{
+			interfaceIRE = new InterfaceIRE();
+			prs.next();
+			System.out.println(prs.getString(1));
+			interfaceIRE.setCantidad_sin_lote_oyg( new Float(prs.getFloat(2)).toString() );
+			prs.next();
+			System.out.println(prs.getString(1));
+			interfaceIRE.setCantidad_con_lote_oyg( new Float(prs.getFloat(2)).toString());
+			return;
+		}
+		
+		private void aObjetoInterfaceIRE_MFG(ResultSet prs) throws SQLException{
+			
+			/*
+			 * 
+			Ejemplo de los datos de devuelve el query SQL
+			IQ_v3_2  fec_incio   5680339     SALIDA                                   
+			IQ_v3_2  fec_fin1    5680340     SALIDA                                   
+			IQ_v3_2  totalizador 5680341     SALIDA
+			*/                                   
+			
+			while (prs.next()){
+				System.out.print(prs.getString(1));
+				System.out.print(prs.getString(2));
+				System.out.print(prs.getString(3));
+				if (prs.getString(2).compareTo("totalizador")==0){
+					interfaceIRE.setCantidad_MFG(prs.getString(3));
+				}	
+			}
+			return;
+		}
+		
+		public Conexion getConexionOYG() {
+			return conexionOYG;
+		}
+
+		public void setConexionOYG(Conexion conexionOYG) {
+			this.conexionOYG = conexionOYG;
+		}
+		public Conexion getConexionMPX() {
+			return conexionMPX;
+		}
+
+		public void setConexionMPX(Conexion conexionMPX) {
+			this.conexionMPX = conexionMPX;
+		}
+		
+		public Conexion getConexionMFG() {
+			return conexionMFG;
+		}
+
+		public void setConexionMFG(Conexion conexionMFG) {
+			this.conexionMFG = conexionMFG;
+		}
+
+		public Session getHibSession() {
+			return hibSession;
+		}
+
+		public void setHibSession(Session hibSession) {
+			this.hibSession = hibSession;
+		}
+
+		public InterfaceIRE getInterfaceIRE() {
+			return interfaceIRE;
+		}
+
+		public void setInterfaceIRE(InterfaceIRE interfaceIRE) {
+			this.interfaceIRE = interfaceIRE;
+		}
+		
+		// Crear un clase InterfaceVentas
+		// ejecutar el store de ventas recuperar los datos en InterfaceVentas
+		// e imprimirlos
+		// Armar un metodo en InterfaceAction
+		
+	 
+		public boolean ejecutarInterfaceVTA(){
+			
+			ConnectOYG conOYG=new ConnectOYG(conexionOYG); 
+		    CallableStatement call;
+			try {
+				call = conOYG.getConnection().prepareCall("{call sp_ctrl_vta_v1_1()}");
+			    //call.execute(); 
+			    ResultSet rs = call.executeQuery();
+			    // si no obtenemos registros es que no se econtraron diferencias
+			    if (rs==null) return false; 
+			    aObjetoInterfaceVTA_OyG(rs);
+				ConnectMFG conMFG=new ConnectMFG(conexionMFG);
+			    String sql = " select * from  PUB.ztar_resul where ztar_nombre ='VTA_v1_2'" +
+			    		     " and  ztar_tipo_ES = 'SALIDA' ";
+			    PreparedStatement pstmt= conMFG.getConnection().prepareStatement(sql);
+			    rs=pstmt.executeQuery(); 
+			    if (rs==null) return false; 
+			    aObjetoInterfaceVTA_MFG(rs);
+			    return true; 
+			}catch (SQLException e) {log.error("Metodo: ejecutarInterfaceVTA ", e); error=e.getMessage() ; return false; }
+		}
+		
+		 	
+				private void aObjetoInterfaceVTA_OyG(ResultSet prs) throws SQLException{
+						interfaceVTA = new InterfaceVTA();
+						prs.next();
+						//System.out.println(prs.getString(1));
+						interfaceVTA.setVenta_fonseca(prs.getString(1));
+						return;
+				
+		}
+
+
+				public InterfaceVTA getInterfaceVTA() {
+					return interfaceVTA;
+				}
+
+
+				public void setInterfaceVTA(InterfaceVTA interfaceVTA) {
+					this.interfaceVTA = interfaceVTA;
+				}
+				
+				private void aObjetoInterfaceVTA_MFG(ResultSet prs) throws SQLException{
+					
+					/*
+					 * 
+					Ejemplo de los datos de devuelve el query SQL
+					IQ_v3_2  fec_incio   5680339     SALIDA                                   
+					IQ_v3_2  fec_fin1    5680340     SALIDA                                   
+					IQ_v3_2  totalizador 5680341     SALIDA
+					*/                                   
+					
+					while (prs.next()){
+						System.out.print(prs.getString(1));
+						System.out.print(prs.getString(2));
+						System.out.print(prs.getString(3));
+						if (prs.getString(2).compareTo("totalizador")==0){
+							interfaceVTA.setVenta_fonseca_mfg(prs.getString(3));
+						}	
+					}
+					return;
+					}
+				public boolean ejecutarInterfaceMPX(){
+					ConnectMPX conMPX=new ConnectMPX(conexionMPX); 
+				    CallableStatement call;
+					try {
+						call = conMPX.getConnection().prepareCall("{call sp_crtl_mpx_v1_1()}");
+					    //call.execute(); 
+					    ResultSet rs = call.executeQuery();
+					    // si no obtenemos registros es que no se econtraron diferencias
+					    if (rs==null) return false; 
+					    aObjetoInterfaceMPX(rs);
+						return true; 
+					}catch (SQLException e) {log.error("Metodo: ejecutarInterfaceMPX ", e); error=e.getMessage() ; return false; }
+				}
+
+
+			 	
+				private void aObjetoInterfaceMPX(ResultSet prs) throws SQLException{
+						interfaceMPX = new InterfaceMPX();
+						prs.next();
+						//System.out.println(prs.getString(1));
+						interfaceMPX.setConsumo_OYG_fon(prs.getString(1));
+						prs.next();
+						interfaceMPX.setConsumo_OYG_eof(prs.getString(1));
+						prs.next();
+						interfaceMPX.setConsumo_MPX_fon(prs.getString(1));
+						prs.next();
+						interfaceMPX.setConsumo_MPX_eof(prs.getString(1));
+						return;
+				
+		}
+				
+
+
+				public InterfaceMPX getInterfaceMPX() {
+					return interfaceMPX;
+				}
+
+
+				public void setInterfaceMPX(InterfaceMPX interfaceMPX) {
+					this.interfaceMPX = interfaceMPX;
+				}
+}

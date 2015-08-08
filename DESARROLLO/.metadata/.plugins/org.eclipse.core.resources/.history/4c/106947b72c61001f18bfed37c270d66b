@@ -1,0 +1,137 @@
+// Decompiled by DJ v3.11.11.95 Copyright 2009 Atanas Neshkov  Date: 19/11/2009 03:12:43 
+// Home Page: http://members.fortunecity.com/neshkov/dj.html  http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   Costo.java
+
+package com.fonseca.model.nexus.costos;
+
+
+public class Costo
+{
+
+    public Costo()
+    {
+    }
+
+    public String getCod_cpto()
+    {
+        return cod_cpto;
+    }
+
+    public void setCod_cpto(String cod_cpto)
+    {
+        this.cod_cpto = cod_cpto;
+    }
+
+    public String getNombre()
+    {
+        return nombre;
+    }
+
+    public void setNombre(String nombre)
+    {
+        this.nombre = nombre;
+    }
+
+    public String getDebe()
+    {
+        return debe;
+    }
+
+    public void setDebe(String debe)
+    {
+        this.debe = debe;
+    }
+
+    public String getHaber()
+    {
+        return haber;
+    }
+
+    public void setHaber(String haber)
+    {
+        this.haber = haber;
+    }
+
+    public String getAgrupacion_1()
+    {
+        return agrupacion_1;
+    }
+
+    public void setAgrupacion_1(String agrupacion_1)
+    {
+        this.agrupacion_1 = agrupacion_1;
+    }
+
+    public String getAgrupacion_2()
+    {
+        return agrupacion_2;
+    }
+
+    public void setAgrupacion_2(String agrupacion_2)
+    {
+        this.agrupacion_2 = agrupacion_2;
+    }
+
+    public String getEmpresa()
+    {
+        return empresa;
+    }
+
+    public void setEmpresa(String empresa)
+    {
+        this.empresa = empresa;
+    }
+
+    public String getCentro_costo()
+    {
+        return centro_costo;
+    }
+
+    public void setCentro_costo(String centro_costo)
+    {
+        this.centro_costo = centro_costo;
+    }
+
+    public String getPeriodicidad_liq()
+    {
+        return periodicidad_liq;
+    }
+
+    public void setPeriodicidad_liq(String periodicidad_liq)
+    {
+        this.periodicidad_liq = periodicidad_liq;
+    }
+
+    public String getImporte()
+    {
+        return importe;
+    }
+
+    public void setImporte(String importe)
+    {
+        this.importe = importe;
+    }
+
+    public String getCantidad()
+    {
+        return cantidad;
+    }
+
+    public void setCantidad(String cantidad)
+    {
+        this.cantidad = cantidad;
+    }
+
+    String cod_cpto;
+    String nombre;
+    String debe;
+    String haber;
+    String agrupacion_1;
+    String agrupacion_2;
+    String empresa;
+    String centro_costo;
+    String periodicidad_liq;
+    String importe;
+    String cantidad;
+}

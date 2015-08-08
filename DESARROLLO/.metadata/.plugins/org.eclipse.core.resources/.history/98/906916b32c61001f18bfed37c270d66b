@@ -1,0 +1,422 @@
+
+/************
+ *   link   *
+ ***********/
+
+A          {color : #D1D3FD; }
+A:Visited  {color : #D1D3FD; }
+A:Active   {color : #D1D3FD; }
+A:Hover    {color : #FFFFFF; text-decoration : none; }
+
+/*************
+ *   body    *
+ ************/
+
+BODY 	{
+  		     color      : #FFFFFF;
+	background-color      : #CDDDE0;
+	margin-left           : 8;
+	margin-top            : 8;
+}
+
+
+/*********************
+ *   BodyTemplate    *
+ ********************/
+.Fonseca_content_bgcolor	{BACKGROUND-COLOR:#e9eeef}
+.Fonseca_left_bgcolor		{BACKGROUND-COLOR:#DBEAF5}
+.Fonseca_header_bgcolor	{BACKGROUND-COLOR:#DBEAF5}
+.Fonseca_footer_bgcolor	{BACKGROUND-COLOR:#4791C5;padding-left:10px;border-bottom:1px solid #10659E}
+.Fonseca_header_bgcolor1	{BACKGROUND-COLOR:#4791C5}
+.Fonseca_header_bgcolor2	{BACKGROUND-COLOR:#10659E;padding-left:10px;height:20px;border-bottom:1px}
+
+.Fonseca_message_title 	{BACKGROUND-COLOR:#e1e1ae;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:10pt;font-weight:bold;padding-left:5px;padding-top:5px;} 
+.Fonseca_message_content 	{BACKGROUND-COLOR:#e1e1ae;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:8pt;padding-left:10px;padding-right:10px;padding-bottom:10px;} 	
+
+.Fonseca_error_title 		{BACKGROUND-COLOR:#FF9999;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:10pt;font-weight:bold;padding-left:5px;padding-top:5px;} 
+.Fonseca_error_content 	{BACKGROUND-COLOR:#FF9999;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:8pt;padding-left:10px;padding-right:10px;padding-bottom:10px;} 	
+
+.Fonseca_title_jsp 		{font-family:Verdana,Arial,Helvetica,sans-serif;font-size:12pt;font-weight:bold;color:#000000;text-align:center;padding-top:10px;}
+
+.Fonseca_title_list 		{font-family:Verdana,Arial,Helvetica,sans-serif;font-size:12pt;font-weight:bold;color:#000000;text-align:center;padding0-top:10px;}
+.Fonseca_subtitle_list	{font-family:Verdana,Arial,Helvetica,sans-serif;font-size:10pt;font-weight:bold;color:#000000;text-align:left;padding-top:10px;}
+.Fonseca_hidden			{display:none}
+}
+
+
+
+
+
+/*************************
+ *   Title Encabezado    *
+ *************************/
+TITLE 	{
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 8pt; 
+	font-weight: bold; 
+	color: #000000} 	
+}
+
+/******************************
+ *    class used to display   *
+ *    the input field labels  *
+ *****************************/
+P.LABEL {
+     	 color : #FFFFFF;
+  	     font-weight : bold;
+}P.LABEL2 {
+     	 color : #FFFFFF;
+  	     font-weight : bold;
+  	     width: 200px;
+}INPUT.LABEL2 {
+     	 width: 200px;
+}
+TH.LABEL {
+		text-align:right;
+}
+TH.LABEL2 {
+		text-align:right;
+}
+
+H3 {
+	color : #FFFFFF;	
+}
+
+/*******************************************
+ * class for the title of the subscription *
+ ******************************************/
+P.SUBSCRIPTION {
+		  color : #FFFFFF;
+		  font-family: arial;
+		  font-weight : bold;
+		  text-align : center;
+		  font-size : 16px;
+}
+/********************************************************
+ * color of the thin line surrounding the subscriptions *
+ *******************************************************/
+TABLE.SUBSCRIPTION {
+		background-color : #000000;
+}
+/*************************
+ * class for the headers *
+ ************************/
+TH.SUBSCRIPTION {
+		color      : #FFFFFF;
+		background-color : #274465;
+		font-weight: bold;			
+}
+/*******************************
+ * class for the subscriptions *
+ ******************************/
+TD.SUBSCRIPTION {
+		color      : #FFFFFF;
+		background-color : #336699;
+}
+
+
+P.SUBS {
+		  color : #FFFFFF;
+		  font-family: arial;
+		  font-weight : bold;
+		  text-align : center;
+		  font-size : 16px;
+}
+
+TABLE.SUBS {		
+		background-color : #274465;
+		border-collapse: collapse;	
+}
+TABLE.subs2 {
+		background-color : #000000;
+}
+
+
+
+TH.SUBS {
+		color      : #FFFFFF;
+		background-color : #274465;
+		font-weight: bold;			
+		text-align : left;
+		font-size : 16px;
+		font-family: arial;
+}
+
+TR.SUBS {
+		background-color : #3366A3;
+}
+
+
+TD.SUBS {
+		color      : #FFFFFF;
+		background-color : #3366A3;
+}
+
+
+
+/*******************************
+ *  background color to use to *
+ *  display the errors         *
+ ******************************/
+TD.ERROR {
+		background-color : #ED4F50;
+}
+
+/***********************************************
+ * color of the thin line surrounding the form *
+ **********************************************/
+TABLE.FORM {		
+		background-color : #000000;
+}
+/**************************************
+ * background color of the form title *
+ *************************************/
+TH.FORM {
+		color      : #FFFFFF;
+		background-color : #274465;
+		font-weight: bold;			
+}
+/********************************
+ * background color of the form *
+ *******************************/
+TD.FORM {
+		background-color :  #336699;
+}
+
+P.FORM {
+		background-color :  #e9eeef;
+		font-weight: bold;	
+}
+
+
+.FORM {
+		background-color :  #FFFFFF;
+}
+
+TD.PAGER {
+	background-color :  #3366A3;
+	text-align: center;
+}
+
+.ongletMain {
+	BORDER-RIGHT: #80add6 2px solid; 
+	BORDER-TOP: medium none; 
+	BORDER-LEFT: #80add6 2px solid; 
+	BORDER-BOTTOM: #80add6 2px solid; 
+	BACKGROUND-COLOR: #dce8f4;
+}
+
+.clsAction {
+	FONT-WEIGHT: bold; 
+	FONT-SIZE: 10px; 
+	COLOR: #dce8f4; 
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.linkrepar {
+	BORDER-RIGHT: #80add6 2px solid; 
+	BORDER-TOP: medium none; 
+	BORDER-LEFT: #80add6 2px solid; 
+	BORDER-BOTTOM: #80add6 2px solid; 
+	FONT-WEIGHT: bold; 
+	FONT-SIZE: 12px; 
+	COLOR: #000000; 
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+	BACKGROUND-COLOR: #80add6;
+}
+
+
+.linkrepar2 {
+	BORDER-RIGHT: #80add6 2px solid; 
+	BORDER-TOP: medium none; 
+	BORDER-LEFT: #80add6 2px solid; 
+	BORDER-BOTTOM: #80add6 2px solid; 
+	FONT-WEIGHT: bold; 
+	FONT-SIZE: 10px; 
+	COLOR: #000000; 
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+	BACKGROUND-COLOR: #80add6;
+}
+
+
+.ongletTextEna {
+	BORDER-RIGHT: #80add6 2px solid; 
+	BORDER-TOP: #80add6 2px solid; 
+	FONT-WEIGHT: bold; 
+	FONT-SIZE: 10px; 
+	BORDER-LEFT: #80add6 2px solid; 
+	COLOR: #005386; 
+	BORDER-BOTTOM: medium none; 
+	FONT-FAMILY: verdana; 
+	BACKGROUND-COLOR: #dce8f4; 
+	TEXT-ALIGN: center;
+}
+
+.ongletTextDis {
+	BORDER-RIGHT: #c5c5c5 1px solid; 
+	BORDER-TOP: #c5c5c5 1px solid; 
+	FONT-WEIGHT: bold; 
+	FONT-SIZE: 10px; 
+	BORDER-LEFT: #c5c5c5 1px solid; 
+	COLOR: #80add6; 
+	BORDER-BOTTOM: #80add6 2px solid; 
+	FONT-FAMILY: verdana; 
+	BACKGROUND-COLOR: #e6e6e6; 
+	TEXT-ALIGN: center;
+}
+
+.ongletTextErr {
+	BORDER-RIGHT: #c5c5c5 1px solid; 
+	BORDER-TOP: #c5c5c5 1px solid; 
+	FONT-WEIGHT: bold; 
+	FONT-SIZE: 10px; 
+	BORDER-LEFT: #c5c5c5 1px solid; 
+	COLOR: #FFFFFF; 
+	BORDER-BOTTOM: #80add6 2px solid; 
+	FONT-FAMILY: verdana; 
+	BACKGROUND-COLOR: #ED4F50;
+	TEXT-ALIGN: center;
+}
+
+.ongletMiddle {
+	BORDER-RIGHT: #80add6 2px solid; 
+	BORDER-TOP: medium none; 
+	FONT-SIZE: 1px; 
+	BORDER-LEFT: #80add6 2px solid; 
+	BORDER-BOTTOM: medium none; 
+	BACKGROUND-COLOR: #dce8f4;
+}
+
+.ongletSpace {
+	BORDER-BOTTOM: #80add6 2px solid;
+}
+
+/**
+ * Calendar classes
+ */
+
+TD.CALENDRIER {
+	background-color: #C2C2C2; 
+	font-weight: bold; 
+	text-align: center; 
+	font-size: 10px;
+}
+
+A.CALENDRIER {
+	text-decoration: none; 
+	color: #000000;
+}
+
+.CALENDARBORDER {
+	background-color: #000000; 
+}
+
+.CALENDARTITLE {
+	background-color: #336699; //#C9252C;
+}
+
+.CALENDARWEEK {
+	background-color: #FFFFFF;
+}
+
+.CALENDARWEEKEND {
+	background-color: #FFF4E5;
+}
+
+.CALENDARSELECTED {
+	background-color: #FF8F01;
+}
+
+/***********
+STYLES BDB
+************/
+
+BODY	{COLOR:#000000;MARGIN-TOP:2px;MARGIN-LEFT:0px;MARGIN-RIGHT:0px}
+A, BODY, INPUT, OPTION, SELECT, TEXTAREA, TABLE, TD, TR {FONT-SIZE:11px;FONT-FAMILY:tahoma,sans-serif}
+SELECT,OPTION,TEXTAREA		{PADDING-LEFT:2px}
+TABLE 	{BORDER:0px}
+A		{COLOR:#000099;TEXT-DECORATION:none}
+A:hover	{TEXT-DECORATION:underline}
+.A	{HEIGHT:20px;BORDER:1px solid #000000;TEXT-DECORATION:none;BACKGROUND-IMAGE:url(http://65.54.244.24/bgcolor.gif)}
+.B	{COLOR:#8D8D8D;HEIGHT:20px;BORDER:1px solid #8D8D8D;TEXT-DECORATION:none;BACKGROUND-IMAGE:url(http://65.54.244.24/bgcolor.gif)}
+.G	{COLOR:#FFFFFF}
+.KF	{COLOR:#000000;FONT-WEIGHT:BOLD}
+.K	{COLOR:#000000}
+.AA	{BACKGROUND-COLOR:#FFFFFF;BORDER:1px solid #FFFFFF}
+.BB	{FONT-WEIGHT:BOLD}
+.CC	{COLOR:#336699;FONT-WEIGHT:BOLD}
+
+<!-- Color 1° Top -->
+.bgtop1	{BACKGROUND-COLOR:#4791C5}
+<!-- Color Body -->
+.bgbody {BACKGROUND-COLOR:#336699}
+<!-- Color Contenido del Medio -->
+.bgmedio {BACKGROUND-COLOR:#FFFFFF}
+
+
+
+/***BLANCO NORMAL***/
+.blanco-nor-1 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8pt; font-weight: normal; color: #FFFFFF}
+.blanco-nor-2 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 9pt; font-weight: normal; color: #FFFFFF}
+.blanco-nor-3 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11pt; font-weight: normal; color: #FFFFFF}
+
+/***BLANCO BOLD***/
+.blanco-bd-5  { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 17pt; font-weight: normal; color: #FFFFFF} 
+.blanco-bd-4 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 22pt; color: #FFFFFF}
+.blanco-bd-3 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11pt; font-weight: bold; color: #FFFFFF}
+.blanco-bd-2 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 9pt; font-weight: bold; color: #FFFFFF} 
+.blanco-bd-1 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 9pt; font-weight: bold; color: #FFFFFF}
+
+/***NEGRO BOLD***/
+.negro-bd-1 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8pt; font-weight: bold; color: #000000} 
+.negro-bd-2 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8pt; font-weight: bold; color: #000000} 
+
+/***NEGRO NORMAL***/
+.negro-nor-2 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8pt; font-weight: normal; color: #000000; background-color: #FFFFFF;} 
+.negro-nor-1 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 7pt; font-weight: normal; color: #000000} 
+.negro-nor-3 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8pt; font-weight: normal; color: #000000; background-color: #CB2121;} 
+
+/***SWAP DISTINGUE***/
+.onclick-swap { font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: normal; color: #F42913; background-color: #FFFFFF;}  
+
+
+
+/*** MENU ***/
+.barrita { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11pt; font-weight: bold; color: #C1C8F4}
+.activa { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 9pt; font-weight: bold; color: #FCF00C}
+.azul-bd-1 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 7pt; color: #1664a7; font-weight: bold} 
+.azul-nor-1 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 7pt; font-weight: normal; color: #1664a7} 
+.azul-bd-2 { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8pt; font-weight: bold; color: #1664a7} 
+/*** MENU ***/
+
+
+
+/***BUTTON****/
+.button { 
+		font-family: Verdana, sans-serif; 
+		font-size: 10px; 
+		color: #333333; 
+		border: 1px #666666 solid; 
+		background-color: #f2f2f2; 
+		font-weight: bold}
+		
+.borde-verde-abajo { border-color: #007F7F #7EEDF3 #7EEDF3 #007F7F; border-style: 
+solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; 
+border-left-width: 1px} .borde-azul-abajo { border: 1px solid; border-color: #253A7F 
+#4666C5 #4666C5 #253A7F} .borde-azul-arriba { border: 1px solid; border-color: 
+#4666C5 #253A7F #253A7F #4666C5} .bordes-gris-arriba { border: 1px solid; border-color: 
+#FAFAFA #B3B3B3 #B3B3B3 #FAFAFA} .bordes-gris-abajo { border: 1px solid; border-color: 
+#CCCCCC #FAFAFA #FAFAFA #CCCCCC} A.SUBRAYA:visited {text-decoration: none; color: #00aeff}
+A.SUBRAYA:hover {text-decoration: underline; color: #FFFFFF}
+A.SUBRAYA:link {text-decoration: none; color:#00aeff}
+..texto1 {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: xx-small}.borde-cel-arriba {  border: 1px solid; border-color: #00C8FF #008ACA #008ACA #00C8FF}
+a.apartado2:link {color : #6A6A6A}, a.apartado2:visited, a.apartado2:active  {	color : #6A6A6A;	font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 7pt; color: #6A6A6A; text-decoration : none;}
+a:hover.apartado2  {	background-color : #999999;	color : #FFFFFF;}
+input {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 7pt}
+select {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 7pt; color: #333399; background-color: #ffffff; border: thin #333399 solid}
+.input2 {  font-family: Verdana, Arial, Helvetica, sans-serif; background-color: #FFFFFF; font-size: 8pt; border: #0080FF; border-style: solid; border-top-width: thin; border-right-width: thin; border-bottom-width: thin; border-left-width: thin}
+.button_old {  font-family: Verdana, Arial, Helvetica, sans-serif; background-color: #FFFFFF; font-size: 8pt; border: #C0C0C0; border-style: solid; border-top-width: thin; border-right-width: thin; border-bottom-width: thin; border-left-width: thin}
+
+		
+ 
+

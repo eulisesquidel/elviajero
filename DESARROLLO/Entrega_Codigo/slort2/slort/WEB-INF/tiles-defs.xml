@@ -1,0 +1,18 @@
+<!DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration//EN"
+  "http://jakarta.apache.org/struts/dtds/tiles-config.dtd">
+
+<tiles-definitions>
+ <definition name="udemm.default" path="/view/plantillas/plantillaPrincipal.jsp"> 
+  <put name="titulo" value="Udemm - Sistema de Administración" />
+  <put name="cabecera" value="/view/plantillas/head.jsp" />
+  <put name="arbol" value="/view/plantillas/arbol.jsp" />
+  <put name="pie" value="/view/plantillas/pie.jsp" /> 
+ </definition>
+ 
+ <definition name="udemm.login" path="/view/plantillas/plantillalogin.jsp"> 
+  <put name="titulo" value="Udemm - Sistema de Administración" />
+  <put name="pie" value="/view/plantillas/pie.jsp" /> 
+ </definition>
+ 
+</tiles-definitions>

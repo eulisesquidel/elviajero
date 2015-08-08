@@ -1,0 +1,50 @@
+package com.slort.struts.form.rrhh;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionMapping;
+import com.slort.struts.action.ActionForm;
+
+public class DotacionForm extends ActionForm {
+
+	private static final long serialVersionUID = 1L;
+
+	private String mes;
+    private String anio;
+       
+
+	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
+        ActionErrors errors = new ActionErrors();
+        validateRequired(errors, "mes", this.mes);
+        validateRequired(errors, "anio", this.anio);
+        return errors;
+    }
+	
+
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+        super.reset(mapping, request);
+    }
+
+
+	public String getMes() {
+		return mes;
+	}
+
+
+	public void setMes(String mes) {
+		this.mes = mes;
+	}
+
+
+	public String getAnio() {
+		return anio;
+	}
+
+
+	public void setAnio(String anio) {
+		this.anio = anio;
+	}
+
+	
+}

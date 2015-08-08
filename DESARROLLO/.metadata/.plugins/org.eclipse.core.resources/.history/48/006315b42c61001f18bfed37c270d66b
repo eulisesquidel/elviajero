@@ -1,0 +1,99 @@
+package com.fonseca.model.juicios;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import net.sf.hibernate.Session;
+import org.apache.log4j.Logger;
+
+import com.bdb.conexion.Conexion;
+import com.bdb.conexion.ConnectRRHH;
+import com.fonseca.model.Empleado;
+
+public class AdmJuicios {
+
+	private static final Logger log;
+
+	static  {
+		log = Logger.getLogger(com.fonseca.model.juicios.AdmJuicios.class);
+	}
+
+	private Session hibSession = null; 
+	private String error=null;
+	private ArrayList<Empleado> listaEmpleados;
+	private Conexion conexion;
+	
+	public Session getHibSession() {
+		return hibSession;
+	}
+	public void setHibSession(Session hibSession) {
+		this.hibSession = hibSession;
+	}
+	public String getError() {
+		return error;
+	}
+	public void setError(String error) {
+		this.error = error;
+	}
+	
+	   public boolean obtenerEmpleadosporLegajo(String criterio){
+		    
+		   try {
+			    ConnectRRHH conRRHH=new ConnectRRHH(conexion); 
+			    String sql = "select  nro_leg, rtrim(apellido)+ ' '+ rtrim(nombre) as nombre from basi_personal where nro_leg like '%"+ criterio +"%'";
+			    Statement stmt= conRRHH.getConnection().createStatement();
+			    ResultSet rs = stmt.executeQuery(sql);
+			    // si no obtenemos registros es que no se econtraron diferencias
+			    if (rs==null) {
+			    	return true; 
+			    }
+			    toArrayEmpleados(rs);
+			    return true; 
+		   } catch (SQLException e) { log.error("Metodo: obtenerEmpleadosporLegajo ", e); error=e.getMessage() ; return false; }
+	   }
+	
+	   private void toArrayEmpleados(ResultSet prs) throws SQLException{
+			listaEmpleados=new ArrayList<Empleado>();
+			error="AdmReparaciones.Resultado.NohayCoincidencias";
+			while (prs.next()){
+					error="AdmJucios.Resultado.ExistenCoincidencias";
+					Empleado unEmpleado = new Empleado(prs.getString(1).toString().trim(), prs.getString(2).toString().trim());
+					listaEmpleados.add(unEmpleado);
+			}
+			return;
+		}
+	public Conexion getConexion() {
+		return conexion;
+	}
+	public void setConexion(Conexion conexion) {
+		this.conexion = conexion;
+	}
+	public ArrayList<Empleado> getListaEmpleados() {
+		return listaEmpleados;
+	}
+	public void setListaEmpleados(ArrayList<Empleado> listaEmpleados) {
+		this.listaEmpleados = listaEmpleados;
+	}
+
+	
+	   public boolean obtenerEmpleadosporNombre(String criterio){
+		    
+		   try {
+			    ConnectRRHH conRRHH=new ConnectRRHH(conexion); 
+			    String sql = "select top 50 nro_leg, rtrim(nombre)+' '+ rtrim(apellido) as nombre from basi_personal where nombre +' '+ apellido like '%"+ criterio +"%' or  apellido like '%"+ criterio +"%'  or  nro_leg like '%"+ criterio +"%'  or apellido +' '+ nombre like '%"+ criterio +"%'";
+			    Statement stmt= conRRHH.getConnection().createStatement();
+			    ResultSet rs = stmt.executeQuery(sql);
+			    // si no obtenemos registros es que no se econtraron diferencias
+			    if (rs==null) {
+			    	return true; 
+			    }
+			    toArrayEmpleados(rs);
+			    return true; 
+		   } catch (SQLException e) { log.error("Metodo: obtenerEmpleadosporNombre ", e); error=e.getMessage() ; return false; }
+	   }
+	
+	   
+}

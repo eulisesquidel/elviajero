@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN"
+                                         "http://hibernate.sourceforge.net/hibernate-configuration-2.0.dtd">
+
+<hibernate-configuration>
+<session-factory>
+
+	<!-- Database Configuration -->
+	<!--
+		<property name="hibernate.connection.driver_class">com.microsoft.jdbc.sqlserver.SQLServerDriver</property>
+		<property name="hibernate.connection.url">jdbc:microsoft:sqlserver://localhost:1433;databasename=slortFinal</property>
+	-->
+
+	<!-- <property name="hibernate.connection.driver_class">net.sourceforge.jtds.jdbc.Driver</property> -->
+	<!--		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>--> 
+
+	<property name="hibernate.connection.url">jdbc:jtds:sqlserver://192.1.1.8/slort_gestion_prue</property>
+
+	<!--		
+		<property name="hibernate.connection.url">jdbc:jtds:sqlserver://5.5.108.155</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/slort</property>
+		<property name="hibernate.connection.url">jdbc:jtds:sqlserver://SCDB01/aeapgFinal</property>
+		<property name="hibernate.connection.url">jdbc:jtds:sqlserver://SCDB01/aeapgFinal</property>
+	-->
+
+	<property name="hibernate.connection.username">sa</property>
+	<property name="hibernate.connection.password">euli3755</property>
+	<property name="hibernate.connection.pool_size">6</property>
+
+	<!-- Another Hibernate Configurations -->
+	<property name="show_sql">true</property>
+	<property name="use_outer_join">true</property>
+	<property name="dialect">net.sf.hibernate.dialect.SQLServerDialect</property>
+	<!-- Mapping security files -->
+	<mapping resource="com/slort/model/security/Grupo.hbm.xml" />
+	<mapping resource="com/slort/model/security/OpcionMenu.hbm.xml" />
+	<mapping resource="com/slort/model/security/Users.hbm.xml" />
+	<mapping resource="com/bdb/conexion/Conexion.hbm.xml" />
+	<mapping resource="com/slort/model/premios/LiquidaConcepto.hbm.xml" />
+	<mapping resource="com/slort/model/premios/ConceptoEmpleado.hbm.xml" />
+	<mapping resource="com/slort/model/reparaciones/ReparCabEnvio.hbm2.xml" />
+	<mapping resource="com/slort/model/reparaciones/ReparDetEnvio.hbm2.xml" />
+	<mapping resource="com/slort/model/reparaciones/ReparProducto.hbm2.xml" />
+	<mapping resource="com/slort/model/reparaciones/ReparDetRececepciones.hbm2.xml" />
+	<mapping resource="com/slort/model/reparaciones/ReparReclamos.hbm2.xml" />
+	
+	<!-- Mapping test files -->
+
+</session-factory>
+</hibernate-configuration>

@@ -1,0 +1,37 @@
+package com.slort.model.interfaces;
+
+public class InterfaceMPX {
+	
+	private String Consumo_OYG_fon;
+	private String Consumo_OYG_eof;
+	private String Consumo_MPX_fon;
+	private String Consumo_MPX_eof;
+	
+	
+	public String getConsumo_OYG_fon() {
+		return Consumo_OYG_fon;
+	}
+	public void setConsumo_OYG_fon(String consumo_OYG_fon) {
+		Consumo_OYG_fon = consumo_OYG_fon;
+	}
+	public String getConsumo_OYG_eof() {
+		return Consumo_OYG_eof;
+	}
+	public void setConsumo_OYG_eof(String consumo_OYG_eof) {
+		Consumo_OYG_eof = consumo_OYG_eof;
+	}
+	public String getConsumo_MPX_fon() {
+		return Consumo_MPX_fon;
+	}
+	public void setConsumo_MPX_fon(String consumo_MPX_fon) {
+		Consumo_MPX_fon = consumo_MPX_fon;
+	}
+	public String getConsumo_MPX_eof() {
+		return Consumo_MPX_eof;
+	}
+	public void setConsumo_MPX_eof(String consumo_MPX_eof) {
+		Consumo_MPX_eof = consumo_MPX_eof;
+	}
+}
+	
+	

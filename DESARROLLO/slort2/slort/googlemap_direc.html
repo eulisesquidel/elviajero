@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<title>jQuery geo_Autocomplete Plugin</title>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAAbuXxLBFMgYlDNbrbDJvWzRSy2ooY7TB3FPLn4gqqVYh8dN86zxTPFEykr52-hr-X4o60TKPs3CaToQ" 
+            type="text/javascript"></script>
+    <script language="Javascript"  src="jscript/ajax.js"></script>
+	<script src="jscript/googlemaps.js"></script>
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	<script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js"></script>
+
+<!-- 
+jquery.autocomplete.js requires a minor modification for geo_autocomplete to work
+the following script includes the required mod
+-->
+<script type="text/javascript" src="lib_jquery/jquery.autocomplete_geomod.js"></script>
+<script type="text/javascript" src="lib_jquery/geo_autocomplete.js"></script>
+<link rel="stylesheet" type="text/css" href="lib_jquery/jquery.autocomplete.css" />
+	
+<script type="text/javascript">
+
+  var map; 
+  
+  
+$().ready(function() {
+
+    var latlng = new google.maps.LatLng(-34.397, 150.644);
+    var myOptions = {
+      zoom: 8,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+	$('#location').geo_autocomplete(new google.maps.Geocoder, {
+		mapkey: 'ABQIAAAAbuXxLBFMgYlDNbrbDJvWzRSy2ooY7TB3FPLn4gqqVYh8dN86zxTPFEykr52-hr-X4o60TKPs3CaToQ', 
+		selectFirst: false,
+		minChars: 3,
+		cacheLength: 50,
+		width: 400,
+		scroll: true,
+		scrollHeight: 330
+	}).result(function(_event, _data) {
+		if (_data) map.fitBounds(_data.geometry.viewport);
+		alert (_data.geometry.location.b);
+		alert (_data.geometry.location.c);
+		alert (_data.formatted_address);
+		
+		var myLatlng = new google.maps.LatLng(_data.geometry.location.b,_data.geometry.location.c);
+		var marker = new google.maps.Marker({ position: myLatlng, title:_data.formatted_address }); 
+   
+		 // To add the marker to the map, call setMap(); 
+		 marker.setMap(map); 
+				
+	});
+
+});
+
+
+</script>
+
+<style>
+.ac_results li img {
+	float: left;
+	margin-right: 5px;
+}
+</style>
+</head>
+<body>
+<h3><a href="http://code.google.com/p/geo-autocomplete">jQuery geo-autocomplete Plugin</a> Demo</h3>
+
+<div>Location: <input type="text" id="location"  width="300" maxlength="100"  /> (autocomplete)</div>
+<br/>
+<div id="map_canvas" style="width:500px;height:350px;"/>
+
+</body>
+</html>

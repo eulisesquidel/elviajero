@@ -1,0 +1,83 @@
+<?php
+// W3 ITSolutions -------------------------------------------
+
+
+// Cargo Includes Generales
+include_once "./base.inc.php";
+// Cargo Modulo Menu_SSA
+require_once("$baseDir/modules/menuesssa/menussa.php");
+// Modulo Smarty Template
+require_once("$baseDir/smarty/libs/Smarty.class.php");
+// Clase de validacion
+require_once("./lib/valida.inc.php");
+// Legacy Code ----------------------------------------------
+require_once("./base_modulos.inc");
+// Codigo ---------------------------------------------------
+
+$error_menu = 0;
+if (isset($_REQUEST["accion"])){
+
+	// Aca va el verificador de Link duplicado                                                                  
+	/*if (!verificadorDuplicado($_REQUEST["link"],$_REQUEST["id"])){*/ 
+	    if ($_REQUEST["accion"] == "Modificar"){
+		$oMenus = new Menussa($_REQUEST["id"]);
+		$oMenus->Link    = validaTexto($_REQUEST["link"]);
+		$oMenus->Persistir();
+		echo "<script language='javascript'>  
+			    var ret = new Array('".$oMenus->Link."',".$_REQUEST["id"].");
+			    window.opener.recarga(ret);
+			    window.close();
+			</script>";
+	    }  
+	/*} else {
+	    $error_menu=1;
+	}*/
+}
+
+
+// Comportamiento general 
+$oMenus = new Menussa($_REQUEST["id"]); 
+$smarty->assign("id_menu_ssa",  $oMenus->Id);
+$smarty->assign("seccion",      $oMenus->Seccion);
+$smarty->assign("link",         $oMenus->Link);
+
+// Render del template
+$smarty->display('menu_ssa_PopUp.tpl');
+
+if ($error_menu == 1){ 
+	echo "<script language='javascript'>alert('Error: Link de menu repetido.');</script>";
+}
+
+/**
+* @desc Invalidacion de scripting
+*/
+function validaTexto($texto){
+	$txt = str_replace("<","&lt;",$texto);
+	$txt = str_replace(">","&gt;",$txt);
+	return $txt;
+
+}
+
+/**
+ * @desc Esta funcion es para verificar que no se ingresen titulos de menu o links repetidos.
+ */
+function verificadorDuplicado($link,$id){    
+	$oMenuesssa = new Menuesssa();
+	$rs = $oMenuesssa->GetAll();
+	$row = @$rs->_array;
+	$cantidad = 0;
+	foreach ($row as $key => $value) {
+		$fields = $value;
+		$cantidad++;
+		//echo "id:" . $fields['ID_MENU_SSA'] ."<br />";
+		if (strlen(trim($fields['LINK'])) >= 1){  
+			if ((trim($fields['LINK']) == trim($link)) and ($fields['ID_MENU_SSA'] != $id) ){
+				return true;
+			}
+		}
+		
+	}
+	return false;
+}
+
+?>

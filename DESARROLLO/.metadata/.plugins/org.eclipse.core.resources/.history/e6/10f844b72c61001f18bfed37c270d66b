@@ -1,0 +1,749 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib
+END
+tomcat-http.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/tomcat-http.jar
+END
+ifxjdbc-2.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/ifxjdbc-2.1.jar
+END
+jakarta-oro.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/jakarta-oro.jar
+END
+jta-1.0.1B.jar
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/jta-1.0.1B.jar
+END
+ehcache-1.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/ehcache-1.1.jar
+END
+dom4j.jar
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/dom4j.jar
+END
+jakarta-oro-2.0.8.jar
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/jakarta-oro-2.0.8.jar
+END
+jasperreports-1.2.7-javaflow.jar
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/jasperreports-1.2.7-javaflow.jar
+END
+msutil.jar
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/msutil.jar
+END
+dom4j-1.5.2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/dom4j-1.5.2.jar
+END
+commons-dbcp-1.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-dbcp-1.1.jar
+END
+jaas.jar
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/jaas.jar
+END
+jta.jar
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/jta.jar
+END
+naming-factory.jar
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/naming-factory.jar
+END
+syndiag2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/syndiag2.jar
+END
+concurrent-1.3.2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/concurrent-1.3.2.jar
+END
+commons-collections-2.1.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-collections-2.1.1.jar
+END
+logkit-1.0.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/logkit-1.0.1.jar
+END
+naming-factory-dbcp.jar
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/naming-factory-dbcp.jar
+END
+commons-lang-1.0.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-lang-1.0.1.jar
+END
+commons-collections.jar
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-collections.jar
+END
+tomcat-coyote.jar
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/tomcat-coyote.jar
+END
+commons-chain-1.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-chain-1.1.jar
+END
+commons-lang.jar
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-lang.jar
+END
+servlet-api.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/servlet-api.jar
+END
+catalina-storeconfig.jar
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/catalina-storeconfig.jar
+END
+commons-validator.jar
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-validator.jar
+END
+log4j-1.2.13.jar
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/log4j-1.2.13.jar
+END
+cglib-2.1_3.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/cglib-2.1_3.jar
+END
+log4j-1.2.14.jar
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/log4j-1.2.14.jar
+END
+commons-beanutils-1.7.jar
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-beanutils-1.7.jar
+END
+barbecue-1.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/barbecue-1.1.jar
+END
+firebirdsql-full.jar
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/firebirdsql-full.jar
+END
+ecs-1.4.2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/ecs-1.4.2.jar
+END
+asm-attrs.jar
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/asm-attrs.jar
+END
+xercesImpl.jar
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/xercesImpl.jar
+END
+hsqldb.jar
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/hsqldb.jar
+END
+commons-javaflow-20060411.jar
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-javaflow-20060411.jar
+END
+asm-attrs-1.5.3.jar
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/asm-attrs-1.5.3.jar
+END
+itext-1.02b.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/itext-1.02b.jar
+END
+poi-contrib-3.2-FINAL-20081019.jar
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/poi-contrib-3.2-FINAL-20081019.jar
+END
+commons-digester.jar
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-digester.jar
+END
+commons-dbcp-1.2.2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-dbcp-1.2.2.jar
+END
+jaxen-1.1-beta-7.jar
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/jaxen-1.1-beta-7.jar
+END
+asm.jar
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/asm.jar
+END
+antlr.jar
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/antlr.jar
+END
+poi-3.2-FINAL-20081019.jar
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/poi-3.2-FINAL-20081019.jar
+END
+hibernate-annotations-3.2.1.ga.jar
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/hibernate-annotations-3.2.1.ga.jar
+END
+naming-resources.jar
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/naming-resources.jar
+END
+mail.jar
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/mail.jar
+END
+servlets-invoker.jar
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/servlets-invoker.jar
+END
+iReport.jar
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/iReport.jar
+END
+odmg.jar
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/odmg.jar
+END
+commons-collections-3.2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-collections-3.2.jar
+END
+persistence-api-1.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/persistence-api-1.0.jar
+END
+xml-apis.jar
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/xml-apis.jar
+END
+itext-1.3.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/itext-1.3.1.jar
+END
+catalina-ant.jar
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/catalina-ant.jar
+END
+xerces-2.6.2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/xerces-2.6.2.jar
+END
+xjavadoc-1.0.3.jar
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/xjavadoc-1.0.3.jar
+END
+antlr-2.7.6rc1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/antlr-2.7.6rc1.jar
+END
+xdoclet-web-module-1.2.2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/xdoclet-web-module-1.2.2.jar
+END
+commons-logging.jar
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-logging.jar
+END
+jtds-1.0.3.jar
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/jtds-1.0.3.jar
+END
+commons-logging-api-1.0.2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-logging-api-1.0.2.jar
+END
+jasperreports-1.2.7.jar
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/jasperreports-1.2.7.jar
+END
+msbase.jar
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/msbase.jar
+END
+avalon-framework-4.1.3.jar
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/avalon-framework-4.1.3.jar
+END
+jdbc2_0-stdext.jar
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/jdbc2_0-stdext.jar
+END
+mailapi.jar
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/mailapi.jar
+END
+servlets-webdav.jar
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/servlets-webdav.jar
+END
+dom4j-1.6.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/dom4j-1.6.1.jar
+END
+Struts-Layout.jar
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/Struts-Layout.jar
+END
+cglib-2.1.3.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/cglib-2.1.3.jar
+END
+xdoclet-hibernate-module-1.2.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/xdoclet-hibernate-module-1.2.1.jar
+END
+commons-digester-1.7.jar
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-digester-1.7.jar
+END
+ehcache-0.8.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/ehcache-0.8.jar
+END
+commons-digester-1.8.jar
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-digester-1.8.jar
+END
+log4j-1.2.8.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/log4j-1.2.8.jar
+END
+log4j-1.2.9.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/log4j-1.2.9.jar
+END
+odmg-3.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/odmg-3.0.jar
+END
+mssqlserver.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/mssqlserver.jar
+END
+servlets-default.jar
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/servlets-default.jar
+END
+commons-logging-1.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-logging-1.1.jar
+END
+commons-fileupload.jar
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-fileupload.jar
+END
+tomcat-ajp.jar
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/tomcat-ajp.jar
+END
+commons-modeler.jar
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-modeler.jar
+END
+cglib2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/cglib2.jar
+END
+oro-2.0.8.jar
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/oro-2.0.8.jar
+END
+xalan.jar
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/xalan.jar
+END
+menu.jar
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/menu.jar
+END
+struts.jar
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/struts.jar
+END
+struts-legacy.jar
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/struts-legacy.jar
+END
+tinylaf.jar
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/tinylaf.jar
+END
+c3p0-0.9.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/c3p0-0.9.0.jar
+END
+pg74.213.jdbc3.jar
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/pg74.213.jdbc3.jar
+END
+catalina.jar
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/catalina.jar
+END
+ehcache-1.2.3.jar
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/ehcache-1.2.3.jar
+END
+commons-pool-1.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-pool-1.1.jar
+END
+commons-pool-1.3.jar
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-pool-1.3.jar
+END
+asm-1.5.3.jar
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/asm-1.5.3.jar
+END
+commons-collections-testframework-3.2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-collections-testframework-3.2.jar
+END
+jacc-1_0-fr.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/jacc-1_0-fr.jar
+END
+xdoclet-xdoclet-module-1.2.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/xdoclet-xdoclet-module-1.2.1.jar
+END
+hibernate2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/hibernate2.jar
+END
+hibernate3.jar
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/hibernate3.jar
+END
+antlr-2.7.2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/antlr-2.7.2.jar
+END
+commons-beanutils-core.jar
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-beanutils-core.jar
+END
+commons-collections-2.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-collections-2.1.jar
+END
+hibernate-3.2.1.ga.jar
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/hibernate-3.2.1.ga.jar
+END
+commons-fileupload-1.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-fileupload-1.0.jar
+END
+poi-scratchpad-3.2-FINAL-20081019.jar
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/poi-scratchpad-3.2-FINAL-20081019.jar
+END
+commons-logging-1.0.2.jar
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-logging-1.0.2.jar
+END
+catalina-cluster.jar
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/catalina-cluster.jar
+END
+commons-logging-1.0.4.jar
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-logging-1.0.4.jar
+END
+jasperreports-extensions-1.3.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/jasperreports-extensions-1.3.1.jar
+END
+catalina-optional.jar
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/catalina-optional.jar
+END
+commons-beanutils.jar
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-beanutils.jar
+END
+xdoclet-1.2.1.jar
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/xdoclet-1.2.1.jar
+END
+commons-beanutils-1.7.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/commons-beanutils-1.7.0.jar
+END
+tomcat-util.jar
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/tomcat-util.jar
+END
+jasperreports-1.3.3.jar
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/jasperreports-1.3.3.jar
+END
+jsp-api.jar
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/jsp-api.jar
+END
+spring-2.0.6.jar
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/129/trunk/DESARROLLO/fonseca_gestion/fonseca/WEB-INF/lib/spring-2.0.6.jar
+END

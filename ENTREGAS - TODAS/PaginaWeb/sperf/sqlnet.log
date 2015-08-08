@@ -1,0 +1,98 @@
+
+
+***********************************************************************
+Fatal NI connect error 12505, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=10.1.100.101)(PORT=1521))(CONNECT_DATA=(SID=SPTD)(SERVER=DEDICATED)(CID=(PROGRAM=)(HOST=minime.pan-energy.com)(USER=apache))))
+
+  VERSION INFORMATION:
+	TNS for Linux: Version 8.1.7.0.0 - Development
+	TCP/IP NT Protocol Adapter for Linux: Version 8.1.7.0.0 - Production
+  Time: 08-JAN-2008 13:22:08
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12564
+    TNS-12564: TNS:connection refused
+    ns secondary err code: 0
+    nt main err code: 0
+    nt secondary err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12505, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=10.1.100.101)(PORT=1521))(CONNECT_DATA=(SID=SPTD)(SERVER=DEDICATED)(CID=(PROGRAM=)(HOST=minime.pan-energy.com)(USER=apache))))
+
+  VERSION INFORMATION:
+	TNS for Linux: Version 8.1.7.0.0 - Development
+	TCP/IP NT Protocol Adapter for Linux: Version 8.1.7.0.0 - Production
+  Time: 08-JAN-2008 13:23:39
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12564
+    TNS-12564: TNS:connection refused
+    ns secondary err code: 0
+    nt main err code: 0
+    nt secondary err code: 0
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12535, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=10.1.100.101)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=GPAE)(CID=(PROGRAM=)(HOST=minime.pan-energy.com)(USER=apache))))
+
+  VERSION INFORMATION:
+	TNS for Linux: Version 8.1.7.0.0 - Development
+	TCP/IP NT Protocol Adapter for Linux: Version 8.1.7.0.0 - Production
+  Time: 16-JAN-2008 02:03:11
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12535
+    TNS-12535: TNS:operation timed out
+    ns secondary err code: 12560
+    nt main err code: 505
+    TNS-00505: Operation timed out
+    nt secondary err code: 110
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12535, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=10.1.100.101)(PORT=1521))(CONNECT_DATA=(SID=GPAE)(CID=(PROGRAM=)(HOST=minime.pan-energy.com)(USER=apache))))
+
+  VERSION INFORMATION:
+	TNS for Linux: Version 8.1.7.0.0 - Development
+	TCP/IP NT Protocol Adapter for Linux: Version 8.1.7.0.0 - Production
+  Time: 18-JAN-2008 02:03:10
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12535
+    TNS-12535: TNS:operation timed out
+    ns secondary err code: 12560
+    nt main err code: 505
+    TNS-00505: Operation timed out
+    nt secondary err code: 110
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12535, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=10.1.100.101)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=GPAE)(CID=(PROGRAM=)(HOST=minime.pan-energy.com)(USER=apache))))
+
+  VERSION INFORMATION:
+	TNS for Linux: Version 8.1.7.0.0 - Development
+	TCP/IP NT Protocol Adapter for Linux: Version 8.1.7.0.0 - Production
+  Time: 21-JAN-2008 02:03:11
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12535
+    TNS-12535: TNS:operation timed out
+    ns secondary err code: 12560
+    nt main err code: 505
+    TNS-00505: Operation timed out
+    nt secondary err code: 110
+    nt OS err code: 0
+    nt OS err code: 0

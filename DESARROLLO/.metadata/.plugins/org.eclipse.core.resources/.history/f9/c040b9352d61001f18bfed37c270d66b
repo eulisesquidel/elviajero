@@ -1,0 +1,98 @@
+package com.slort.struts.action.costos;
+
+
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.hibernate.HibernateException;
+import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
+
+import com.slort.model.nexus.costos.AdmCostos;
+import com.slort.struts.action.slortDispatchAction;
+import com.slort.struts.form.costos.CostosForm;
+import com.slort.util.FileCopy;
+import com.slort.util.JExcel;
+
+import fr.improve.struts.taglib.layout.util.FormUtils;
+
+public class CostosAction extends slortDispatchAction {
+    private static final Logger log;
+
+    static  {
+        log = Logger.getLogger(com.slort.struts.action.costos.CostosAction.class);
+    }
+	
+    public CostosAction() {}
+    
+    
+    public ActionForward findData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+        super.inspect(mapping, form, request, response);
+        log.debug("Procesando inspect costo");
+        CostosForm currentForm = (CostosForm)form;
+        currentForm.reset(mapping, request);
+        storeLookups(request);
+        //log.error("EULISES PASO EULISEs"); 
+        FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+        return mapping.findForward("resultado");
+    }
+
+    private void storeLookups(HttpServletRequest request) {
+        log.debug("storeLookups++");
+        request.setAttribute("listaCostos",null);
+        log.debug("storeLookups--");
+    }
+    
+    public ActionForward executeProcess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+    	super.edit(mapping, form, request, response);
+        log.debug("executeProcess++");
+        CostosForm currentForm = (CostosForm)form;
+        AdmCostos admcostos=new AdmCostos();
+        admcostos.setAnio(currentForm.getAnio());
+        admcostos.setMes(currentForm.getMes());
+        admcostos.setConexion(obtenerConexionparaJDBC("BD_NEXUS",request));
+        admcostos.obtenerCostos();
+        if (!(admcostos.getListaCostos().isEmpty()))
+        	request.setAttribute("listaCostos",admcostos.getListaCostos());
+        ActionMessages mensajes = new ActionMessages();
+        ActionMessage unMensaje= new ActionMessage(admcostos.getError());
+        mensajes.add("mensaje",unMensaje);
+        request.setAttribute(ActionMessages.GLOBAL_MESSAGE ,mensajes);
+        log.debug("executeProcess--");
+        FormUtils.setFormDisplayMode(request, form, FormUtils.INSPECT_MODE);
+        return mapping.findForward("resultado");
+    }
+    
+    
+    public ActionForward descargarArchivo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+    	super.edit(mapping, form, request, response);
+        log.debug("descargarArchivo++");
+        CostosForm currentForm = (CostosForm)form;
+        AdmCostos admcostos=new AdmCostos();
+        admcostos.setAnio(currentForm.getAnio());
+        admcostos.setMes(currentForm.getMes());
+        admcostos.setConexion(obtenerConexionparaJDBC("BD_NEXUS",request));
+        admcostos.obtenerCostosaArrayList();
+        
+        JExcel excel=new JExcel();
+        excel.exportarArrayList(admcostos.getListaCostosArrayList(), response,"Costos_"+  admcostos.getAnio().toString()+"-" + admcostos.getMes().toString()+".xls");
+        
+        /*if (!(admcostos.getListaCostos().isEmpty()))
+        	request.setAttribute("listaCostos",admcostos.getListaCostos());
+        ActionMessages mensajes = new ActionMessages();
+        ActionMessage unMensaje= new ActionMessage(admcostos.getError());
+        mensajes.add("mensaje",unMensaje);
+        request.setAttribute(ActionMessages.GLOBAL_MESSAGE ,mensajes);
+        log.debug("descargarArchivo--");
+        FormUtils.setFormDisplayMode(request, form, FormUtils.INSPECT_MODE);
+        */
+        return null;
+        //return mapping.findForward("resultado");
+    }
+    
+}

@@ -1,0 +1,7 @@
+<?
+$seccion = $_GET['seccion'];
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head>        <script type="text/javascript">var dmWorkPath = "ssa.files/";</script>    <script type="text/javascript" src="ssa.files/dmenu.js"></script><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><title>SSA</title><style type="text/css"><!--body {	margin-left: 0px;	margin-top: 0px;	margin-right: 0px;	margin-bottom: 0px;	background-color: #CFE4F9;}--></style></head><body><table width="481" height="188" border="0" align="center" cellpadding="0" cellspacing="0">  <tr>    <td><script type="text/javascript" src="ssa.js"></script></td>  </tr>  <tr>
+    <td><h1><? echo $seccion ?></h1></td>
+  </tr>
+  <tr>    <td><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="750" height="297">      <param name="movie" value="desa.swf" />      <param name="quality" value="high" />      <embed src="desa.swf" quality="high" pluginspage="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" type="application/x-shockwave-flash" width="750" height="297"></embed>    </object></td>  </tr></table><script type="text/javascript" src="iefix.js"></script></body></html>

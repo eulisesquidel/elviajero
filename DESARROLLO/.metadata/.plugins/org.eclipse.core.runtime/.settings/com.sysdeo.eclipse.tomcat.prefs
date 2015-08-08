@@ -1,0 +1,12 @@
+#Mon May 17 20:09:00 ACT 2010
+fixTomcatHomeBug=fixed
+contextsDir=C\:\\Program Files\\Apache Software Foundation\\Tomcat 5.5\\conf\\Catalina\\localhost
+tomcatDir=C\:\\Program Files\\Apache Software Foundation\\Tomcat 5.5
+computeSourcePath=true
+configMode=serverFile
+tomcatJRE=1274041367612
+tomcatConfigFile=C\:\\Program Files\\Apache Software Foundation\\Tomcat 5.5\\conf\\server.xml
+eclipse.preferences.version=1
+tomcatVersion=tomcatV5
+managerUrl=http\://localhost\:8080/manager
+projectsInSourcePath=slort;

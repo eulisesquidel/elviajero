@@ -1,0 +1,396 @@
+package com.slort.struts.action.premios;
+
+//Java Imports
+import java.util.Vector;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.JDBCException;
+import net.sf.hibernate.Session;
+
+import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
+
+import com.bdb.model.hibernate.helper.FindDataObjectSet;
+import com.bdb.model.hibernate.helper.HibernateHelper;
+import com.bdb.model.security.User;
+import com.bdb.util.BDBUtils;
+import com.bdb.util.DateUtils;
+import com.bdb.util.SQLUtils;
+import com.slort.model.premios.AdmPremios;
+import com.slort.model.premios.ConceptoEmpleado;
+import com.slort.model.premios.ConceptoEmpleadoId;
+import com.slort.model.premios.LiquidaConcepto;
+import com.slort.struts.action.SlortDispatchAction;
+import com.slort.struts.form.premios.LiquidaConceptoForm;
+
+import fr.improve.struts.taglib.layout.util.FormUtils;
+
+public class LiquidaConceptoAction extends SlortDispatchAction {
+	private static final Logger log;
+
+	static  {
+		log = Logger.getLogger(com.slort.struts.action.premios.LiquidaConceptoAction.class);
+	}
+
+	public LiquidaConceptoAction() {
+	}
+
+	public ActionForward create(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+		log.debug("setting lookups");
+		super.create(mapping, form, request, response);
+		storeLookups(request);
+		LiquidaConceptoForm currentForm = (LiquidaConceptoForm)form;
+		currentForm.setReqCode("create");
+		currentForm.setConcepto(LiquidaConcepto.CONCEPTO_PREMIO);
+		currentForm.setEstado(LiquidaConcepto.ESTADO_ALTA);
+		currentForm.setAnio(DateUtils.getAnioyyyy());
+		currentForm.setMes(new Integer(DateUtils.getMesMM()).toString());
+		FormUtils.setFormDisplayMode(request, form, FormUtils.CREATE_MODE);
+		currentForm.setReqCode("create");
+		return mapping.findForward("success");
+	}
+
+	public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.edit(mapping, form, request, response);
+		log.debug("edit++");
+		LiquidaConceptoForm currentForm = (LiquidaConceptoForm)form;
+		Long selectedId = getSelectedId(currentForm, currentForm.getIdLiquidaConcepto());
+		log.debug("Inicializando el Formulario");
+		currentForm.reset(mapping, request);
+		log.debug("Storing Lookups"); 
+		storeLookups(request);
+		HibernateHelper hibHelper = new HibernateHelper();
+		LiquidaConcepto object = (LiquidaConcepto)hibHelper.getObjectById(request, mapping, com.slort.model.premios.LiquidaConcepto.class, selectedId);
+		currentForm.setIdLiquidaConcepto(object.getIdLiquidaConcepto());
+		currentForm.setTipoLiquid(object.getTipoLiquid());
+		currentForm.setEstado(object.getEstado());
+		currentForm.setFecha(DateUtils.getFechaFormateada(object.getFecha()));
+		currentForm.setMontosinduplicados(object.getMontosinduplicados());
+		currentForm.setMontosennexus(object.getMontosennexus());
+		currentForm.setMonto(object.getMonto());
+		currentForm.setMes(object.getMes().toString());
+		currentForm.setAnio(object.getAnio().toString());
+		currentForm.setEmpresa(object.getEmpresa());
+		currentForm.setConcepto(object.getConcepto());
+		currentForm.setUsuario(object.getUsuario());
+		// obtenemos los premios de los empleados para la liquidacion en cuestión 
+		Session hibSession = null;
+		hibSession = getHibernateSession(request);
+		Vector arguments = new Vector();
+		arguments.add((new Object[] {"id.liquidaConcepto.idLiquidaConcepto", " = ",object.getIdLiquidaConcepto(), SQLUtils.QUERY_DATATYPE_STRING}));
+		arguments.add((new Object[] {"eliminado", " = ",0, SQLUtils.QUERY_DATATYPE_INTEGER}));		
+		FindDataObjectSet findDataSet = new FindDataObjectSet();
+		java.util.List results = findDataSet.getDataObjectSet(hibSession, "ConceptoEmpleado", arguments);
+		request.setAttribute("legajospremios", results);
+		// guardamos tokens para evitar envios duplicados 
+		this.saveToken(request);
+		/* Seteamos el comportamiento de la pantalla de acuerdo al estado de la
+		 liquidacion */  
+		if (object.getEstado().compareTo( LiquidaConcepto.ESTADO_EDICION)==0)
+			FormUtils.setFormDisplayMode(request, form, FormUtils.EDIT_MODE);
+		if (object.getEstado().compareTo( LiquidaConcepto.ESTADO_LIQUIDADA)==0)
+			FormUtils.setFormDisplayMode(request, form, FormUtils.INSPECT_MODE);
+		currentForm.setReqCode("edit");
+		log.debug("edit--");
+		return mapping.findForward("success");
+	}
+
+	public ActionForward saveProcess(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean isNew) throws HibernateException {
+		super.saveProcess(mapping, form, request, response, isNew);
+		HibernateHelper hibHelper = new HibernateHelper();
+		Session hibSession = getHibernateSession(request);
+		log.debug("saveProcess++");
+		LiquidaConceptoForm currentForm = (LiquidaConceptoForm)form;
+		ActionErrors errors = getActionErrors(request);
+		if(!errors.isEmpty()) {
+			request.setAttribute(ActionErrors.GLOBAL_ERROR,errors);
+			return  edit(mapping, form, request, response);
+		}
+		errors = currentForm.validateMontosPremios();
+		if(!errors.isEmpty()) {
+			request.setAttribute(ActionErrors.GLOBAL_ERROR,errors);
+			return  edit(mapping, form, request, response);
+		}
+		
+		Long selectedId = getSelectedId(currentForm, currentForm.getIdLiquidaConcepto());
+		LiquidaConcepto object = null;
+		if(!isNew) {
+			object = (LiquidaConcepto)hibHelper.getObjectById(request, mapping, com.slort.model.premios.LiquidaConcepto.class, selectedId);
+		} else {
+			// si se trata de una nueva liquidacion realizar la validacion correspondiente
+			object = new LiquidaConcepto();
+			object.setTipoLiquid(currentForm.getTipoLiquid());
+			object.setMes(new Integer(currentForm.getMes()));
+			object.setAnio(new Integer(currentForm.getAnio()));
+			object.setFecha(DateUtils.getFechaFormateada(DateUtils.getFechaActual()) ); 
+			object.setEstado(LiquidaConcepto.ESTADO_EDICION);
+			object.setEmpresa(currentForm.getEmpresa());
+			object.setConcepto(currentForm.getConcepto());
+			object.setUsuario(getUsuario(request).getUsuario());
+			object.setModuloliquida(LiquidaConcepto.MODULO_LIQUIDA_PREMIO);
+			
+			setRollBackOnly(request, true);
+			hibSession.saveOrUpdate(object);
+			hibSession.flush();
+			currentForm.setIdLiquidaConcepto(object.getIdLiquidaConcepto());
+			setRollBackOnly(request, false);
+		}
+
+		AdmPremios admpremios=new AdmPremios();
+		admpremios.setHibSession(hibSession);
+		admpremios.setLiquidacion(object);
+		
+		if(!isNew) { // actualizamos los datos de premios que se hayan modificados
+			admpremios.actualizarLegadosPremios(currentForm.getLegajos(),currentForm.getPremios()); 
+		}
+		else{ //si estamos en el alta inicial vamos a buscar los datos al sistema Taw 
+			admpremios.obtenerPremiosdeTaw();
+		}
+		
+		disposeSession(request);
+		log.debug("Seteando en modo EDIT");
+		log.debug("saveProcess--");
+		return edit(mapping, form, request, response);
+		
+	}
+
+
+	public ActionForward inspect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		super.inspect(mapping, form, request, response);
+		log.debug("Procesando inspect action");
+		LiquidaConceptoForm currentForm = (LiquidaConceptoForm)form;
+		Long selectedId = getSelectedId(currentForm, currentForm.getIdLiquidaConcepto());
+		currentForm.reset(mapping, request);
+		storeLookups(request);
+		HibernateHelper hibHelper = new HibernateHelper();
+		LiquidaConcepto object = (LiquidaConcepto)hibHelper.getObjectById(request, mapping, com.slort.model.premios.LiquidaConcepto.class, selectedId);
+
+		currentForm.setIdLiquidaConcepto(object.getIdLiquidaConcepto());
+		currentForm.setTipoLiquid(object.getTipoLiquid());
+		currentForm.setEstado(object.getEstado());
+		currentForm.setFecha(DateUtils.getFechaFormateada(object.getFecha()));
+		currentForm.setMonto(object.getMonto());
+		currentForm.setMontosinduplicados(object.getMontosinduplicados());
+		currentForm.setMontosennexus(object.getMontosennexus());
+		currentForm.setMes(object.getMes().toString());
+		currentForm.setAnio(object.getAnio().toString());
+		currentForm.setEmpresa(object.getEmpresa());
+		currentForm.setConcepto(object.getConcepto());
+		currentForm.setUsuario(object.getUsuario());
+
+		// obtenemos los premios de los empleados para la liquidacion en cuestión 
+		Session hibSession = null;
+		hibSession = getHibernateSession(request);
+		Vector arguments = new Vector();
+		arguments.add((new Object[] {"id.liquidaConcepto.idLiquidaConcepto", " = ",object.getIdLiquidaConcepto(), SQLUtils.QUERY_DATATYPE_STRING}));
+		arguments.add((new Object[] {"eliminado", " = ",0, SQLUtils.QUERY_DATATYPE_INTEGER}));
+		FindDataObjectSet findDataSet = new FindDataObjectSet();
+		java.util.List results = findDataSet.getDataObjectSet(hibSession, "ConceptoEmpleado", arguments);
+		request.setAttribute("legajospremios", results);
+		// guardamos tokens para evitar envios duplicados 
+		this.saveToken(request);
+		
+		/* seteamos el modo del formulario */ 
+		FormUtils.setFormDisplayMode(request, form, FormUtils.INSPECT_MODE);
+		currentForm.setReqCode("inspect");
+		return mapping.findForward("success");
+	}
+
+	public ActionForward find(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		if (response.equals(new String("A"))) {}
+		log.debug("Procesando find action");
+		storeLookups(request);
+		LiquidaConceptoForm currentForm = (LiquidaConceptoForm)form;
+		currentForm.reset(mapping, request);
+		log.debug("Seteando en modo EDIT");
+		currentForm.setReqCode("find");
+		FormUtils.setFormDisplayMode(request, form,   FormUtils.EDIT_MODE);
+		//return mapping.findForward("findPage");
+		return findData(mapping, form, request, response);
+	}
+
+	public ActionForward findData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		if (response.equals(new String("A"))) {}
+		log.debug("findData++");
+		storeLookups(request);
+		LiquidaConceptoForm currentForm = (LiquidaConceptoForm)form;
+		Session hibSession = null;
+		hibSession = getHibernateSession(request);
+		Vector arguments = new Vector();
+		if(!BDBUtils.isEmpty(currentForm.getMes()))
+			arguments.add((new Object[] {"mes", " = ", currentForm.getMes(), SQLUtils.QUERY_DATATYPE_STRING}));
+		if(!BDBUtils.isEmpty(currentForm.getAnio()))
+			arguments.add((new Object[] {"anio", " = ", currentForm.getAnio(), SQLUtils.QUERY_DATATYPE_STRING}));
+		
+		// filtramos las liquidaciones de premios
+		arguments.add((new Object[] {"moduloliquida", " = ",LiquidaConcepto.MODULO_LIQUIDA_PREMIO , SQLUtils.QUERY_DATATYPE_STRING}));
+		
+		FindDataObjectSet findDataSet = new FindDataObjectSet();
+		java.util.List results = findDataSet.getDataObjectSet(hibSession, "LiquidaConcepto", arguments);
+		request.setAttribute("foundResults", results);
+		disposeSession(request);
+		log.debug("findData--");
+		currentForm.setReqCode("findData");
+		FormUtils.setFormDisplayMode(request, form, 1);
+		return mapping.findForward("findPage");
+	}
+
+	public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		log.debug("delete++");
+		if (!this.isTokenValid(request)) return inspect(mapping, form, request, response);
+		LiquidaConceptoForm currentForm = (LiquidaConceptoForm)form;
+		Session hibSession = getHibernateSession(request);
+		Long selectedId = getSelectedId(currentForm, currentForm.getIdLiquidaConcepto());
+		LiquidaConcepto liquidacion = (LiquidaConcepto)  hibSession.load(com.slort.model.premios.LiquidaConcepto.class, selectedId);
+		setRollBackOnly(request, true);
+		AdmPremios admpremios=new AdmPremios();
+		admpremios.setHibSession(hibSession);
+		
+		// pasamos la liquidación en cuestión al sistema Nexus para todos los legajos en cuestion 
+		admpremios.setLiquidacion(liquidacion);
+		if (!admpremios.eliminarLegagosConcepto()) {
+			ActionErrors errores = new ActionErrors();
+			errores.add(ActionErrors.GLOBAL_ERROR,new ActionError(admpremios.getError()));
+			request.setAttribute(ActionErrors.GLOBAL_ERROR,errores ); 
+			return  inspect(mapping, form, request, response);
+		}
+		// eliminamos el liquidacion
+		hibSession.delete(liquidacion);
+		
+		setRollBackOnly(request, false);
+		disposeSession(request);
+		
+		currentForm.setIdLiquidaConcepto(liquidacion.getIdLiquidaConcepto()); 
+		ActionMessages mensajes = new ActionMessages();
+		ActionMessage unMensaje=  new ActionMessage("LiquidaConceptoForm.mensaje.delete.ok");
+		mensajes.add("mensaje",unMensaje);
+		request.setAttribute(ActionMessages.GLOBAL_MESSAGE ,mensajes);
+		
+		log.debug("delete--");
+		currentForm.setReqCode("delete");
+		return find(mapping, form, request, response);
+	}
+
+	private void storeLookups(HttpServletRequest request) {
+		if (request.equals(new String("A"))) {}
+		log.debug("storeLookups++");
+		setRollBackOnly(request, true);
+		log.debug("storeLookups--");
+	}
+	
+	
+	public ActionForward eliminarLegajoPremio(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		if (!this.isTokenValid(request)) return edit(mapping, form, request, response);
+		this.resetToken(request); 
+		log.debug("eliminarLegajoPremio++");
+		Session hibSession = getHibernateSession(request);
+		LiquidaConceptoForm currentForm = (LiquidaConceptoForm)form;
+		Long selectedId = getSelectedId(currentForm, currentForm.getIdLiquidaConcepto());
+		// obtenemos la liquidación 
+		LiquidaConcepto	liquidacion = (LiquidaConcepto) hibSession.load(com.slort.model.premios.LiquidaConcepto.class,selectedId); 
+		ConceptoEmpleadoId id = new ConceptoEmpleadoId(liquidacion,new Integer(request.getParameter("nroLeg")));
+		ConceptoEmpleado conceptoLegajopremio = (ConceptoEmpleado)hibSession.load(com.slort.model.premios.ConceptoEmpleado.class,id);
+		setRollBackOnly(request, true);
+		conceptoLegajopremio.setEliminado(Byte.valueOf("1"));
+		hibSession.update(conceptoLegajopremio);
+		hibSession.flush();
+		AdmPremios admpremios=new AdmPremios();
+		//  rtecalculamos los montos resultantes
+		admpremios.setHibSession(hibSession);
+		admpremios.setLiquidacion(liquidacion);
+		admpremios.spu_liquidapremios_recalcularMontos();
+		currentForm.setIdLiquidaConcepto(id.getLiquidaConcepto().getIdLiquidaConcepto()); 
+		setRollBackOnly(request, false);
+		disposeSession(request);
+		log.debug("eliminarLegajoPremio--");
+		return edit(mapping, form, request, response);
+	}
+	
+	
+	public ActionForward agregaraNexus(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+		// evitamos envíos duplicados de peticiones del usuario
+		if (!this.isTokenValid(request)) return edit(mapping, form, request, response);
+		this.resetToken(request); 
+		log.debug("agregaraNexus++");
+		Session hibSession = getHibernateSession(request);
+		LiquidaConceptoForm currentForm = (LiquidaConceptoForm)form;
+		Long selectedId = getSelectedId(currentForm, currentForm.getIdLiquidaConcepto());
+		// obtenemos la liquidación 
+		LiquidaConcepto	liquidacion = (LiquidaConcepto) hibSession.load(com.slort.model.premios.LiquidaConcepto.class,selectedId);
+		
+		AdmPremios admpremios=new AdmPremios();
+		admpremios.setHibSession(hibSession);
+		// pasamos la liquidación en cuestión al sistema Nexus para todos los legajos en cuestion 
+		admpremios.setLiquidacion(liquidacion);
+		if (!admpremios.agregarDatosaNexus()){
+			ActionErrors errores = new ActionErrors();
+			errores.add(ActionErrors.GLOBAL_ERROR,new ActionError(admpremios.getError()));
+			request.setAttribute(ActionErrors.GLOBAL_ERROR,errores ); 
+	        return  edit(mapping, form, request, response);
+		} 
+		setRollBackOnly(request, true);
+		liquidacion.setEstado(LiquidaConcepto.ESTADO_LIQUIDADA); 
+		hibSession.update(liquidacion); 
+		hibSession.flush();
+		setRollBackOnly(request,false);
+		admpremios.spu_liquidapremios_recalcularMontos();
+		liquidacion = (LiquidaConcepto) hibSession.load(com.slort.model.premios.LiquidaConcepto.class,selectedId);
+		disposeSession(request);
+		currentForm.setIdLiquidaConcepto(liquidacion.getIdLiquidaConcepto()); 
+		ActionMessages mensajes = new ActionMessages();
+        ActionMessage unMensaje=  new ActionMessage("LiquidaConceptoForm.mensaje.agregaraNexus.ok");
+        mensajes.add("mensaje",unMensaje);
+        request.setAttribute(ActionMessages.GLOBAL_MESSAGE ,mensajes);
+        log.debug("agregaraNexus--");
+		return edit(mapping, form, request, response);
+		
+	}
+	
+
+	public ActionForward eliminarTodoslosLegajosDuplicados(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws HibernateException {
+	
+		if (!this.isTokenValid(request)) return edit(mapping, form, request, response);
+		this.resetToken(request); 
+		log.debug("eliminarTodoslosLegajosDuplicados++");
+		Session hibSession = getHibernateSession(request);
+		LiquidaConceptoForm currentForm = (LiquidaConceptoForm)form;
+		Long selectedId = getSelectedId(currentForm, currentForm.getIdLiquidaConcepto());
+		// obtenemos la liquidación 
+		LiquidaConcepto	liquidacion = (LiquidaConcepto) hibSession.load(com.slort.model.premios.LiquidaConcepto.class,selectedId);
+		
+		setRollBackOnly(request, true);
+		AdmPremios admpremios=new AdmPremios();
+		//  recalculamos los montos resultantes
+		admpremios.setHibSession(hibSession);
+		admpremios.setLiquidacion(liquidacion);
+		if (!admpremios.spu_liquid_concepto_duplicados_elimina()){
+			ActionErrors errores = new ActionErrors();
+			errores.add(ActionErrors.GLOBAL_ERROR,new ActionError(admpremios.getError()));
+			request.setAttribute(ActionErrors.GLOBAL_ERROR,errores ); 
+	        return  edit(mapping, form, request, response);
+		}
+		hibSession.flush();
+		setRollBackOnly(request,false);
+		disposeSession(request);
+		currentForm.setIdLiquidaConcepto(liquidacion.getIdLiquidaConcepto()); 
+		ActionMessages mensajes = new ActionMessages();
+        ActionMessage unMensaje=  new ActionMessage("LiquidaConceptoForm.button.eliminarTodoslosLegajosDuplicados.ok");
+        mensajes.add("mensaje",unMensaje);
+        request.setAttribute(ActionMessages.GLOBAL_MESSAGE ,mensajes);
+        log.debug("eliminarTodoslosLegajosDuplicados--");
+		return edit(mapping, form, request, response);
+		
+	}
+	
+	
+	
+}

@@ -1,0 +1,30 @@
+<xml>
+  <entidad>Mails</entidad>
+  <tabla>Mails</tabla>
+  <clase>Mail</clase>
+  <coleccion>Mails</coleccion>
+  <path_relativo>./modules/mails</path_relativo>
+  <properties>
+    <property>
+      <nombre>Id</nombre>
+      <campo>id_mails</campo>
+      <tipo>number</tipo>
+      <nulo>n</nulo>
+      <key>pk</key>
+    </property>
+    <property>
+      <nombre>Mail</nombre>
+      <campo>mail</campo>
+      <tipo>varchar2</tipo>
+      <nulo>y</nulo>
+      <key></key>
+    </property>
+    <property>
+      <nombre>Seccion</nombre>
+      <campo>seccion</campo>
+      <tipo>varchar2</tipo>
+      <nulo>y</nulo>
+      <key></key>
+    </property>
+  </properties>
+</xml>
